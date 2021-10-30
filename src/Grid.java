@@ -8,7 +8,7 @@ public class Grid {
 
     public Grid(int width, int height){
         dimension = new Dimension(width,height);
-        matrix    = new Cell[width][height];
+        matrix    = new Cell[height][width];
 
         fill(matrix);
         connectNodes(matrix);
@@ -21,11 +21,19 @@ public class Grid {
                 // from topLeft -> topmid -> topright -> midleft -> midright -> midleft -> ... neighbours
                 List<Cell> neighbours = new ArrayList<Cell>();
                 for(int k=-1; k<2; k++){
+                    loop:
                     for(int l=-1; k<2; k++){
 
                         if((k==0 && l == 0) || !inBounds(k+i, getHeight()) || !inBounds(l+j, getWidth()))
-                            continue;
-                        neighbours.add(matrix[k+i][l+j]);
+                            continue loop;
+                        try{
+                            neighbours.add(matrix[k+i][l+j]);
+                        } catch(Exception e){
+                            System.out.print((k==0 && l == 0) || !inBounds(k+i, getHeight()) || !inBounds(l+j, getWidth()));
+                            e.printStackTrace();
+                            System.exit(1);
+
+                        }
                     }
                 }
                 Cell[] arr= new Cell[neighbours.size()];
@@ -38,19 +46,20 @@ public class Grid {
     }
 
     public boolean inBounds(int num, int bounds){
+        System.out.println("num: "+ num+ ", bounds: "+bounds);
         return (num>=0) && (num < bounds);
     }
 
     public void fill(Cell[][] matrix){
         for(int i=0; i<matrix.length; i++){
             for(int j=0; j<matrix[i].length; j++){
-                matrix[i][j] = new Cell(false, i, j);
+                matrix[i][j] = new Cell(false, j, i);
             }
         }
     }
 
     public Cell getCell(int x, int y){
-        return matrix[x][y];
+        return matrix[y][x];
     }
 
     public int getWidth(){
