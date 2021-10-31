@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public interface GridChangeListener {
+public interface GridChangeListener {
+    public void visualizeGridChange(int x, int y, String action);
 }
