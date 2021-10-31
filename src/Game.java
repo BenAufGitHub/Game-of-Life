@@ -1,14 +1,18 @@
+
+
 public class Game {
 
     private Grid grid;
+    private CellTracker cellTracker;
 
     public static void main(String args[]){
         Grid grid = new Grid(10,5);
-        System.out.println(grid);
+        Game game = new Game(grid);
     }
 
     public Game(Grid grid){
         this.grid = grid;
+        cellTracker = new CellTracker(grid);
     }
 
 
