@@ -16,23 +16,23 @@ public class Grid {
 
     //Time = O(n)
     public void connectNodes(Cell[][] matrix){
-        for(int i=0; i<dimension.height; i++){
-            for(int j=0; j<dimension.width; j++){
+        for(int y=0; y<getHeight(); y++){
+            for(int x=0; x<getWidth(); x++){
                 // from topLeft -> topmid -> topright -> midleft -> midright -> midleft -> ... neighbours
                 List<Cell> neighbours = new ArrayList<Cell>();
                 for(int k=-1; k<2; k++){
                     for(int l=-1; k<2; k++){
 
-                        if((k==0 && l == 0) || !inBounds(k+i, getHeight()) || !inBounds(l+j, getWidth()))
+                        if((k==0 && l == 0) || !inBounds(k+y, getHeight()) || !inBounds(l+x, getWidth()))
                             continue;
-                        neighbours.add(matrix[k+i][l+j]);
+                        neighbours.add(getCell(l+x, k+y));
                     }
                 }
                 Cell[] arr= new Cell[neighbours.size()];
                 for(int s=0; s<neighbours.size(); s++){
                     arr[s] = neighbours.get(s);
                 }
-                matrix[i][j].setNeighbours(arr);
+                getCell(x,y).setNeighbours(arr);
             }
         }
     }
@@ -42,19 +42,19 @@ public class Grid {
     }
 
     public void fill(Cell[][] matrix){
-        for(int i=0; i<matrix.length; i++){
-            for(int j=0; j<matrix[i].length; j++){
-                matrix[i][j] = new Cell(false, j, i);
+        for(int y=0; y< matrix.length; y++){
+            for(int x=0; x<matrix[y].length; x++){
+                matrix[y][x] = new Cell(false, x, y);
             }
         }
     }
 
     public String toString(){
         StringBuilder sb = new StringBuilder("");
-        for(int i=0; i<dimension.height; i++){
+        for(int i=0; i<getHeight(); i++){
             sb.append("[");
-            for(int j=0; j<dimension.width; j++){
-                Cell cell = matrix[i][j];
+            for(int j=0; j<getWidth(); j++){
+                Cell cell = getCell(j, i);
                 if(cell.isAlive())
                     sb.append("T ");
                 else
