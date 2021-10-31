@@ -1,5 +1,5 @@
 # Default ignored files
 /shelf/
-.idea/**
-./out/**
-/game of life .iml
+/.idea
+/out
+game of life.iml
