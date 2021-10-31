@@ -1,17 +1,8 @@
 public class Cell {
     private boolean alive;
     private Cell[] neighbours;
-    int x;
-    int y;
-
-    private Cell topleft;
-    private Cell topmiddle;
-    private Cell topright;
-    private Cell midleft;
-    private Cell midright;
-    private Cell bottomleft;
-    private Cell bottomMiddle;
-    private Cell bottomright;
+    private int x;
+    private int y;
 
     public Cell(boolean alive, int x, int y){
         this.alive = alive;
@@ -21,6 +12,10 @@ public class Cell {
 
     public void setNeighbours(Cell[] neighbours){
         this.neighbours = neighbours;
+    }
+
+    public Cell[] getNeighbours(){
+        return neighbours;
     }
 
     public boolean isAlive(){
@@ -47,5 +42,13 @@ public class Cell {
                 return true;
         }
         return (companions==3 && !alive) ? true : false;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
     }
 }
