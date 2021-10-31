@@ -8,7 +8,7 @@ public class Grid {
 
     public Grid(int width, int height){
         dimension = new Dimension(width,height);
-        matrix    = new Cell[width][height];
+        matrix    = new Cell[height][width];
 
         fill(matrix);
         connectNodes(matrix);
@@ -44,13 +44,13 @@ public class Grid {
     public void fill(Cell[][] matrix){
         for(int i=0; i<matrix.length; i++){
             for(int j=0; j<matrix[i].length; j++){
-                matrix[i][j] = new Cell(false, i, j);
+                matrix[i][j] = new Cell(false, j, i);
             }
         }
     }
 
     public Cell getCell(int x, int y){
-        return matrix[x][y];
+        return matrix[y][x];
     }
 
     public int getWidth(){
