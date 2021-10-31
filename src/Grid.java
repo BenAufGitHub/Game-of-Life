@@ -49,6 +49,22 @@ public class Grid {
         }
     }
 
+    public String toString(){
+        StringBuilder sb = new StringBuilder("");
+        for(int i=0; i<dimension.height; i++){
+            sb.append("[");
+            for(int j=0; j<dimension.width; j++){
+                Cell cell = matrix[i][j];
+                if(cell.isAlive())
+                    sb.append("T ");
+                else
+                    sb.append("F ");
+            }
+            sb.append("]\n");
+        }
+        return sb.toString();
+    }
+
     public Cell getCell(int x, int y){
         return matrix[y][x];
     }
