@@ -8,7 +8,7 @@ public class Game {
     private int timeoutLength;
 
     public static void main(String args[]) throws InterruptedException {
-        Grid grid = new Grid(10,5);
+        Grid grid = new Grid(5,5);
         Game game = new Game(grid);
 
         System.out.println(grid);
@@ -18,6 +18,7 @@ public class Game {
     public Game(Grid grid){
         this.grid = grid;
         cellTracker = new CellTracker(grid);
+        new Selector(cellTracker).preselect();
         timeoutLength = 1000;
     }
 

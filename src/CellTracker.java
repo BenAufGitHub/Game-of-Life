@@ -22,27 +22,35 @@ public class CellTracker {
     puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in Game class)
      */
     public void trackNextGridChanges(){
+        HashSet<Cell> temporary = new HashSet<>();
         for(Cell cell: reviewCells){
             int cellFriends = cell.getCompany();
             if(cell.toBeChanged(cellFriends))
                 forChange.add(cell);
-            track(cell.getNeighbours());
+            temporary.add(cell);
+        }
+        for(Cell c : temporary){
+            track(c.getNeighbours());
         }
     }
 
     public void loadNextGen(){
         for(Cell cell: forChange){
             changeCell(cell);
-            if(listener != null){
-                if(cell.isAlive())
-                    listener.visualizeGridChange(cell.getX(), cell.getY(), "live!");
-                else
-                    listener.visualizeGridChange(cell.getX(), cell.getY(), "die!");
-            }
+            visualizeChange(cell);
         }
     }
 
-    private void track(Cell... cells) {
+    public void visualizeChange(Cell cell){
+        if(listener != null){
+            if(cell.isAlive())
+                listener.visualizeGridChange(cell.getX(), cell.getY(), "live!");
+            else
+                listener.visualizeGridChange(cell.getX(), cell.getY(), "die!");
+        }
+    }
+
+    public void track(Cell... cells) {
         for(Cell cell : cells){
             reviewCells.add(cell);
         }
@@ -64,4 +72,12 @@ public class CellTracker {
     public Grid getGrid(){
         return grid;
     }
+
+    public void allTrackedToTrue(){
+        for(Cell c : reviewCells){
+            c.setAlive(true);
+        }
+    }
 }
+
+

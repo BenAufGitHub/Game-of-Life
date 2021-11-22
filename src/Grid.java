@@ -58,7 +58,7 @@ public class Grid {
                 if(cell.isAlive())
                     sb.append("T ");
                 else
-                    sb.append("F ");
+                    sb.append("- ");
             }
             sb.append("]\n");
         }
