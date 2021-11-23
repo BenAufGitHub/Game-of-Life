@@ -8,7 +8,7 @@ public class Game {
     private int timeoutLength;
 
     public static void main(String args[]) throws InterruptedException {
-        Grid grid = new Grid(5,5);
+        Grid grid = new Grid(3,3);
         Game game = new Game(grid);
 
         System.out.println(grid);
