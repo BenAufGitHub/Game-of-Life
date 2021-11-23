@@ -22,23 +22,28 @@ public class CellTracker {
     puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in Game class)
      */
     public void trackNextGridChanges(){
-        HashSet<Cell> temporary = new HashSet<>();
+        HashSet<Cell> delete = new HashSet<>();
+
         for(Cell cell: reviewCells){
             int cellFriends = cell.getCompany();
             if(cell.toBeChanged(cellFriends))
                 forChange.add(cell);
-            temporary.add(cell);
+            if(!cell.isAlive() && cell.getCompany()==0)
+                delete.add(cell);
         }
-        for(Cell c : temporary){
-            track(c.getNeighbours());
-        }
+        for(Cell c : delete)
+            reviewCells.remove(c);
     }
 
     public void loadNextGen(){
         for(Cell cell: forChange){
             changeCell(cell);
             visualizeChange(cell);
+
+            if(cell.isAlive())
+                track(cell.getNeighbours());
         }
+        forChange.clear();
     }
 
     public void visualizeChange(Cell cell){

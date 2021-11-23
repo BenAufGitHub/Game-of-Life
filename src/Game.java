@@ -1,4 +1,5 @@
 import java.sql.SQLOutput;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
@@ -8,11 +9,11 @@ public class Game {
     private int timeoutLength;
 
     public static void main(String args[]) throws InterruptedException {
-        Grid grid = new Grid(3,3);
+        Grid grid = new Grid(5,5);
         Game game = new Game(grid);
 
         System.out.println(grid);
-        game.act();
+        game.run();
     }
 
     public Game(Grid grid){
@@ -27,16 +28,23 @@ public class Game {
         return cellTracker;
     }
 
+
+    public void run() throws InterruptedException {
+        Scanner scan = new Scanner(System.in);
+        while(scan.next()!="q"){
+            act();
+            System.out.println(grid); //TODO temporary
+            TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
+        }
+    }
+
     /*
     one call equals one round
      */
-    public void act() throws InterruptedException {
+    public void act() {
         CellTracker ct = getCellTracker();
         ct.trackNextGridChanges();
         ct.loadNextGen();
-
-        System.out.println(grid); //TODO temporary
-        TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
     }
 
     /*
