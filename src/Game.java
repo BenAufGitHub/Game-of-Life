@@ -31,10 +31,12 @@ public class Game {
 
     public void run() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
-        while(scan.next()!="q"){
+
+        while(!scan.next().equals("q")){
             act();
             System.out.println(grid); //TODO temporary
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
+
         }
     }
 

@@ -8,6 +8,8 @@ public class Selector{
         select(1,0);
         select(2,1);
         select(2,3);
+        select(3,2);
+        select(4,2);
     }
 
     public void select(int x, int y){
