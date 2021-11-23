@@ -21,7 +21,7 @@ public class Grid {
                 // from topLeft -> topmid -> topright -> midleft -> midright -> midleft -> ... neighbours
                 List<Cell> neighbours = new ArrayList<Cell>();
                 for(int k=-1; k<2; k++){
-                    for(int l=-1; k<2; k++){
+                    for(int l=-1; l<2; l++){
 
                         if((k==0 && l == 0) || !inBounds(k+y, getHeight()) || !inBounds(l+x, getWidth()))
                             continue;
