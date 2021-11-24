@@ -6,18 +6,21 @@ public class Game {
 
     private Grid grid;
     private CellTracker cellTracker;
+    private Settings settings;
     private int timeoutLength;
 
     public static void main(String args[]) throws InterruptedException {
         Grid grid = new Grid(5,5);
-        Game game = new Game(grid);
+        Settings settings = new Settings(true);
+        Game game = new Game(grid, settings);
 
         System.out.println(grid);
         game.run();
     }
 
-    public Game(Grid grid){
+    public Game(Grid grid, Settings settings){
         this.grid = grid;
+        this.settings = settings;
         cellTracker = new CellTracker(grid);
         new Selector(cellTracker).preselect();
         timeoutLength = 1000;
@@ -42,11 +45,12 @@ public class Game {
 
     /*
     one call equals one round
+    first: ct looks for all cells to be changed, then he 'loads' the next gen
      */
     public void act() {
         CellTracker ct = getCellTracker();
         ct.trackNextGridChanges();
-        ct.loadNextGen();
+        ct.loadNextGen(settings.isTrackIndicated());
     }
 
     /*
@@ -69,4 +73,6 @@ public class Game {
     public int getTimeoutLength(){
         return timeoutLength;
     }
+
+    public Settings getSettings(){ return settings; }
 }

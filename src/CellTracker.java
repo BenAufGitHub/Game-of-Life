@@ -8,15 +8,18 @@ public class CellTracker {
     private GridChangeListener listener;
 
 
+
     public CellTracker(Grid grid){
         this.grid = grid;
         listener = null;
     }
 
+
     public CellTracker(Grid grid, GridChangeListener listener){
         this.grid = grid;
         this.listener = listener;
     }
+
 
     /*
     puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in Game class)
@@ -35,7 +38,8 @@ public class CellTracker {
             reviewCells.remove(c);
     }
 
-    public void loadNextGen(){
+
+    public void loadNextGen(boolean colorAllTracked){
         for(Cell cell: forChange){
             changeCell(cell);
             visualizeChange(cell);
@@ -44,7 +48,11 @@ public class CellTracker {
                 track(cell.getNeighbours());
         }
         forChange.clear();
+
+        if(colorAllTracked)
+            allTrackedVisible();
     }
+
 
     public void visualizeChange(Cell cell){
         if(listener != null){
@@ -55,11 +63,13 @@ public class CellTracker {
         }
     }
 
+
     public void track(Cell... cells) {
         for(Cell cell : cells){
             reviewCells.add(cell);
         }
     }
+
 
     private boolean changeCell(Cell cell){
         if(cell.isAlive()){
@@ -70,17 +80,35 @@ public class CellTracker {
         return true;
     }
 
+
     public void setGrid(Grid grid){
         this.grid = grid;
     }
+
 
     public Grid getGrid(){
         return grid;
     }
 
+
+    /*
+        method for testing purposes without GUI
+     */
     public void allTrackedToTrue(){
         for(Cell c : reviewCells){
             c.setAlive(true);
+        }
+    }
+
+
+    /*
+        optional method for GUI
+        gets invoked if showTracked == true (Settings)
+        colors background of all tracked Cells
+     */
+    public void allTrackedVisible(){
+        for(Cell cell : reviewCells){
+            listener.visualizeGridChange(cell.getX(), cell.getY(), "color!");
         }
     }
 }
