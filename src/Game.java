@@ -1,3 +1,6 @@
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -9,11 +12,12 @@ public class Game {
     private Settings settings;
     private int timeoutLength;
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException, IOException {
         Grid grid = new Grid(5,5);
         Settings settings = new Settings(true);
         Game game = new Game(grid, settings);
 
+        GUI frame = new GUI();
         System.out.println(grid);
         game.run();
     }
