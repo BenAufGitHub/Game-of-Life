@@ -5,20 +5,20 @@ import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class Game {
+public class Game implements GUIRunnable{
 
     private Grid grid;
     private CellTracker cellTracker;
     private Settings settings;
     private int timeoutLength;
 
-    public static void main(String args[]) throws InterruptedException, IOException {
+    public static void main(String args[]) throws InterruptedException {
         Grid grid = new Grid(5,5);
         Settings settings = new Settings(true);
         Game game = new Game(grid, settings);
 
-        GUI frame = new GUI();
-        System.out.println(grid);
+        game.generateGUI();
+        System.out.println(grid); //TODO
         game.run();
     }
 
@@ -30,11 +30,11 @@ public class Game {
         timeoutLength = 1000;
     }
 
-
-    public CellTracker getCellTracker(){
-        return cellTracker;
+    public void generateGUI(){
+        Grid g = getGrid();
+        Dimension dimension = new Dimension(g.getWidth(), g.getHeight());
+        new GUI(dimension, this);
     }
-
 
     public void run() throws InterruptedException {
         Scanner scan = new Scanner(System.in);
@@ -73,6 +73,13 @@ public class Game {
             throw new TimeSpanException(milliseconds, "too big");
         timeoutLength = milliseconds;
     }
+
+
+    public CellTracker getCellTracker(){
+        return cellTracker;
+    }
+
+    public Grid getGrid(){ return grid; }
 
     public int getTimeoutLength(){
         return timeoutLength;
