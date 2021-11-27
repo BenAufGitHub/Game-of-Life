@@ -1,3 +1,10 @@
+package components;
+
+import components.Action;
+import components.Cell;
+import components.Grid;
+import components.GridChangeListener;
+
 import java.util.ArrayDeque;
 import java.util.HashSet;
 
@@ -22,7 +29,7 @@ public class CellTracker {
 
 
     /*
-    puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in Game class)
+    puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in start.Game class)
      */
     public void trackNextGridChanges(){
         HashSet<Cell> delete = new HashSet<>();
@@ -92,7 +99,7 @@ public class CellTracker {
 
 
     /*
-        method for testing purposes without GUI
+        method for testing purposes without graphics.GUI
      */
     public void allTrackedToTrue(){
         for(Cell c : reviewCells){
@@ -102,8 +109,8 @@ public class CellTracker {
 
 
     /*
-        optional method for GUI
-        gets invoked if showTracked == true (Settings)
+        optional method for graphics.GUI
+        gets invoked if showTracked == true (start.Settings)
         colors background of all tracked Cells
      */
     public void allTrackedVisible(){

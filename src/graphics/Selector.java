@@ -1,8 +1,18 @@
+package graphics;
+
+import components.Cell;
+import components.CellTracker;
+
 public class Selector{
+
     CellTracker tracker;
+
+
     public Selector(CellTracker tracker){
         this.tracker = tracker;
     }
+
+
     public void preselect(){
         select(0,1);
         select(1,0);
@@ -12,6 +22,7 @@ public class Selector{
         select(4,2);
     }
 
+
     public void select(int x, int y){
         Cell cell = tracker.getGrid().getCell(x, y);
         cell.setAlive(true);
@@ -20,4 +31,5 @@ public class Selector{
         tracker.track(cell);
         tracker.track(cell.getNeighbours());
     }
+
 }

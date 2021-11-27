@@ -1,7 +1,12 @@
+package graphics;
+
+import components.GridChangeListener;
+import components.Action;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI extends JFrame implements GridChangeListener{
+public class GUI extends JFrame implements GridChangeListener {
 
     public final int WIDTH = 1300;
     public final int HEIGHT = 800;
@@ -39,13 +44,13 @@ public class GUI extends JFrame implements GridChangeListener{
         this.layout = new BorderLayout();
         setLayout(this.layout);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Game of Life");
+        setTitle("start.Game of Life");
     }
+
+    public Dimension getGridDimension(){ return gridDimension; }
 
     @Override
     public void visualizeGridChange(int x, int y, Action a) {
 
     }
-
-    public Dimension getGridDimension(){ return gridDimension; }
 }

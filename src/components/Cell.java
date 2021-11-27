@@ -1,3 +1,5 @@
+package components;
+
 public class Cell {
     private boolean alive;
     private Cell[] neighbours;

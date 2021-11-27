@@ -1,11 +1,16 @@
+package start;
+
+import components.CellTracker;
+import components.Grid;
+import graphics.GUI;
+import graphics.GUIRunnable;
+import graphics.Selector;
+
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class Game implements GUIRunnable{
+public class Game implements GUIRunnable {
 
     private Grid grid;
     private CellTracker cellTracker;
@@ -59,14 +64,14 @@ public class Game implements GUIRunnable{
 
     /*
     when stop button is clicked, await end of act and the pause the game:
-    caution: GUI is presumably multi-threading
+    caution: graphics.GUI is presumably multi-threading
      */
     public void stop(){
 
     }
 
 
-    public void setTimeoutLength(int milliseconds) throws TimeSpanException{
+    public void setTimeoutLength(int milliseconds) throws TimeSpanException {
         if(milliseconds < 300)
             throw new TimeSpanException(milliseconds, "too small");
         if(milliseconds > 12000)
