@@ -28,16 +28,19 @@ public class GUI extends JFrame implements GridChangeListener {
 
         setFrameSettings();
         this.gridPanel = createGridPanel();
-        this.controlPanel = createControlPanel();
+        this.controlPanel = createControlPanel(game);
 
         this.add(gridPanel, BorderLayout.WEST);
         this.add(controlPanel, BorderLayout.EAST);
         setVisible(true);
+        //ErrorHandler.catchError(this, new InterruptedException(), 2); //TODO
     }
 
 
-    private JPanel createControlPanel() {
-        return new JPanel();
+    private JPanel createControlPanel(GUIRunnable game){
+        JPanel jp = new ControlPanel(game);
+        jp.setPreferredSize(new Dimension(300,0));
+        return jp;
     }
 
     private JPanel createGridPanel() {

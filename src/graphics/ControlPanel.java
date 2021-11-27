@@ -22,14 +22,25 @@ public class ControlPanel extends JPanel {
         act.setBounds(100, 150, 100, 60);
         stop.setBounds(100, 250, 100, 60);
 
+        setRunAction();
+        act.addActionListener(e -> game.act());
+        stop.addActionListener(e -> game.stop());
+
+        this.add(run);
+        this.add(act);
+        this.add(stop);
+
+        this.setBackground(Color.RED);
+    }
+
+    private void setRunAction() {
         run.addActionListener( e -> {
             try {
                 game.run();
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
-                System.exit(1);
+                ErrorHandler.catchError((GUI) this.getParent(), ex, 2);
             }
         } );
-
     }
 }
