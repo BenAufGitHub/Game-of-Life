@@ -25,7 +25,6 @@ public class Game implements GUIRunnable {
 
         game.generateGUI();
         System.out.println(grid); //TODO
-        game.run();
     }
 
     public Game(Grid grid, Settings settings){
@@ -70,12 +69,9 @@ public class Game implements GUIRunnable {
     caution: graphics.GUI is presumably multi-threading
      */
     public void stop(){
-
-    }
-
-    @Override
-    public void forceStop() {
-
+        synchronized (isStopped){
+            isStopped = true;
+        }
     }
 
     @Override
