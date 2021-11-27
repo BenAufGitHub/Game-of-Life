@@ -16,6 +16,7 @@ public class Game implements GUIRunnable {
     private CellTracker cellTracker;
     private Settings settings;
     private int timeoutLength;
+    private Boolean isStopped = Boolean.FALSE;
 
     public static void main(String args[]) throws InterruptedException {
         Grid grid = new Grid(5,5);
@@ -42,13 +43,15 @@ public class Game implements GUIRunnable {
     }
 
     public void run() throws InterruptedException {
-        Scanner scan = new Scanner(System.in);
-
-        while(!scan.next().equals("q")){
+        while(true){
+            synchronized (isStopped){
+                if(isStopped){
+                    isStopped = false;
+                    return;
+                }
+            }
             act();
-            System.out.println(grid); //TODO temporary
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
-
         }
     }
 
@@ -56,7 +59,7 @@ public class Game implements GUIRunnable {
     one call equals one round
     first: ct looks for all cells to be changed, then he 'loads' the next gen
      */
-    public void act() {
+    public synchronized void act() {
         CellTracker ct = getCellTracker();
         ct.trackNextGridChanges();
         ct.loadNextGen(settings.isTrackIndicated());
@@ -68,6 +71,18 @@ public class Game implements GUIRunnable {
      */
     public void stop(){
 
+    }
+
+    @Override
+    public void forceStop() {
+
+    }
+
+    @Override
+    public boolean noProcess() {
+        if(isStopped == true)
+            return false;
+        return true;
     }
 
 
