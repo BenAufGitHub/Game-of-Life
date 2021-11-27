@@ -57,9 +57,9 @@ public class CellTracker {
     public void visualizeChange(Cell cell){
         if(listener != null){
             if(cell.isAlive())
-                listener.visualizeGridChange(cell.getX(), cell.getY(), "live!");
+                listener.visualizeGridChange(cell.getX(), cell.getY(), Action.LIVE);
             else
-                listener.visualizeGridChange(cell.getX(), cell.getY(), "die!");
+                listener.visualizeGridChange(cell.getX(), cell.getY(), Action.DIE);
         }
     }
 
@@ -108,7 +108,7 @@ public class CellTracker {
      */
     public void allTrackedVisible(){
         for(Cell cell : reviewCells){
-            listener.visualizeGridChange(cell.getX(), cell.getY(), "color!");
+            listener.visualizeGridChange(cell.getX(), cell.getY(), Action.COLOR);
         }
     }
 }
