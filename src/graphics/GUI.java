@@ -33,7 +33,6 @@ public class GUI extends JFrame implements GridChangeListener {
         this.add(gridPanel, BorderLayout.WEST);
         this.add(controlPanel, BorderLayout.EAST);
         setVisible(true);
-        //ErrorHandler.catchError(this, new InterruptedException(), 2); //TODO
     }
 
 
