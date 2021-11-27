@@ -1,6 +1,6 @@
 package components;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.List;
 import java.util.ArrayList;
 

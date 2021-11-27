@@ -6,7 +6,7 @@ import graphics.GUI;
 import graphics.GUIRunnable;
 import graphics.Selector;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 

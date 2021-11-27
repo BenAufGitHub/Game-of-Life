@@ -1,10 +1,5 @@
 package components;
 
-import components.Action;
-import components.Cell;
-import components.Grid;
-import components.GridChangeListener;
-
 import java.util.ArrayDeque;
 import java.util.HashSet;
 

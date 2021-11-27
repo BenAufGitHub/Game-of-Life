@@ -1,8 +1,6 @@
 package graphics;
 
-import graphics.GUIRunnable;
-
-import javax.swing.*;
+import javax.swing.JButton;
 
 public class ControlPanel {
 

@@ -3,8 +3,11 @@ package graphics;
 import components.GridChangeListener;
 import components.Action;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 
 public class GUI extends JFrame implements GridChangeListener {
 
