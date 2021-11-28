@@ -1,5 +1,5 @@
 package components;
 
 public enum Action {
-    DIE, LIVE, COLOR
+    DIE, LIVE, COLOR, PLAIN
 }

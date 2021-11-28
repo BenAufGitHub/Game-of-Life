@@ -5,11 +5,11 @@ import components.CellTracker;
 
 public class Selector{
 
-    CellTracker tracker;
+    SelectActionListener listener;
 
 
-    public Selector(CellTracker tracker){
-        this.tracker = tracker;
+    public Selector(SelectActionListener listener){
+        this.listener = listener;
     }
 
 
@@ -24,12 +24,7 @@ public class Selector{
 
 
     public void select(int x, int y){
-        Cell cell = tracker.getGrid().getCell(x, y);
-        cell.setAlive(true);
-
-        tracker.visualizeChange(cell);
-        tracker.track(cell);
-        tracker.track(cell.getNeighbours());
+        listener.select(x, y);
     }
 
 }

@@ -3,28 +3,26 @@ package graphics;
 import components.GridChangeListener;
 import components.Action;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
 
 public class GUI extends JFrame implements GridChangeListener {
 
-    public final int WIDTH = 1300;
+    public final int WIDTH = 1100;
     public final int HEIGHT = 800;
 
     private JPanel gridPanel;
     private JPanel controlPanel;
     private Dimension gridDimension;
     private BorderLayout layout = null;
+    private JLabel[][] grid;
     private GUIRunnable game;
 
     public GUI(Dimension grid, GUIRunnable game){
         this.gridDimension = grid;
         this.game = game;
+        this.grid = new JLabel[grid.height][grid.width];
 
         setFrameSettings();
         this.gridPanel = createGridPanel();
@@ -48,6 +46,17 @@ public class GUI extends JFrame implements GridChangeListener {
         panel.setBackground(Color.gray);
         panel.setPreferredSize(new Dimension(getGridWidth(),0));
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        panel.setLayout(new GridLayout(gridDimension.width, gridDimension.height));
+
+        for(int y=0; y< gridDimension.height; y++){
+            for(int x=0; x< gridDimension.width; x++){
+                JLabel label = new JLabel();
+                label.setBackground(Color.GRAY);
+                label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                addToGrid(x, y, label);
+                panel.add(label);
+            }
+        }
 
         return panel;
     }
@@ -67,11 +76,31 @@ public class GUI extends JFrame implements GridChangeListener {
 
     @Override
     public void visualizeGridChange(int x, int y, Action a) {
+        JLabel[][] grid = getGrid();
+        JLabel label = grid[y][x];
 
+        if(a == Action.LIVE){
+            Image image =  new ImageIcon("resources//black_circle.png").getImage();
+            Image scaled = image.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_DEFAULT);
+            label.setIcon(new ImageIcon(scaled));
+        }
+        if(a == Action.DIE){
+            label.setIcon(null);
+        }
+        if(a == Action.COLOR){
+            label.setBackground(Color.RED);
+        }
+        if(a == Action.PLAIN){
+            label.setBackground(Color.GRAY);
+        }
     }
 
-    public void paint(){
-        this.revalidate();
-        this.repaint();
+    public JLabel[][] getGrid(){
+        return grid;
+    }
+
+    private void addToGrid(int x, int y, JLabel label){
+        JLabel[][] grid = getGrid();
+        grid[y][x] = label;
     }
 }
