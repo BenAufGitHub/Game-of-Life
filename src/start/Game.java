@@ -7,7 +7,6 @@ import graphics.GUIRunnable;
 import graphics.Selector;
 
 import java.awt.Dimension;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Game implements GUIRunnable {
@@ -16,42 +15,43 @@ public class Game implements GUIRunnable {
     private CellTracker cellTracker;
     private Settings settings;
     private int timeoutLength;
-    private Boolean isStopped = Boolean.FALSE;
+    private Boolean stopping = Boolean.FALSE;
+    private Boolean noProcess = Boolean.TRUE;
 
     public static void main(String args[]) throws InterruptedException {
         Grid grid = new Grid(5,5);
         Settings settings = new Settings(true);
         Game game = new Game(grid, settings);
 
-        game.generateGUI();
+        GUI gui = game.generateGUI();
+        game.getCellTracker().setListener(gui);
         System.out.println(grid); //TODO
     }
 
     public Game(Grid grid, Settings settings){
         this.grid = grid;
         this.settings = settings;
-        cellTracker = new CellTracker(grid);
-        new Selector(cellTracker).preselect();
-        timeoutLength = 1000;
+        this.timeoutLength = 1000;
+        this.cellTracker = new CellTracker(grid);
+
+        new Selector(cellTracker).preselect(); //TODO
     }
 
-    public void generateGUI(){
+    public GUI generateGUI(){
         Grid g = getGrid();
         Dimension dimension = new Dimension(g.getWidth(), g.getHeight());
-        new GUI(dimension, this);
+        return new GUI(dimension, this);
     }
 
     public void run() throws InterruptedException {
-        while(true){
-            synchronized (isStopped){
-                if(isStopped){
-                    isStopped = false;
-                    return;
-                }
-            }
+        if(ownProcessRequest() != true)
+            return;
+
+        while(!stopRequest()){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
         }
+        setNoProcess(true);
     }
 
     /*
@@ -59,9 +59,14 @@ public class Game implements GUIRunnable {
     first: ct looks for all cells to be changed, then he 'loads' the next gen
      */
     public synchronized void act() {
+        boolean individuallyCalled = ownProcessRequest();
+
         CellTracker ct = getCellTracker();
         ct.trackNextGridChanges();
         ct.loadNextGen(settings.isTrackIndicated());
+
+        if(individuallyCalled)
+            setNoProcess(true);
     }
 
     /*
@@ -69,18 +74,59 @@ public class Game implements GUIRunnable {
     caution: graphics.GUI is presumably multi-threading
      */
     public void stop(){
-        synchronized (isStopped){
-            isStopped = true;
+        synchronized (stopping){
+            stopping = true;
         }
     }
 
+
     @Override
     public boolean noProcess() {
-        if(isStopped == true)
-            return false;
-        return true;
+        synchronized (noProcess){
+            return noProcess;
+        }
     }
 
+
+    /*
+    if stopping turns true, it is changed to false and true is returned,
+    stops the running process
+     */
+    private boolean stopRequest(){
+        synchronized (stopping){
+            if(stopping){
+                stopping = false;
+                return true;
+            }
+            return false;
+        }
+    }
+
+
+    /*
+    process only is accepted one at a time,
+    when act is called, it checks wether it is its own process or invoked through the process in "run",
+    return: boolean -> true: ownProcess means noProcess turns false; false: not accepted, in another process
+     */
+    private boolean ownProcessRequest(){
+        synchronized (noProcess){
+            if(noProcess){
+                noProcess = false;
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private void setNoProcess(Boolean bool) {
+        synchronized (noProcess){
+            noProcess = bool;
+            if(bool == true){
+                System.out.println("Notifying!");
+                awaiter.notify();
+            }
+        }
+    }
 
     public void setTimeoutLength(int milliseconds) throws TimeSpanException {
         if(milliseconds < 300)

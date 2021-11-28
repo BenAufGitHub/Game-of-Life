@@ -74,6 +74,8 @@ public class ErrorHandler {
         switch(errorCode){
             case(2):
                 return "Something interrupted the game process.";
+            case(3):
+                return "The run process was suddenly interrupted";
             default:
                 return "An error occurred";
         }

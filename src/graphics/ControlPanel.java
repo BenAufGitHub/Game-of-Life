@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ControlPanel extends JPanel {
+    enum Clicked{
+        RUN, ACT, STOP
+    }
 
     GUIRunnable game;
     JButton run;
@@ -22,9 +25,10 @@ public class ControlPanel extends JPanel {
         act.setBounds(100, 150, 100, 60);
         stop.setBounds(100, 250, 100, 60);
 
-        setRunAction();
-        act.addActionListener(e -> game.act());
-        stop.addActionListener(e -> game.stop());
+        prepareActionListeners();
+
+        stop.setEnabled(false);
+        stop.setFocusable(false);
 
         this.add(run);
         this.add(act);
@@ -33,14 +37,75 @@ public class ControlPanel extends JPanel {
         this.setBackground(Color.RED);
     }
 
-    private void setRunAction() {
+    /*
+    (own method because expression was too messy for Instructor)
+    Exception gets passed to ErrorHandler
+     */
+    private void prepareActionListeners() {
         run.addActionListener( e -> {
             try {
-                game.run();
-            } catch (InterruptedException ex) {
+                deactivateButtons(Clicked.RUN);
+                game.act();
+                activateButtons();
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 ErrorHandler.catchError((GUI) this.getParent(), ex, 2);
             }
-        } );
+        });
+
+        act.addActionListener(e -> {
+            deactivateButtons(Clicked.ACT);
+            game.act();
+            activateButtons();
+        });
+
+        stop.addActionListener(e -> {
+            deactivateButtons(Clicked.STOP);
+            game.stop();
+        });
+    }
+
+    private void autoToggleButtonStatus(Clicked button){
+        run.setEnabled(false);
+        act.setEnabled(false);
+
+        if(button == Clicked.ACT || button == Clicked.STOP){
+            stop.setEnabled(false);
+        }
+        if(button == Clicked.RUN){
+            stop.setEnabled(true);
+        }
+        awaitProcessFinish();
+        run.setEnabled(true);
+        act.setEnabled(true);
+        stop.setEnabled(false);
+    }
+
+    public void deactivateButtons(Clicked button){
+        run.setEnabled(false);
+        act.setEnabled(false);
+        if(button == Clicked.STOP){
+            stop.setEnabled(false);
+        }
+        if(button == Clicked.RUN){
+            stop.setEnabled(true);
+        }
+    }
+
+    public void activateButtons(){
+        run.setEnabled(true);
+        act.setEnabled(true);
+        stop.setEnabled(false);
+    }
+
+    private void awaitProcessFinish(){
+        synchronized (game.awaiter){
+            try{
+                game.awaiter.wait();
+                System.out.println("Worked");
+            } catch(InterruptedException ex){
+                ErrorHandler.catchError((GUI) this.getParent(), ex, 3);
+            }
+        }
     }
 }

@@ -113,6 +113,10 @@ public class CellTracker {
             listener.visualizeGridChange(cell.getX(), cell.getY(), Action.COLOR);
         }
     }
+
+    public void setListener(GridChangeListener listener){
+        this.listener = listener;
+    }
 }
 
 
