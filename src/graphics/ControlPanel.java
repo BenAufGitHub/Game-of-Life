@@ -105,14 +105,4 @@ public class ControlPanel extends JPanel {
     }
 
 
-    private void awaitProcessFinish(){
-        synchronized (game.awaiter){
-            try{
-                game.awaiter.wait();
-                System.out.println("Worked");
-            } catch(InterruptedException ex){
-                ErrorHandler.catchError((GUI) this.getParent(), ex, 3);
-            }
-        }
-    }
 }

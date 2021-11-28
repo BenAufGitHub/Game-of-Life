@@ -72,7 +72,7 @@ public class Game implements GUIRunnable {
 
         CellTracker ct = getCellTracker();
         ct.trackNextGridChanges();
-        ct.loadNextGen(settings.isTrackIndicated());
+        ct.loadNextGen(true); //TODO settings.isTrackIndicated()
 
         System.out.println(grid); //TODO
         if(individuallyCalled)

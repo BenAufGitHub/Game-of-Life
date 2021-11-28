@@ -114,6 +114,7 @@ public class CellTracker implements SelectActionListener {
      */
     public void allTrackedVisible(){
         for(Cell cell : reviewCells){
+            System.out.println("---------------------");
             listener.visualizeGridChange(cell.getX(), cell.getY(), Action.COLOR);
         }
     }
