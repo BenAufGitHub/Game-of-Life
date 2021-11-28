@@ -52,7 +52,6 @@ public class Game implements GUIRunnable {
     main process, loops through act until a stop is requested
      */
     public void run() throws InterruptedException {
-        /*
         if(ownProcessRequest() != true)
             return;
 
@@ -62,9 +61,6 @@ public class Game implements GUIRunnable {
             System.out.println("through"); //TODO
         }
         setNoProcess(true);
-         */
-        TimeUnit.MILLISECONDS.sleep(5000);
-
     }
 
 
@@ -136,10 +132,6 @@ public class Game implements GUIRunnable {
     private void setNoProcess(Boolean bool) {
         synchronized (noProcess){
             noProcess = bool;
-            if(bool == true){
-                System.out.println("Notifying!");
-                awaiter.notify();
-            }
         }
     }
 
