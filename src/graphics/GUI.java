@@ -37,7 +37,7 @@ public class GUI extends JFrame implements GridChangeListener {
 
 
     private JPanel createControlPanel(GUIRunnable game){
-        JPanel jp = new ControlPanel(game);
+        JPanel jp = new ControlPanel(game, this);
         jp.setPreferredSize(new Dimension(300,0));
         return jp;
     }
@@ -68,5 +68,10 @@ public class GUI extends JFrame implements GridChangeListener {
     @Override
     public void visualizeGridChange(int x, int y, Action a) {
 
+    }
+
+    public void paint(){
+        this.revalidate();
+        this.repaint();
     }
 }

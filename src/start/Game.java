@@ -37,22 +37,36 @@ public class Game implements GUIRunnable {
         new Selector(cellTracker).preselect(); //TODO
     }
 
+
+    /*
+    returns new GUI
+     */
     public GUI generateGUI(){
         Grid g = getGrid();
         Dimension dimension = new Dimension(g.getWidth(), g.getHeight());
         return new GUI(dimension, this);
     }
 
+
+    /*
+    main process, loops through act until a stop is requested
+     */
     public void run() throws InterruptedException {
+        /*
         if(ownProcessRequest() != true)
             return;
 
         while(!stopRequest()){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
+            System.out.println("through"); //TODO
         }
         setNoProcess(true);
+         */
+        TimeUnit.MILLISECONDS.sleep(5000);
+
     }
+
 
     /*
     one call equals one round
@@ -68,6 +82,7 @@ public class Game implements GUIRunnable {
         if(individuallyCalled)
             setNoProcess(true);
     }
+
 
     /*
     when stop button is clicked, await end of act and the pause the game:
