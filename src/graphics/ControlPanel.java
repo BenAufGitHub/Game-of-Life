@@ -46,12 +46,6 @@ public class ControlPanel extends JPanel {
     private void prepareActionListeners() {
         run.addActionListener( e -> {
             Thread t = new Thread( () -> {
-                stop.setEnabled(true);
-                stop.setBackground(Color.GREEN);
-                stop.revalidate();
-                stop.repaint();
-                System.out.println();
-                this.getParent().getParent().getParent().revalidate();
                 try {
                     deactivateButtons(Clicked.RUN);
                     game.run();
@@ -65,18 +59,24 @@ public class ControlPanel extends JPanel {
         });
 
         act.addActionListener(e -> {
-            deactivateButtons(Clicked.ACT);
-            game.act();
-            activateButtons();
+            Thread t = new Thread( () -> {
+                deactivateButtons(Clicked.ACT);
+                game.act();
+                activateButtons();
+            });
+            t.start();
         });
 
         stop.addActionListener(e -> {
-            deactivateButtons(Clicked.STOP);
-            game.stop();
+            Thread t = new Thread( () -> {
+                deactivateButtons(Clicked.STOP);
+                game.stop();
+            });
+            t.start();
         });
     }
 
-    private void autoToggleButtonStatus(Clicked button){
+    private void autoToggleButtonStatus(Clicked button){ //TODO
         run.setEnabled(false);
         act.setEnabled(false);
 
@@ -95,12 +95,11 @@ public class ControlPanel extends JPanel {
     public void deactivateButtons(Clicked button){
         run.setEnabled(false);
         act.setEnabled(false);
-        if(button == Clicked.STOP){
-            stop.setEnabled(false);
-        }
+
         if(button == Clicked.RUN){
             stop.setEnabled(true);
-        }
+        } else
+            stop.setEnabled(false);
     }
 
     public void activateButtons(){
