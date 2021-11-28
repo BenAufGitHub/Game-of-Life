@@ -25,6 +25,7 @@ public class Game implements GUIRunnable {
 
         GUI gui = game.generateGUI();
         game.getCellTracker().setListener(gui);
+        new Selector(game.getCellTracker()).preselect(); //TODO
         System.out.println(grid); //TODO
     }
 
@@ -33,8 +34,6 @@ public class Game implements GUIRunnable {
         this.settings = settings;
         this.timeoutLength = 1000;
         this.cellTracker = new CellTracker(grid);
-
-        new Selector(cellTracker).preselect(); //TODO
     }
 
 
@@ -58,7 +57,7 @@ public class Game implements GUIRunnable {
         while(!stopRequest()){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
-            System.out.println("through"); //TODO
+            TimeUnit.MILLISECONDS.sleep(500); //TODO
         }
         setNoProcess(true);
     }
@@ -75,6 +74,7 @@ public class Game implements GUIRunnable {
         ct.trackNextGridChanges();
         ct.loadNextGen(settings.isTrackIndicated());
 
+        System.out.println(grid); //TODO
         if(individuallyCalled)
             setNoProcess(true);
     }

@@ -1,9 +1,11 @@
 package components;
 
+import graphics.SelectActionListener;
+
 import java.util.ArrayDeque;
 import java.util.HashSet;
 
-public class CellTracker {
+public class CellTracker implements SelectActionListener {
     private HashSet<Cell> reviewCells = new HashSet<Cell>();
     private ArrayDeque<Cell> forChange = new ArrayDeque<Cell>();
     private Grid grid;
@@ -36,8 +38,10 @@ public class CellTracker {
             if(!cell.isAlive() && cell.getCompany()==0)
                 delete.add(cell);
         }
-        for(Cell c : delete)
-            reviewCells.remove(c);
+        for(Cell cell : delete){
+            reviewCells.remove(cell);
+            listener.visualizeGridChange(cell.getX(), cell.getY(), Action.PLAIN);
+        }
     }
 
 
@@ -116,6 +120,17 @@ public class CellTracker {
 
     public void setListener(GridChangeListener listener){
         this.listener = listener;
+    }
+
+
+    @Override
+    public void select(int x, int y) {
+        Cell cell = getGrid().getCell(x, y);
+        cell.setAlive(true);
+
+        visualizeChange(cell);
+        track(cell);
+        track(cell.getNeighbours());
     }
 }
 

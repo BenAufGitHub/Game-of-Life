@@ -14,6 +14,7 @@ public class ControlPanel extends JPanel {
     JButton act;
     JButton stop;
 
+
     public ControlPanel(GUIRunnable game, GUI gui){
         this.game = game;
         this.gui = gui;
@@ -31,6 +32,8 @@ public class ControlPanel extends JPanel {
 
         stop.setEnabled(false);
         stop.setFocusable(false);
+        act.setFocusable(false);
+        run.setFocusable(false);
 
         this.add(run);
         this.add(act);
@@ -38,6 +41,7 @@ public class ControlPanel extends JPanel {
 
         this.setBackground(Color.RED);
     }
+
 
     /*
     (own method because expression was too messy for Instructor)
@@ -49,7 +53,7 @@ public class ControlPanel extends JPanel {
                 try {
                     deactivateButtons(Clicked.RUN);
                     game.run();
-                    activateButtons();
+                    buttonsToDefault();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     ErrorHandler.catchError((GUI) this.getParent(), ex, 2);
@@ -62,7 +66,7 @@ public class ControlPanel extends JPanel {
             Thread t = new Thread( () -> {
                 deactivateButtons(Clicked.ACT);
                 game.act();
-                activateButtons();
+                buttonsToDefault();
             });
             t.start();
         });
@@ -76,23 +80,11 @@ public class ControlPanel extends JPanel {
         });
     }
 
-    private void autoToggleButtonStatus(Clicked button){ //TODO
-        run.setEnabled(false);
-        act.setEnabled(false);
 
-        if(button == Clicked.ACT || button == Clicked.STOP){
-            stop.setEnabled(false);
-        }
-        if(button == Clicked.RUN){
-            stop.setEnabled(true);
-        }
-        awaitProcessFinish();
-        run.setEnabled(true);
-        act.setEnabled(true);
-        stop.setEnabled(false);
-    }
-
-    public void deactivateButtons(Clicked button){
+    /*
+    deactivates all buttons that would cause unsafe threading when a specific button is pressed
+     */
+    private void deactivateButtons(Clicked button){
         run.setEnabled(false);
         act.setEnabled(false);
 
@@ -102,11 +94,16 @@ public class ControlPanel extends JPanel {
             stop.setEnabled(false);
     }
 
-    public void activateButtons(){
+
+    /*
+    buttons into default position: run+act enabled, stop disabled
+     */
+    private void buttonsToDefault(){
         run.setEnabled(true);
         act.setEnabled(true);
         stop.setEnabled(false);
     }
+
 
     private void awaitProcessFinish(){
         synchronized (game.awaiter){
