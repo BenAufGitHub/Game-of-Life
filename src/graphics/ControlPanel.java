@@ -9,12 +9,14 @@ public class ControlPanel extends JPanel {
     }
 
     GUIRunnable game;
+    GUI gui;
     JButton run;
     JButton act;
     JButton stop;
 
-    public ControlPanel(GUIRunnable game){
+    public ControlPanel(GUIRunnable game, GUI gui){
         this.game = game;
+        this.gui = gui;
         setLayout(null);
 
         run = new JButton("run");
@@ -43,14 +45,23 @@ public class ControlPanel extends JPanel {
      */
     private void prepareActionListeners() {
         run.addActionListener( e -> {
-            try {
-                deactivateButtons(Clicked.RUN);
-                game.act();
-                activateButtons();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                ErrorHandler.catchError((GUI) this.getParent(), ex, 2);
-            }
+            Thread t = new Thread( () -> {
+                stop.setEnabled(true);
+                stop.setBackground(Color.GREEN);
+                stop.revalidate();
+                stop.repaint();
+                System.out.println();
+                this.getParent().getParent().getParent().revalidate();
+                try {
+                    deactivateButtons(Clicked.RUN);
+                    game.run();
+                    activateButtons();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    ErrorHandler.catchError((GUI) this.getParent(), ex, 2);
+                }
+            });
+            t.start();
         });
 
         act.addActionListener(e -> {
