@@ -44,7 +44,7 @@ public class CellTracker implements SelectActionListener {
     -changes all cells that were selected out of reviewed cells
     -now deletes dead Cells from review that are not next to a living cell
      */
-    public void loadNextGen(boolean colorAllTracked){
+    public void loadNextGen(){
         for(Cell cell: forChange){
             changeCell(cell);
             visualizeChange(cell);
@@ -54,10 +54,8 @@ public class CellTracker implements SelectActionListener {
         }
         forChange.clear();
 
-        if(colorAllTracked){
-            cleanReviewList();
-            allTrackedVisible();
-        }
+        cleanReviewList();
+        allTrackedVisible();
     }
 
 
@@ -153,7 +151,21 @@ public class CellTracker implements SelectActionListener {
         visualizeChange(cell);
         track(cell);
         track(cell.getNeighbours());
+
+        colorGroup(cell);
     }
+
+
+    /*
+    Colors Cell and its neighbours red
+     */
+    public void colorGroup(Cell cell){
+        listener.visualizeGridChange(cell.getX(), cell.getY(),Action.COLOR);
+        for(Cell c : cell.getNeighbours())
+            listener.visualizeGridChange(c.getX(),c.getY(), Action.COLOR);
+    }
+
+
 }
 
 

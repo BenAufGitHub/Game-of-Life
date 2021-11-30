@@ -18,8 +18,10 @@ public class GUI extends JFrame implements GridChangeListener {
     private BorderLayout layout = null;
     private JLabel[][] grid;
     private GUIRunnable game;
+    private GUISettings settings;
 
     public GUI(Dimension grid, GUIRunnable game){
+        this.settings = new GUISettings(true); //Standard
         this.gridDimension = grid;
         this.game = game;
         this.grid = new JLabel[grid.height][grid.width];
@@ -33,6 +35,9 @@ public class GUI extends JFrame implements GridChangeListener {
         setVisible(true);
     }
 
+    public void setSettings(GUISettings settings) {
+        this.settings = settings;
+    }
 
     private JPanel createControlPanel(GUIRunnable game){
         JPanel jp = new ControlPanel(game, this);
@@ -51,7 +56,7 @@ public class GUI extends JFrame implements GridChangeListener {
         for(int y=0; y< gridDimension.height; y++){
             for(int x=0; x< gridDimension.width; x++){
                 JLabel label = new JLabel();
-                label.setBackground(Color.GRAY); //TODO
+                label.setBackground(Color.GRAY);
                 label.setOpaque(true);
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 addToGrid(x, y, label);
@@ -75,6 +80,7 @@ public class GUI extends JFrame implements GridChangeListener {
 
     public int getGridWidth(){ return getWidth() - 300; }
 
+
     @Override
     public void visualizeGridChange(int x, int y, Action a) {
         JLabel[][] grid = getGrid();
@@ -88,13 +94,14 @@ public class GUI extends JFrame implements GridChangeListener {
         if(a == Action.DIE){
             label.setIcon(null);
         }
-        if(a == Action.COLOR){
+        if(a == Action.COLOR && settings.isTrackIndicated()){
             label.setBackground(Color.RED);
         }
         if(a == Action.PLAIN){
             label.setBackground(Color.GRAY);
         }
     }
+
 
     public JLabel[][] getGrid(){
         return grid;

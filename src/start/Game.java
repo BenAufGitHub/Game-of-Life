@@ -19,14 +19,13 @@ public class Game implements GUIRunnable {
     private Boolean noProcess = Boolean.TRUE;
 
     public static void main(String args[]) throws InterruptedException {
-        Grid grid = new Grid(5,5);
-        Settings settings = new Settings(true);
+        Grid grid = new Grid(50,50);
+        Settings settings = new Settings();
         Game game = new Game(grid, settings);
 
         GUI gui = game.generateGUI();
         game.getCellTracker().setListener(gui);
         new Selector(game.getCellTracker()).preselect(); //TODO
-        System.out.println(grid); //TODO
     }
 
     public Game(Grid grid, Settings settings){
@@ -72,9 +71,8 @@ public class Game implements GUIRunnable {
 
         CellTracker ct = getCellTracker();
         ct.trackNextGridChanges();
-        ct.loadNextGen(true); //TODO settings.isTrackIndicated()
+        ct.loadNextGen();
 
-        System.out.println(grid); //TODO
         if(individuallyCalled)
             setNoProcess(true);
     }
