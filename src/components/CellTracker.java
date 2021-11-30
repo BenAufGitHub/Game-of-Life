@@ -3,11 +3,12 @@ package components;
 import graphics.SelectActionListener;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class CellTracker implements SelectActionListener {
-    private HashSet<Cell> reviewCells = new HashSet<Cell>();
-    private ArrayDeque<Cell> forChange = new ArrayDeque<Cell>();
+    private HashSet<Cell> reviewCells = new HashSet();
+    private ArrayDeque<Cell> forChange = new ArrayDeque();
     private Grid grid;
     private GridChangeListener listener;
 
@@ -27,24 +28,22 @@ public class CellTracker implements SelectActionListener {
 
     /*
     puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in start.Game class)
+    all from untrackCell-Set can be removed from
      */
     public void trackNextGridChanges(){
-        HashSet<Cell> delete = new HashSet<>();
-
-        for(Cell cell: reviewCells){
+        for(Cell cell: getReviewCells()){
             int cellFriends = cell.getCompany();
             if(cell.toBeChanged(cellFriends))
                 forChange.add(cell);
-            if(!cell.isAlive() && cell.getCompany()==0)
-                delete.add(cell);
-        }
-        for(Cell cell : delete){
-            reviewCells.remove(cell);
-            listener.visualizeGridChange(cell.getX(), cell.getY(), Action.PLAIN);
         }
     }
 
 
+    /*
+    this is were the process of going from one generation to the next is managed:
+    -changes all cells that were selected out of reviewed cells
+    -now deletes dead Cells from review that are not next to a living cell
+     */
     public void loadNextGen(boolean colorAllTracked){
         for(Cell cell: forChange){
             changeCell(cell);
@@ -55,8 +54,10 @@ public class CellTracker implements SelectActionListener {
         }
         forChange.clear();
 
-        if(colorAllTracked)
+        if(colorAllTracked){
+            cleanReviewList();
             allTrackedVisible();
+        }
     }
 
 
@@ -72,7 +73,7 @@ public class CellTracker implements SelectActionListener {
 
     public void track(Cell... cells) {
         for(Cell cell : cells){
-            reviewCells.add(cell);
+            getReviewCells().add(cell);
         }
     }
 
@@ -101,7 +102,7 @@ public class CellTracker implements SelectActionListener {
         method for testing purposes without graphics.GUI
      */
     public void allTrackedToTrue(){
-        for(Cell c : reviewCells){
+        for(Cell c : getReviewCells()){
             c.setAlive(true);
         }
     }
@@ -113,16 +114,36 @@ public class CellTracker implements SelectActionListener {
         colors background of all tracked Cells
      */
     public void allTrackedVisible(){
-        for(Cell cell : reviewCells){
-            System.out.println("---------------------");
+        for(Cell cell : getReviewCells()){
             listener.visualizeGridChange(cell.getX(), cell.getY(), Action.COLOR);
         }
     }
+
+
+    /*
+    if the reviewed cell is dead and has no company, it will no longer be tracked,
+    only those will remain that are alive or next to an alive Cell
+     */
+    public void cleanReviewList(){
+        ArrayList<Cell> clear = new ArrayList<>();
+        for(Cell cell : getReviewCells()){
+            if(!cell.isAlive() && cell.getCompany() == 0)
+                clear.add(cell);
+        }
+        for(Cell cell : clear){
+            reviewCells.remove(cell);
+            listener.visualizeGridChange(cell.getX(), cell.getY(), Action.PLAIN);
+        }
+    }
+
 
     public void setListener(GridChangeListener listener){
         this.listener = listener;
     }
 
+    public HashSet<Cell> getReviewCells(){
+        return reviewCells;
+    }
 
     @Override
     public void select(int x, int y) {

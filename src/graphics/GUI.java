@@ -43,7 +43,7 @@ public class GUI extends JFrame implements GridChangeListener {
     private JPanel createGridPanel() {
         JPanel panel = new JPanel();
 
-        panel.setBackground(Color.gray);
+        panel.setBackground(Color.GRAY);
         panel.setPreferredSize(new Dimension(getGridWidth(),0));
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         panel.setLayout(new GridLayout(gridDimension.width, gridDimension.height));
@@ -51,7 +51,8 @@ public class GUI extends JFrame implements GridChangeListener {
         for(int y=0; y< gridDimension.height; y++){
             for(int x=0; x< gridDimension.width; x++){
                 JLabel label = new JLabel();
-                label.setBackground(Color.GRAY);
+                label.setBackground(Color.GRAY); //TODO
+                label.setOpaque(true);
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
                 addToGrid(x, y, label);
                 panel.add(label);
