@@ -2,9 +2,11 @@ package graphics;
 
 import components.GridChangeListener;
 import components.Action;
+import start.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 
 public class GUI extends JFrame implements GridChangeListener {
@@ -94,21 +96,31 @@ public class GUI extends JFrame implements GridChangeListener {
         if(a == Action.DIE){
             label.setIcon(null);
         }
-        if(a == Action.COLOR && settings.isTrackIndicated()){
+        if(a == Action.COLOR && settings.allowsColouring()){
             label.setBackground(Color.RED);
         }
-        if(a == Action.PLAIN){
+        if(a == Action.PLAIN && settings.allowsColouring()){
             label.setBackground(Color.GRAY);
         }
     }
 
-
-    public JLabel[][] getGrid(){
-        return grid;
+    @Override
+    public boolean colouringRequest() {
+        if(getSettings().allowsColouring())
+            return true;
+        return false;
     }
 
     private void addToGrid(int x, int y, JLabel label){
         JLabel[][] grid = getGrid();
         grid[y][x] = label;
+    }
+
+    public JLabel[][] getGrid() {
+        return grid;
+    }
+
+        public GUISettings getSettings(){
+        return settings;
     }
 }

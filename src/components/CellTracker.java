@@ -55,7 +55,8 @@ public class CellTracker implements SelectActionListener {
         forChange.clear();
 
         cleanReviewList();
-        allTrackedVisible();
+        if(listener.colouringRequest() == true)
+            allTrackedVisible();
     }
 
 
@@ -83,16 +84,6 @@ public class CellTracker implements SelectActionListener {
         }
         cell.setAlive(true);
         return true;
-    }
-
-
-    public void setGrid(Grid grid){
-        this.grid = grid;
-    }
-
-
-    public Grid getGrid(){
-        return grid;
     }
 
 
@@ -130,18 +121,11 @@ public class CellTracker implements SelectActionListener {
         }
         for(Cell cell : clear){
             reviewCells.remove(cell);
-            listener.visualizeGridChange(cell.getX(), cell.getY(), Action.PLAIN);
+            if(listener.colouringRequest() == true )
+                listener.visualizeGridChange(cell.getX(), cell.getY(), Action.PLAIN);
         }
     }
 
-
-    public void setListener(GridChangeListener listener){
-        this.listener = listener;
-    }
-
-    public HashSet<Cell> getReviewCells(){
-        return reviewCells;
-    }
 
     @Override
     public void select(int x, int y) {
@@ -165,7 +149,21 @@ public class CellTracker implements SelectActionListener {
             listener.visualizeGridChange(c.getX(),c.getY(), Action.COLOR);
     }
 
+    public void setListener(GridChangeListener listener){
+        this.listener = listener;
+    }
 
+    public HashSet<Cell> getReviewCells(){
+        return reviewCells;
+    }
+
+    public void setGrid(Grid grid){
+        this.grid = grid;
+    }
+
+    public Grid getGrid(){
+        return grid;
+    }
 }
 
 
