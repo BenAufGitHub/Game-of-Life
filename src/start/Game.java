@@ -56,7 +56,6 @@ public class Game implements GUIRunnable {
         while(!stopRequest()){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
-            TimeUnit.MILLISECONDS.sleep(500); //TODO
         }
         setNoProcess(true);
     }

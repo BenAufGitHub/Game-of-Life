@@ -2,11 +2,9 @@ package graphics;
 
 import components.GridChangeListener;
 import components.Action;
-import start.Settings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 
 public class GUI extends JFrame implements GridChangeListener {

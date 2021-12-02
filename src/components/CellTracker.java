@@ -99,7 +99,7 @@ public class CellTracker implements SelectActionListener {
 
     /*
         optional method for graphics.GUI
-        gets invoked if showTracked == true (start.Settings)
+        gets invoked if showTracked == true (Settings)
         colors background of all tracked Cells
      */
     public void allTrackedVisible(){
