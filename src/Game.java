@@ -33,9 +33,9 @@ public abstract class Game {
 
 
     /**
-     * if you select a cell in the gui, this should be called to update the game grid
+     * determines what happens when a cell is clicked in the Output
      */
-    public abstract void select(int x, int y);
+    public abstract void clicked(int x, int y);
 
 
     /**

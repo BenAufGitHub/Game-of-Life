@@ -2,19 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class GUI extends JFrame implements Output{
+
     private Game game;
     private Settings settings;
-    private JLabel[][] grid;
 
     protected JButton run;
     protected JButton act;
     protected JButton stop;
 
     private ControlPanel control;
+    private GridPanel grid;
 
 
-    public GUI(int x, int y){
-        setSettings(new Settings());
+    public GUI(int x, int y, Settings settings){
+        setSettings(settings);
         ButtonFactory factory = new ButtonFactory();
 
         this.run = factory.createRunButton();
@@ -25,8 +26,9 @@ public abstract class GUI extends JFrame implements Output{
         act.setBounds(100, 150, 100, 60);
         stop.setBounds(100, 250, 100, 60);
 
+        Selector sl = new Selector(getGame());
         control = new ControlPanel();
-        grid = new JLabel[y][x];
+        grid = new GridPanel(x, y, settings.getStandardGridColor(), sl);
 
         control.add(run);
         control.add(act);
@@ -39,14 +41,20 @@ public abstract class GUI extends JFrame implements Output{
         this.game = game;
     }
 
+    public final Game getGame(){ return game; }
+
     @Override
     public final void setSettings(Settings settings) {
         this.settings = settings;
     }
 
+    public final Settings getSettings(){ return settings; }
+
     protected final ControlPanel getControlPanel(){
         return control;
     }
+
+    protected final GridPanel getGrid(){ return grid; }
 
 
 

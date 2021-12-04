@@ -12,11 +12,13 @@ public interface Output {
      */
     public abstract void showAction(int x, int y, Action action);
 
-    public abstract void showAction(int x, int y, String action);
+    public abstract void showAction(int x, int y, Blueprint blueprint);
 
     public abstract void clear();
 
     public abstract void setGame(Game game);
+
+    public abstract Game getGame();
 
     public void setSettings(Settings settings);
 }
