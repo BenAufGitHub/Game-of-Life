@@ -1,7 +1,8 @@
-import javax.swing.*;
-import java.awt.*;
+package structure;
 
-public abstract class GUI extends JFrame implements Output{
+import javax.swing.*;
+
+public abstract class GUI extends JFrame implements Output {
 
     private Game game;
     private Settings settings;

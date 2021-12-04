@@ -27,7 +27,7 @@ public class CellTracker implements SelectActionListener {
 
 
     /*
-    puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in start.Game class)
+    puts cells to be changed into toBeChanged Queue, which will be used later to change Cells (called in start.structure.Game class)
     all from untrackCell-Set can be removed from
      */
     public void trackNextGridChanges(){
@@ -88,7 +88,7 @@ public class CellTracker implements SelectActionListener {
 
 
     /*
-        method for testing purposes without graphics.GUI
+        method for testing purposes without graphics.structure.GUI
      */
     public void allTrackedToTrue(){
         for(Cell c : getReviewCells()){
@@ -98,8 +98,8 @@ public class CellTracker implements SelectActionListener {
 
 
     /*
-        optional method for graphics.GUI
-        gets invoked if showTracked == true (Settings)
+        optional method for graphics.structure.GUI
+        gets invoked if showTracked == true (structure.Settings)
         colors background of all tracked Cells
      */
     public void allTrackedVisible(){

@@ -1,3 +1,5 @@
+package structure;
+
 import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +35,7 @@ public abstract class Game {
 
 
     /**
-     * determines what happens when a cell is clicked in the Output
+     * determines what happens when a cell is clicked in the structure.Output
      */
     public abstract void clicked(int x, int y);
 
@@ -72,7 +74,7 @@ public abstract class Game {
 
     /**
     when stop button is clicked, await end of act and the pause the game:
-    caution: graphics.GUI is presumably multi-threading
+    caution: graphics.structure.GUI is presumably multi-threading
      */
     public void stop(){
         synchronized (stopping){

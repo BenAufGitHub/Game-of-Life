@@ -73,7 +73,7 @@ public class GUI extends JFrame implements GridChangeListener {
         setResizable(false);
         setLayout(this.layout);
         setBounds(0,0, WIDTH, HEIGHT);
-        setTitle("start.Game of Life");
+        setTitle("start.structure.Game of Life");
     }
 
     public Dimension getGridDimension(){ return gridDimension; }

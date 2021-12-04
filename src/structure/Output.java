@@ -1,3 +1,8 @@
+package structure;
+
+import structure.Blueprint;
+import structure.Game;
+
 public interface Output {
 
     enum Action {

@@ -1,3 +1,7 @@
+package structure;
+
+import structure.Game;
+
 import java.awt.*;
 import java.util.HashSet;
 

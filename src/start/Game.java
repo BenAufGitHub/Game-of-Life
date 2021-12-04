@@ -37,7 +37,7 @@ public class Game implements GUIRunnable {
 
 
     /*
-    returns new GUI
+    returns new structure.GUI
      */
     public GUI generateGUI(){
         Grid g = getGrid();
@@ -79,7 +79,7 @@ public class Game implements GUIRunnable {
 
     /*
     when stop button is clicked, await end of act and the pause the game:
-    caution: graphics.GUI is presumably multi-threading
+    caution: graphics.structure.GUI is presumably multi-threading
      */
     public void stop(){
         synchronized (stopping){
