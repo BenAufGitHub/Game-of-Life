@@ -2,4 +2,7 @@
 /shelf/
 /.idea
 /out
+/src/components
+/src/graphics
+/src/start
 game of life.iml
