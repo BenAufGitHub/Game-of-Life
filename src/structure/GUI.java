@@ -1,7 +1,7 @@
 package structure;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class GUI extends JFrame implements Output {
 
@@ -55,6 +55,10 @@ public abstract class GUI extends JFrame implements Output {
     public final void setGame(Game game){
         this.game = game;
         getGridPanel().getSelector().setGame(game);
+    }
+
+    public ImageIcon scaleImage(Image image){
+
     }
 
     public final Game getGame(){ return game; }

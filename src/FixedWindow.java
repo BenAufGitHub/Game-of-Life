@@ -1,4 +1,5 @@
 import structure.Blueprint;
+import structure.ErrorHandler;
 import structure.GUI;
 import structure.Settings;
 
@@ -63,7 +64,38 @@ public class FixedWindow extends GUI {
 
     @Override
     public void showAction(int x, int y, Blueprint blueprint) {
+        JLabel[][] grid = getGridPanel().getGrid();
 
+        JLabel label = getLabel(x, y, grid);
+
+        Color color = blueprint.color;
+        if(color != null){
+            label.setBackground(color);
+        }
+        if(blueprint.iconChange){
+            label.setIcon();
+        }
+    }
+
+
+    /**
+     * private method in support for showAction, readability purposes, separated error handling
+     * @param x
+     * @param y
+     * @param grid
+     * @return
+     */
+    private JLabel getLabel(int x, int y, JLabel[][] grid){
+        JLabel label = null;
+        try{
+            label = grid[y][x];
+        } catch( IndexOutOfBoundsException e){
+            try{ throw new CoordinatesNotInBoundsException(x,y); }
+            catch(Exception exception){
+                ErrorHandler.catchError(this, exception, 4);
+            }
+        }
+        return label;
     }
 
 
@@ -76,6 +108,13 @@ public class FixedWindow extends GUI {
                 label.setIcon(null);
                 label.setBackground(color);
             }
+        }
+    }
+
+
+    public static class CoordinatesNotInBoundsException extends Exception{
+        public CoordinatesNotInBoundsException(int x, int y){
+            super("The coordinates ("+x+"/"+y+") are not in the bounds of the Grid!");
         }
     }
 }

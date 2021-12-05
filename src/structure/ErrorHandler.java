@@ -75,6 +75,8 @@ public class ErrorHandler {
                 return "Something interrupted the game process.";
             case(3):
                 return "The run process was suddenly interrupted";
+            case(4):
+                return "The gui doesn't support the input numbers";
             default:
                 return "An error occurred";
         }
