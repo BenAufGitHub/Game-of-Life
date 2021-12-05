@@ -7,9 +7,10 @@ import java.awt.Color;
 import java.awt.Image;
 
 public class GameOfLife extends Game {
-    private static Image circle = new ImageIcon("resources//black_circle.png").getImage();
-    private static Color tracked = Color.RED;
-    private static Blueprint live = new Blueprint(tracked, circle);
+    private final static Image circle = new ImageIcon("resources//black_circle.png").getImage();
+    private final static Color tracked = Color.RED;
+    private final static Blueprint live = new Blueprint(tracked, circle);
+    private final static Blueprint clear = new Blueprint(Color.GRAY, null);
 
     public GameOfLife(Output op) {
         super(op);
@@ -22,7 +23,9 @@ public class GameOfLife extends Game {
 
     @Override
     public void clicked(int x, int y) {
-        getOutput().showAction(x,y, live);
+        if(running())
+            return;
+        //TODO
     }
 
     @Override
