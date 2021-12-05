@@ -1,6 +1,5 @@
 package structure;
 
-import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Game {

@@ -1,8 +1,6 @@
 package structure;
 
-import structure.Game;
-
-import java.awt.*;
+import java.awt.Point;
 import java.util.HashSet;
 
 public class Selector {

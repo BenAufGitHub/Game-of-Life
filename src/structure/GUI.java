@@ -1,6 +1,7 @@
 package structure;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public abstract class GUI extends JFrame implements Output {
 
