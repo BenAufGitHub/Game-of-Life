@@ -1,10 +1,11 @@
 import structure.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.*;
+import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.util.HashMap;
 
 public class FixedWindow extends GUI {
@@ -61,9 +62,35 @@ public class FixedWindow extends GUI {
         return new Dimension(width, height);
     }
 
+    /**
+     * supports: STANDARD, BORDERLESS, BORDER
+     * does not support: SELECTED, UNSELECTED,
+     * @param x
+     * @param y
+     * @param action (STANDARD, BORDERLESS, BORDER, OPAQUE, NON_OPAQUE)
+     */
     @Override
     public void showAction(int x, int y, Action action) {
+        JLabel[][] grid = getGridPanel().getGrid();
 
+        JLabel label = getLabel(x, y, grid);
+
+        if(action == Action.STANDARD){
+            Color color = getSettings().getStandardGridColor();
+            label.setBackground(color);
+            label.setIcon(null);
+        }
+        if(action == Action.BORDERLESS){
+            label.setBorder(null);
+        }
+        if(action == Action.BORDER){
+            label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        }
+        if(action == Action.OPAQUE){
+            label.setOpaque(true);
+        }
+        if(action == Action.NON_OPAQUE)
+            label.setOpaque(false);
     }
 
     @Override
@@ -94,6 +121,7 @@ public class FixedWindow extends GUI {
 
     /**
      * private method in support for showAction, readability purposes, separated error handling
+     * if out of bounds, error gets redirected to ErrorHandler
      * @param x
      * @param y
      * @param grid
