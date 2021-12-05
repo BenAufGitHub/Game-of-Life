@@ -36,7 +36,7 @@ public abstract class GUI extends JFrame implements Output {
 
         Selector sl = new Selector(getGame());
         control = new ControlPanel();
-        grid = new GridPanel(x, y, settings.getStandardGridColor(), sl);
+        grid = new GridPanel(x, y, getSettings(), sl);
 
         control.add(run);
         control.add(act);

@@ -20,20 +20,21 @@ public class GridPanel extends JPanel implements MouseListener {
         return grid;
     }
 
-    public GridPanel(int horizontal, int vertical, Color color, Selector selector) {
+    public GridPanel(int horizontal, int vertical, Settings settings, Selector selector) {
         this.selector = selector;
         this.grid = new JLabel[vertical][horizontal];
         this.setLayout(new GridLayout(vertical, horizontal));
 
+        setOpaque(false);
         setPreferredSize(new Dimension(700,700));
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
         for(int y=0; y< vertical; y++){
             for(int x=0; x< horizontal; x++){
                 JLabel label = new JLabel();
-                label.setBackground(color);
+                label.setBackground(settings.getStandardGridColor());
                 label.setOpaque(true);
-                label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                if(!settings.isBorderless())
+                    label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
                 coordinates.put(label, new Point(x, y));
                 label.addMouseListener(this);

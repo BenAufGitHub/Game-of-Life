@@ -8,10 +8,18 @@ import java.awt.Color;
 public class Settings {
     private boolean changableColours;
     private Color standardColor;
+    private boolean borderless;
 
     public Settings(Color gridStandard, boolean changableColours){
         this.standardColor = gridStandard;
         this.changableColours = changableColours;
+        this.borderless = false;
+    }
+
+    public Settings(Color gridStandard, boolean changableColours, boolean borderless){
+        this.standardColor = gridStandard;
+        this.changableColours = changableColours;
+        this.borderless = borderless;
     }
 
     public boolean coloursChangable(){
@@ -21,4 +29,6 @@ public class Settings {
     public Color getStandardGridColor(){
         return standardColor;
     }
+
+    public boolean isBorderless(){ return borderless; }
 }
