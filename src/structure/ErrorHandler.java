@@ -17,7 +17,13 @@ public class ErrorHandler {
     only publicly callable message, disposes all other processes and informs user of an error
      */
     public static void catchError(GUI window, Exception e, int errorCode){
-        informUser(e, errorCode);
+        new Thread(() -> {
+            informUser(e, errorCode);
+        }).start();
+
+        if(window == null){
+            throw new RuntimeException();
+        }
         window.setVisible(false);
         window.dispose();
     }
@@ -74,11 +80,13 @@ public class ErrorHandler {
             case(2):
                 return "Something interrupted the game process.";
             case(3):
-                return "The run process was suddenly interrupted";
+                return "The run process was suddenly interrupted.";
             case(4):
-                return "The gui doesn't support the input numbers";
+                return "The gui doesn't support the input numbers.";
+            case(5):
+                return "Chosen Grid Dimensions too big.";
             default:
-                return "An error occurred";
+                return "An error occurred.";
         }
     }
 

@@ -20,6 +20,9 @@ public abstract class GUI extends JFrame implements Output {
 
 
     public GUI(int x, int y, Settings settings){
+        if(x > 200 || y> 200){
+            ErrorHandler.catchError(null, new DimensionsTooBigException(), 5);
+        }
         setSettings(settings);
         ButtonFactory factory = new ButtonFactory();
 
@@ -182,6 +185,12 @@ public abstract class GUI extends JFrame implements Output {
             run.setEnabled(true);
             act.setEnabled(true);
             stop.setEnabled(false);
+        }
+    }
+
+    private class DimensionsTooBigException extends Exception{
+        public DimensionsTooBigException(){
+            super("Either x or y extended the dimension limit of 200");
         }
     }
 }
