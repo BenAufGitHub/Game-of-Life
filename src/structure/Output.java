@@ -2,8 +2,13 @@ package structure;
 
 public interface Output {
 
+    /**
+     * those are some standard actions that may or may not be supported by implemented classes
+     * used in showAction()
+     * it helps to activate a state which may not be reproducible from the coherent game object, therefore, it can instead choose an Action
+     */
     enum Action {
-        DIE, LIVE, COLOR, UNCOLOR
+        STANDARD, SELECTED, UNSELECTED, BORDERLESS, BORDER, OPAQUE, NON_OPAQUE
     }
 
     /**
@@ -12,17 +17,21 @@ public interface Output {
      * @param y
      * @param action = DIE, LIVE, COLOR, UNCOLOR
      */
-    public abstract void showAction(int x, int y, Action action);
+    void showAction(int x, int y, Action action);
 
-    public abstract void showAction(int x, int y, Blueprint blueprint);
+    void showAction(int x, int y, Blueprint blueprint);
 
-    public abstract Blueprint getBlueprint(int x, int y);
+    Blueprint getBlueprint(int x, int y);
 
-    public abstract void clear();
+    void clear();
 
-    public abstract void setGame(Game game);
+    void setGame(Game game);
 
-    public abstract Game getGame();
+    Game getGame();
 
-    public void setSettings(Settings settings);
+    void setSettings(Settings settings);
+
+    int gridHeight();
+
+    int gridWidth();
 }

@@ -75,6 +75,15 @@ public abstract class GUI extends JFrame implements Output {
         return new Blueprint(label.getBackground(), icon.getImage());
     }
 
+
+    public final int gridHeight(){
+        return getGridPanel().getGrid().length;
+    }
+
+    public final int gridWidth(){
+        return getGridPanel().getGrid()[0].length;
+    }
+
     public final Game getGame(){ return game; }
 
     @Override
