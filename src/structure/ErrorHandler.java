@@ -84,7 +84,7 @@ public class ErrorHandler {
             case(4):
                 return "The gui doesn't support the input numbers.";
             case(5):
-                return "Chosen Grid Dimensions too big.";
+                return "World is too big.";
             default:
                 return "An error occurred.";
         }
