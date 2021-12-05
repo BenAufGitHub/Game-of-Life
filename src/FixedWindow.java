@@ -77,6 +77,10 @@ public class FixedWindow extends GUI {
             label.setBackground(color);
         }
         if(blueprint.iconChange){
+            if(blueprint.icon == null){
+                label.setIcon(null);
+                return;
+            }
             if(scaledImages.containsKey(blueprint.icon)){
                 label.setIcon(scaledImages.get(blueprint.icon));
                 return;
