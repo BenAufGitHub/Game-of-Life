@@ -24,6 +24,10 @@ public class Selector {
         }
     }
 
+    public void setGame(Game game){
+        this.game = game;
+    }
+
     public void setPreselection(HashSet<Point> selection){
         this.selection = selection;
     }

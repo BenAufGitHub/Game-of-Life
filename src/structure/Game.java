@@ -100,7 +100,7 @@ public abstract class Game {
 
     private final void setRunning(Boolean bool) {
         synchronized (noProcess){
-            noProcess = bool;
+            noProcess = !bool;
         }
     }
 

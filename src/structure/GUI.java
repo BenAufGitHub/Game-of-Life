@@ -34,12 +34,26 @@ public abstract class GUI extends JFrame implements Output {
         control.add(run);
         control.add(act);
         control.add(stop);
+
+        synchronized (this){
+            initEmptyGame();
+        }
+    }
+
+    protected void initEmptyGame(){
+        new Thread(()-> {
+            synchronized (this){
+                this.setGame(new EmptyGame(this));
+            }
+        }).start();
+
     }
 
 
     @Override
     public final void setGame(Game game){
         this.game = game;
+        getGridPanel().getSelector().setGame(game);
     }
 
     public final Game getGame(){ return game; }
@@ -55,7 +69,7 @@ public abstract class GUI extends JFrame implements Output {
         return control;
     }
 
-    protected final GridPanel getGrid(){ return grid; }
+    protected final GridPanel getGridPanel(){ return grid; }
 
 
 
@@ -71,6 +85,7 @@ public abstract class GUI extends JFrame implements Output {
             button.setFocusable(false);
             button.addActionListener( e -> {
                 Thread t = new Thread( () -> {
+                    if(game==null) {return;}
                     try {
                         deactivateButtons(Clicked.RUN);
                         game.run();
@@ -91,6 +106,7 @@ public abstract class GUI extends JFrame implements Output {
             button.setFocusable(false);
             button.addActionListener(e -> {
                 Thread t = new Thread( () -> {
+                    if(game==null) {return;}
                     deactivateButtons(Clicked.ACT);
                     game.requestAct();
                     buttonsToDefault();
@@ -103,10 +119,11 @@ public abstract class GUI extends JFrame implements Output {
 
         protected final JButton createStopButton(){
             JButton button = new JButton("stop");
-            stop.setEnabled(false);
+            button.setEnabled(false);
             button.setFocusable(false);
             button.addActionListener(e -> {
                 Thread t = new Thread( () -> {
+                    if(game==null) {return;}
                     deactivateButtons(Clicked.STOP);
                     game.stop();
                 });

@@ -19,12 +19,10 @@ public class GridPanel extends JPanel implements MouseListener {
         this.selector = selector;
         this.grid = new JLabel[vertical][horizontal];
         this.setLayout(new GridLayout(horizontal, vertical));
-        JPanel panel = new JPanel();
 
-        panel.setBackground(Color.GRAY);
-        panel.setPreferredSize(new Dimension(500,0));
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        panel.setLayout(new GridLayout(horizontal, vertical));
+        setPreferredSize(new Dimension(800,800));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        setLayout(new GridLayout(horizontal, vertical));
 
         for(int y=0; y< vertical; y++){
             for(int x=0; x< horizontal; x++){
@@ -32,10 +30,11 @@ public class GridPanel extends JPanel implements MouseListener {
                 label.setBackground(color);
                 label.setOpaque(true);
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
                 coordinates.put(label, new Point(x, y));
                 label.addMouseListener(this);
                 addToGrid(x, y, label);
-                panel.add(label);
+                this.add(label);
             }
         }
     }
@@ -43,6 +42,10 @@ public class GridPanel extends JPanel implements MouseListener {
     private void addToGrid(int x, int y, JLabel label){
         JLabel[][] grid = getGrid();
         grid[y][x] = label;
+    }
+
+    public Selector getSelector(){
+        return selector;
     }
 
 
