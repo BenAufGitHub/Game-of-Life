@@ -18,11 +18,10 @@ public class GridPanel extends JPanel implements MouseListener {
     public GridPanel(int horizontal, int vertical, Color color, Selector selector) {
         this.selector = selector;
         this.grid = new JLabel[vertical][horizontal];
-        this.setLayout(new GridLayout(horizontal, vertical));
+        this.setLayout(new GridLayout(vertical, horizontal));
 
         setPreferredSize(new Dimension(800,800));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        setLayout(new GridLayout(horizontal, vertical));
 
         for(int y=0; y< vertical; y++){
             for(int x=0; x< horizontal; x++){
