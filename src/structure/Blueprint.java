@@ -1,6 +1,5 @@
 package structure;
 
-import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Image;
 
@@ -10,9 +9,9 @@ public class Blueprint {
     public final Image icon;
     public final boolean iconChange;
 
-    public Blueprint(Color color, ImageIcon icon){
+    public Blueprint(Color color, Image icon){
         this.color = color;
-        this.icon = icon.getImage();
+        this.icon = icon;
         this.iconChange = true;
     }
 

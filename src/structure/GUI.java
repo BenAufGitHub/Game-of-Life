@@ -57,8 +57,9 @@ public abstract class GUI extends JFrame implements Output {
         getGridPanel().getSelector().setGame(game);
     }
 
-    public ImageIcon scaleImage(Image image){
-
+    public ImageIcon scaleImage(Image image, JLabel label){
+        Image scaled = image.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_DEFAULT);
+        return new ImageIcon(scaled);
     }
 
     public final Game getGame(){ return game; }
