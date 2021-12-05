@@ -1,7 +1,10 @@
 package structure;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.Image;
 
 public abstract class GUI extends JFrame implements Output {
 
@@ -60,6 +63,16 @@ public abstract class GUI extends JFrame implements Output {
     public ImageIcon scaleImage(Image image, JLabel label){
         Image scaled = image.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_DEFAULT);
         return new ImageIcon(scaled);
+    }
+
+    @Override
+    public Blueprint getBlueprint(int x, int y){
+        JLabel label = getGridPanel().getGrid()[y][x];
+        ImageIcon icon = (ImageIcon) label.getIcon();
+        if(icon == null){
+            return new Blueprint(label.getBackground(), null);
+        }
+        return new Blueprint(label.getBackground(), icon.getImage());
     }
 
     public final Game getGame(){ return game; }

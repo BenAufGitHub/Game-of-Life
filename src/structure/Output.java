@@ -16,6 +16,8 @@ public interface Output {
 
     public abstract void showAction(int x, int y, Blueprint blueprint);
 
+    public abstract Blueprint getBlueprint(int x, int y);
+
     public abstract void clear();
 
     public abstract void setGame(Game game);
