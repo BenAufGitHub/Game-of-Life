@@ -1,6 +1,7 @@
 public class Cell {
 
     private boolean alive = false;
+    private boolean tracked = false;
     private Cell[] neighbours;
     private int x;
     private int y;
@@ -41,5 +42,13 @@ public class Cell {
 
     public void setAlive(boolean alive){
         this.alive = alive;
+    }
+
+    public void setTracked(boolean bool){
+        tracked = bool;
+    }
+
+    public boolean getTracked(){
+        return tracked;
     }
 }
