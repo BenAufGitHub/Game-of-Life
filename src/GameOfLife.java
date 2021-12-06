@@ -28,7 +28,8 @@ public class GameOfLife extends Game {
 
     @Override
     public void reset() {
-
+        getCellTracker().setGrid(new Grid(getOutput().gridWidth(), getOutput().gridHeight()));
+        getOutput().clear();
     }
 
     @Override
