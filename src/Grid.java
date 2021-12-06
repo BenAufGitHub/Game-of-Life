@@ -83,7 +83,7 @@ public class Grid {
         for(int k=-1; k<2; k++){        //yDiff
             for(int l=-1; l<2; l++){           //xDiff
 
-                if(validNeighbour(x, y, l, k))      //in Bounds
+                if(!validNeighbour(x, y, l, k))      //in Bounds
                     continue;
                 street.add(getCell(l+x, k+y));
             }

@@ -50,6 +50,7 @@ public class CellTracker {
         if(cell.isAlive()){
             cell.setAlive(false);
             cleanReviewList();
+            latestAdditions.clear();
             return;
         }
         dump.clear();

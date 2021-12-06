@@ -3,6 +3,7 @@ import structure.*;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Image;
+import java.util.HashSet;
 
 public class GameOfLife extends Game {
     private final static Image circle = new ImageIcon("resources//black_circle.png").getImage();
@@ -23,7 +24,7 @@ public class GameOfLife extends Game {
             }
             throw new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!");
         }
-
+        this.cellTracker = new CellTracker(new Grid(x,y));
     }
 
     @Override
@@ -36,8 +37,16 @@ public class GameOfLife extends Game {
     public void clicked(int x, int y) {
         if(running())
             return;
-        //TODO
-
+        getCellTracker().clicked(x,y);
+        for(Cell c: getCellTracker().getLatestAdditions()){
+            if(c.isAlive())
+                getOutput().showAction(x,y, live);
+            else
+                getOutput().showAction(x,y, track);
+        }
+        for(Cell c : cellTracker.getLatestRemovals()){
+            getOutput().showAction(x,y, clear);
+        }
     }
 
     @Override
