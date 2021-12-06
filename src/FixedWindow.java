@@ -14,8 +14,9 @@ public class FixedWindow extends GUI {
     private HashMap<Image, ImageIcon> scaledImages = new HashMap<>();
 
     public static void main(String[] args){
-        GUI gui = new FixedWindow(10,10, new Settings(Color.GRAY, true));
-        new GameOfLife(gui);
+        Settings settings = new Settings(Color.GRAY, true, false);
+        GUI gui = new FixedWindow(12,10, settings);
+        Game game = new GameOfLife(gui, 12, 10);
     }
 
     public FixedWindow(int x, int y, Settings settings) {

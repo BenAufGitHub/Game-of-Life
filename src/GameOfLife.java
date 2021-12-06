@@ -1,6 +1,4 @@
-import structure.Blueprint;
-import structure.Game;
-import structure.Output;
+import structure.*;
 
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -11,9 +9,20 @@ public class GameOfLife extends Game {
     private final static Color tracked = Color.RED;
     private final static Blueprint live = new Blueprint(tracked, circle);
     private final static Blueprint clear = new Blueprint(Color.GRAY, null);
+    private final static Blueprint track = new Blueprint(Color.RED, null);
 
-    public GameOfLife(Output op) {
+
+    public GameOfLife(Output op, int x, int y) {
         super(op);
+        if(x > op.gridWidth() || y > op.gridHeight()){
+            if( op instanceof GUI){
+                new Thread( () -> {
+                    ErrorHandler.catchError((GUI) op, new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!"), 1);
+                }).start();
+            }
+            throw new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!");
+        }
+
     }
 
     @Override
@@ -26,6 +35,7 @@ public class GameOfLife extends Game {
         if(running())
             return;
         //TODO
+
     }
 
     @Override
