@@ -10,7 +10,7 @@ public class GameOfLife extends Game {
     private final static Color tracked = Color.RED;
     private final static Blueprint live = new Blueprint(tracked, circle);
     private final static Blueprint clear = new Blueprint(Color.GRAY, null);
-    private final static Blueprint track = new Blueprint(Color.RED, null);
+    private final static Blueprint track = new Blueprint(Color.RED);
 
     CellTracker cellTracker;
 
@@ -38,14 +38,20 @@ public class GameOfLife extends Game {
         if(running())
             return;
         getCellTracker().clicked(x,y);
-        for(Cell c: getCellTracker().getLatestAdditions()){
-            if(c.isAlive())
-                getOutput().showAction(x,y, live);
-            else
-                getOutput().showAction(x,y, track);
+        if(getCellTracker().getLatestAdditions().size() > 0){
+            getOutput().showAction(x,y, live);
+            for(Cell c: getCellTracker().getLatestAdditions()){
+                if(!c.isAlive())
+                    getOutput().showAction(c.getX(),c.getY(), track);
+            }
+            return;
         }
-        for(Cell c : cellTracker.getLatestRemovals()){
+        if(getCellTracker().getGrid().getCell(x,y).getTracked())
+            getOutput().showAction(x,y, new Blueprint(Color.RED, null));
+        else
             getOutput().showAction(x,y, clear);
+        for(Cell c : cellTracker.getLatestRemovals()){
+            getOutput().showAction(c.getX(),c.getY(), clear);
         }
     }
 
