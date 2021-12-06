@@ -27,6 +27,10 @@ public class Cell {
         this.neighbours = neighbours;
     }
 
+    public Cell[] getNeighbours() {
+        return neighbours;
+    }
+
     public int getY() {
         return y;
     }
