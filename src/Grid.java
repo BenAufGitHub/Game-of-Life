@@ -44,6 +44,9 @@ public class Grid {
         }
     }
 
+    public int getWidth(){ return width; }
+    public int getHeight(){ return height; }
+
 
 
     // ------------------------------- less relevant methods ------------------------------
