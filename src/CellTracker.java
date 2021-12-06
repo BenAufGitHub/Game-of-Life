@@ -108,6 +108,10 @@ public class CellTracker {
         revalidate();
     }
 
+    public Grid getGrid(){
+        return grid;
+    }
+
 
     /**
      * deletes all saved Cells and rescans Grid for tracking Cells
