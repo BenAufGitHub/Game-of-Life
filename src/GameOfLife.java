@@ -11,6 +11,7 @@ public class GameOfLife extends Game {
     private final static Blueprint clear = new Blueprint(Color.GRAY, null);
     private final static Blueprint track = new Blueprint(Color.RED, null);
 
+    CellTracker cellTracker;
 
     public GameOfLife(Output op, int x, int y) {
         super(op);
@@ -41,5 +42,18 @@ public class GameOfLife extends Game {
     @Override
     protected void act() {
 
+    }
+
+    public CellTracker getCellTracker(){
+        return cellTracker;
+    }
+
+
+    /**
+     * called with care,  since the celltracker tracks the files cells
+     * @param cellTracker
+     */
+    public void setCellTracker(CellTracker cellTracker){
+        this.cellTracker = cellTracker;
     }
 }
