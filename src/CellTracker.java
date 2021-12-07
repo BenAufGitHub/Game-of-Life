@@ -7,6 +7,7 @@ public class CellTracker {
     private HashSet<Cell> forChange = new HashSet();
     private HashSet<Cell> dump = new HashSet();
     private HashSet<Cell> latestAdditions = new HashSet();
+    private HashSet<Cell> newlyTracked = new HashSet();
 
     public CellTracker(Grid grid){
         this.grid = grid;
@@ -23,6 +24,8 @@ public class CellTracker {
 
 
     private void trackGridChanges(){
+        forChange.clear();
+        newlyTracked.clear();
         for(Cell cell: getReviewList()){
             int companions = cell.getCompany();
             if(cell.isAlive() && (companions<2 || companions>3))
@@ -30,6 +33,10 @@ public class CellTracker {
             if(!cell.isAlive() && companions == 3)
                 forChange.add(cell);
         }
+    }
+
+    public boolean latelyChanged(Cell cell){
+        return forChange.contains(cell) || newlyTracked.contains(cell);
     }
 
 
@@ -40,7 +47,6 @@ public class CellTracker {
             if(cell.isAlive())
                 track(cell.getNeighbours());
         }
-        forChange.clear();
         cleanReviewList();
     }
 
@@ -66,6 +72,8 @@ public class CellTracker {
             latestAdditions.add(cell);
             getReviewList().add(cell);
             cell.setTracked(true);
+            if(!getReviewList().contains(cell))
+                newlyTracked.add(cell);
         }
     }
 

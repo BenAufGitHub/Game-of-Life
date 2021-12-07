@@ -57,7 +57,17 @@ public class GameOfLife extends Game {
 
     @Override
     protected void act() {
-
+        getCellTracker().act();
+        for(Cell cell : getCellTracker().getLatestRemovals())
+            getOutput().showAction(cell.getX(),cell.getY(), clear);
+        for(Cell cell : getCellTracker().getReviewList()){
+            if(getCellTracker().latelyChanged(cell)){
+                if(cell.isAlive())
+                    getOutput().showAction(cell.getX(),cell.getY(), live);
+                else
+                    getOutput().showAction(cell.getX(),cell.getY(), track);
+            }
+        }
     }
 
     public CellTracker getCellTracker(){
