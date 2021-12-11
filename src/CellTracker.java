@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class CellTracker {
     private Grid grid;
     private HashSet<Cell> tracked = new HashSet();
     private HashSet<Cell> forChange = new HashSet();
-    private HashSet<Cell> dump = new HashSet();
-    private HashSet<Cell> latestAdditions = new HashSet();
-    private HashSet<Cell> newlyTracked = new HashSet();
+    private HashMap<Cell, String> log = new HashMap();
+    //private ArrayDeque<HashMap<Cell, String>> log = new ArrayDeque();
+
+    // "DELETE", "LIVE", "DIE", "NEW"
+    // TODO turn log into ArrQueue<HashSet<Cell, String> , game can then review and drop the latest changes
 
     public CellTracker(Grid grid){
         this.grid = grid;
@@ -25,7 +28,6 @@ public class CellTracker {
 
     private void trackGridChanges(){
         forChange.clear();
-        newlyTracked.clear();
         for(Cell cell: getReviewList()){
             int companions = cell.getCompany();
             if(cell.isAlive() && (companions<2 || companions>3))
@@ -56,24 +58,21 @@ public class CellTracker {
         if(cell.isAlive()){
             cell.setAlive(false);
             cleanReviewList();
-            latestAdditions.clear();
             return;
         }
-        dump.clear();
         cell.setAlive(true);
+        log.put(cell, "LIVE")
         track(cell);
         track(cell.getNeighbours());
-        latestAdditions.add(cell);
     }
 
     public void track(Cell... cells) {
-        latestAdditions.clear();
         for(Cell cell : cells){
-            latestAdditions.add(cell);
-            getReviewList().add(cell);
-            cell.setTracked(true);
-            if(!getReviewList().contains(cell))
-                newlyTracked.add(cell);
+            if(!getReviewList().contains(cell)){
+                getReviewList().add(cell);
+                cell.setTracked(true);
+                log.put(cell, "ADD");
+            }
         }
     }
 
@@ -91,7 +90,7 @@ public class CellTracker {
     }
 
     public void cleanReviewList(){
-        dump.clear();
+        HashSet<Cell> dump = new HashSet<>();
         for(Cell cell : getReviewList()){
             if(!cell.isAlive() && cell.getCompany() == 0)
                 dump.add(cell);
@@ -99,17 +98,10 @@ public class CellTracker {
         for(Cell cell : dump){
             getReviewList().remove(cell);
             cell.setTracked(false);
+            log.put(cell, "DELETE");
         }
     }
 
-
-    public HashSet<Cell> getLatestAdditions(){
-        return latestAdditions;
-    }
-
-    public HashSet<Cell> getLatestRemovals(){
-        return dump;
-    }
 
     public void setGrid(Grid grid){
         this.grid = grid;

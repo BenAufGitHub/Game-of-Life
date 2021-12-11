@@ -55,6 +55,7 @@ public class GameOfLife extends Game {
         }
     }
 
+
     @Override
     protected void act() {
         getCellTracker().act();
