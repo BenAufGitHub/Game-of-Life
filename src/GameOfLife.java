@@ -1,16 +1,18 @@
 import structure.*;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Image;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class GameOfLife extends Game {
     private final static Image circle = new ImageIcon("resources//black_circle.png").getImage();
     private final static Color tracked = Color.RED;
     private final static Blueprint live = new Blueprint(tracked, circle);
+    private final static Blueprint die  = new Blueprint(null, null);
     private final static Blueprint clear = new Blueprint(Color.GRAY, null);
-    private final static Blueprint track = new Blueprint(Color.RED);
+    private final static Blueprint track = new Blueprint(tracked);
 
     CellTracker cellTracker;
 
@@ -59,14 +61,14 @@ public class GameOfLife extends Game {
     @Override
     protected void act() {
         getCellTracker().act();
-        for(Cell cell : getCellTracker().getLatestRemovals())
-            getOutput().showAction(cell.getX(),cell.getY(), clear);
-        for(Cell cell : getCellTracker().getReviewList()){
-            if(getCellTracker().latelyChanged(cell)){
-                if(cell.isAlive())
-                    getOutput().showAction(cell.getX(),cell.getY(), live);
-                else
-                    getOutput().showAction(cell.getX(),cell.getY(), track);
+        HashMap<Cell, CellTracker.Update> log = getCellTracker().getUpdateLog();
+        for(Cell cell : log.keySet()) {
+            CellTracker.Update upd = log.get(cell);
+            switch(upd){
+                case NEW -> getOutput().showAction(cell.getX(),cell.getY(), track);
+                case DELETE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
+                case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
+                case DIE -> getOutput().showAction(cell.getX(),cell.getY(), die);
             }
         }
     }
