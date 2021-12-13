@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class Game {
     private Boolean stopping = Boolean.FALSE;
     private Boolean noProcess = Boolean.TRUE;
+    private boolean forceInterrupt = false;
     private int timeoutLength = 1000;
     private Output output;
 
@@ -19,10 +20,11 @@ public abstract class Game {
         if(ownProcessRequest() != true)
             return;
 
-        while(!stopRequest()){
+        while(!stopRequest() && !forceInterrupt){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
         }
+        forceInterrupt = false;
         setRunning(false);
     }
 
@@ -111,6 +113,16 @@ public abstract class Game {
             return (noProcess) ? false : true;
         }
     }
+
+
+    /**
+     * sub-classes can call this method if they want to interrupt the running-process on the next act
+     */
+    protected void stopRun(){
+        forceInterrupt = true;
+    }
+
+
 
     public void setTimeoutLength(int milliseconds) throws TimeSpanException {
         if(milliseconds < 300)

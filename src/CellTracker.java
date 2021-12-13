@@ -23,6 +23,7 @@ public class CellTracker {
      * called by game, once per game act
      */
     public void act(){
+        log = new HashMap<>();
         trackGridChanges();
         loadNext();
     }
@@ -62,6 +63,9 @@ public class CellTracker {
 
 
     public void clicked(int x, int y){
+        log = new HashMap<>();
+        if(y >= getGrid().getHeight() || x >= getGrid().getWidth())
+            return;
         Cell cell = grid.getCell(x,y);
         if(cell.isAlive()){
             cell.setAlive(false);

@@ -37,23 +37,16 @@ public class GameOfLife extends Game {
 
     @Override
     public void clicked(int x, int y) {
-        if(running())
-            return;
         getCellTracker().clicked(x,y);
-        if(getCellTracker().getLatestAdditions().size() > 0){
-            getOutput().showAction(x,y, live);
-            for(Cell c: getCellTracker().getLatestAdditions()){
-                if(!c.isAlive())
-                    getOutput().showAction(c.getX(),c.getY(), track);
+        HashMap<Cell, CellTracker.Update> log = getCellTracker().getUpdateLog();
+        for(Cell cell : log.keySet()) {
+            CellTracker.Update upd = log.get(cell);
+            switch(upd){
+                case NEW -> getOutput().showAction(cell.getX(),cell.getY(), track);
+                case DELETE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
+                case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
+                case DIE -> getOutput().showAction(cell.getX(),cell.getY(), die);
             }
-            return;
-        }
-        if(getCellTracker().getGrid().getCell(x,y).getTracked())
-            getOutput().showAction(x,y, new Blueprint(Color.RED, null));
-        else
-            getOutput().showAction(x,y, clear);
-        for(Cell c : cellTracker.getLatestRemovals()){
-            getOutput().showAction(c.getX(),c.getY(), clear);
         }
     }
 
@@ -71,6 +64,8 @@ public class GameOfLife extends Game {
                 case DIE -> getOutput().showAction(cell.getX(),cell.getY(), die);
             }
         }
+        if(log.isEmpty())
+            stopRun();
     }
 
     public CellTracker getCellTracker(){

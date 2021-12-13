@@ -15,8 +15,8 @@ public class FixedWindow extends GUI {
 
     public static void main(String[] args){
         Settings settings = new Settings(Color.GRAY, true, false);
-        GUI gui = new FixedWindow(12,10, settings);
-        Game game = new GameOfLife(gui, 12, 10);
+        GUI gui = new FixedWindow(40,40, settings);
+        Game game = new GameOfLife(gui, 40, 40);
     }
 
     public FixedWindow(int x, int y, Settings settings) {
