@@ -150,6 +150,11 @@ public class FixedWindow extends GUI {
         }
     }
 
+    @Override
+    public void refresh() {
+        revalidate();
+    }
+
 
     public static class CoordinatesNotInBoundsException extends Exception{
         public CoordinatesNotInBoundsException(int x, int y){

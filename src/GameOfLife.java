@@ -2,6 +2,7 @@ import structure.*;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class GameOfLife extends Game {
     private final static Blueprint live = new Blueprint(Color.WHITE, null);
@@ -48,14 +49,8 @@ public class GameOfLife extends Game {
     @Override
     public void clicked(int x, int y) {
         getCellTracker().clicked(x,y);
-        HashMap<Cell, CellTracker.Update> log = getCellTracker().getUpdateLog();
-        for(Cell cell : log.keySet()) {
-            CellTracker.Update upd = log.get(cell);
-            switch(upd){
-                case DELETE,DIE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
-                case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
-            }
-        }
+        while(!getCellTracker().getUpdateLog().isEmpty())
+            updateGUI(getCellTracker().getUpdateLog().pop());
     }
 
 
@@ -66,17 +61,29 @@ public class GameOfLife extends Game {
     @Override
     protected void act() {
         getCellTracker().act();
-        HashMap<Cell, CellTracker.Update> log = getCellTracker().getUpdateLog();
-        for(Cell cell : log.keySet()) {
-            CellTracker.Update upd = log.get(cell);
+        if(getCellTracker().getUpdateLog().peekFirst().isEmpty())
+            stopRun();
+        while(!getCellTracker().getUpdateLog().isEmpty())
+            updateGUI(getCellTracker().getUpdateLog().pop());
+    }
+
+
+    /**
+     * updates GUI with the given Update
+     * @param updates
+     */
+    public void updateGUI(HashMap<Cell, CellTracker.Update> updates){
+        for(Cell cell : updates.keySet()) {
+            CellTracker.Update upd = updates.get(cell);
             switch(upd){
                 case DELETE, DIE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
                 case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
             }
         }
-        if(log.isEmpty())
-            stopRun();
+        getOutput().refresh();
     }
+
+
 
     public CellTracker getCellTracker(){
         return cellTracker;
