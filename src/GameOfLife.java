@@ -9,8 +9,8 @@ import java.util.HashSet;
 public class GameOfLife extends Game {
     private final static Image circle = new ImageIcon("resources//black_circle.png").getImage();
     private final static Color tracked = Color.RED;
-    private final static Blueprint live = new Blueprint(tracked, circle);
-    private final static Blueprint die  = new Blueprint(null, null);
+    private final static Blueprint live = new Blueprint(Color.WHITE, null);
+    private final static Blueprint die  = new Blueprint(Color.RED, null);
     private final static Blueprint clear = new Blueprint(Color.GRAY, null);
     private final static Blueprint track = new Blueprint(tracked);
 
@@ -42,10 +42,8 @@ public class GameOfLife extends Game {
         for(Cell cell : log.keySet()) {
             CellTracker.Update upd = log.get(cell);
             switch(upd){
-                case NEW -> getOutput().showAction(cell.getX(),cell.getY(), track);
-                case DELETE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
+                case DELETE,DIE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
                 case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
-                case DIE -> getOutput().showAction(cell.getX(),cell.getY(), die);
             }
         }
     }
@@ -58,10 +56,8 @@ public class GameOfLife extends Game {
         for(Cell cell : log.keySet()) {
             CellTracker.Update upd = log.get(cell);
             switch(upd){
-                case NEW -> getOutput().showAction(cell.getX(),cell.getY(), track);
-                case DELETE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
+                case DELETE, DIE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
                 case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
-                case DIE -> getOutput().showAction(cell.getX(),cell.getY(), die);
             }
         }
         if(log.isEmpty())
