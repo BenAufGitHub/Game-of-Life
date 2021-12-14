@@ -34,4 +34,6 @@ public interface Output {
     int gridHeight();
 
     int gridWidth();
+
+    void refresh();
 }
