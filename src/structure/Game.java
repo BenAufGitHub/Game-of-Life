@@ -20,6 +20,7 @@ public abstract class Game {
         if(ownProcessRequest() != true)
             return;
 
+        forceInterrupt = false;
         while(!stopRequest() && !forceInterrupt){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
