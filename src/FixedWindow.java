@@ -76,22 +76,18 @@ public class FixedWindow extends GUI {
 
         JLabel label = getLabel(x, y, grid);
 
-        if(action == Action.STANDARD){
-            Color color = getSettings().getStandardGridColor();
-            label.setBackground(color);
-            label.setIcon(null);
+        switch(action){
+            case STANDARD -> {
+                Color color = getSettings().getStandardGridColor();
+                label.setBackground(color);
+                label.setIcon(null);
+            }
+            case BORDERLESS ->  label.setBorder(null);
+            case BORDER ->      label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            case OPAQUE ->      label.setOpaque(true);
+            case NON_OPAQUE ->  label.setOpaque(false);
+
         }
-        if(action == Action.BORDERLESS){
-            label.setBorder(null);
-        }
-        if(action == Action.BORDER){
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        }
-        if(action == Action.OPAQUE){
-            label.setOpaque(true);
-        }
-        if(action == Action.NON_OPAQUE)
-            label.setOpaque(false);
     }
 
     @Override
