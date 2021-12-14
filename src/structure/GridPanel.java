@@ -3,6 +3,7 @@ package structure;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -34,7 +35,7 @@ public class GridPanel extends JPanel implements MouseListener {
                 label.setBackground(settings.getStandardGridColor());
                 label.setOpaque(true);
                 if(!settings.isBorderless())
-                    label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                    label.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1, Color.BLACK));
 
                 coordinates.put(label, new Point(x, y));
                 label.addMouseListener(this);
