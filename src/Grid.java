@@ -79,20 +79,19 @@ public class Grid {
      * returns all existing Cell neighbours of a cell
      */
     private Cell[] getSurroundingCells(int x, int y){
-        ArrayList<Cell> street = new ArrayList<>();
+        Cell[] street = new Cell[8];
+        int address = 0;
         for(int k=-1; k<2; k++){        //yDiff
             for(int l=-1; l<2; l++){           //xDiff
-
-                if(!validNeighbour(x, y, l, k))      //in Bounds
+                if(l==0 && k==0)
                     continue;
-                street.add(getCell(l+x, k+y));
+                int x2 = Math.abs(l+x+getWidth())% getWidth();
+                int y2 = Math.abs(k+y+getHeight())% getHeight();
+                street[address] = getCell(x2, y2);
+                address++;
             }
-        }
-        Cell[] arr = new Cell[street.size()];
-        for(int k=0; k < street.size(); k++){          //packing into array
-            arr[k] = street.get(k);
-        }
 
-        return arr;
+        }
+        return street;
     }
 }

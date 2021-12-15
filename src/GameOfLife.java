@@ -48,6 +48,8 @@ public class GameOfLife extends Game {
      */
     @Override
     public void clicked(int x, int y) {
+        if(running())
+            return;
         getCellTracker().clicked(x,y);
         while(!getCellTracker().getUpdateLog().isEmpty())
             updateGUI(getCellTracker().getUpdateLog().pop());
@@ -56,7 +58,6 @@ public class GameOfLife extends Game {
 
     /**
     lets Celltracker update grid and log the changes, then outputs it to the Output
-     TODO update logging into a queue
      */
     @Override
     protected void act() {
