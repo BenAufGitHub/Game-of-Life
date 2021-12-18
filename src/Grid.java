@@ -62,11 +62,11 @@ public class Grid {
      * @param yDiff
      * @return
      */
-    private boolean validNeighbour(int row, int column, int xDiff, int yDiff){
+    private boolean validNeighbour(int column, int row, int xDiff, int yDiff){
         if(xDiff == 0 && yDiff == 0)
             return false;
-        int x = row + xDiff;
-        int y = column + yDiff;
+        int x = column + xDiff;
+        int y = row + yDiff;
 
         if( x >= width || x < 0)
             return false;
@@ -83,14 +83,10 @@ public class Grid {
         LinkedList<Cell> list = new LinkedList();
         for(int k=-1; k<2; k++){        //yDiff
             for(int l=-1; l<2; l++){           //xDiff
-                if(l==0 && k==0)
+                if(!validNeighbour(x, y, l, k))
                     continue;
                 int x2 = l+x;
                 int y2 = k+y;
-                if(x2 < 0 || x2>= getWidth())
-                    continue;
-                if(y2 < 0 || y2 >= getHeight())
-                    continue;
                 list.add(getCell(x2, y2));
             }
         }
