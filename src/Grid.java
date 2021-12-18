@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Grid {
     private Cell[][] grid;
@@ -79,19 +80,24 @@ public class Grid {
      * returns all existing Cell neighbours of a cell
      */
     private Cell[] getSurroundingCells(int x, int y){
-        Cell[] street = new Cell[8];
-        int address = 0;
+        LinkedList<Cell> list = new LinkedList();
         for(int k=-1; k<2; k++){        //yDiff
             for(int l=-1; l<2; l++){           //xDiff
                 if(l==0 && k==0)
                     continue;
-                int x2 = Math.abs(l+x+getWidth())% getWidth();
-                int y2 = Math.abs(k+y+getHeight())% getHeight();
-                street[address] = getCell(x2, y2);
-                address++;
+                int x2 = l+x;
+                int y2 = k+y;
+                if(x2 < 0 || x2>= getWidth())
+                    continue;
+                if(y2 < 0 || y2 >= getHeight())
+                    continue;
+                list.add(getCell(x2, y2));
             }
-
         }
+        int add = 0;
+        Cell[] street = new Cell[list.size()];
+        for(Cell c : list)
+            street[add++] = c;
         return street;
     }
 }

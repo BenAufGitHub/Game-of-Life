@@ -7,6 +7,7 @@ import java.util.HashSet;
 public class GameOfLife extends Game {
     private final static Blueprint live = new Blueprint(Color.WHITE, null);
     private final static Blueprint clear = new Blueprint(Color.GRAY, null);
+    private final static Blueprint track = new Blueprint(Color.RED, null);
 
     CellTracker cellTracker;
 
@@ -77,8 +78,9 @@ public class GameOfLife extends Game {
         for(Cell cell : updates.keySet()) {
             CellTracker.Update upd = updates.get(cell);
             switch(upd){
-                case DELETE, DIE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
+                case DELETE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
                 case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
+                case DIE, NEW -> getOutput().showAction(cell.getX(), cell.getY(), track);
             }
         }
         getOutput().refresh();
