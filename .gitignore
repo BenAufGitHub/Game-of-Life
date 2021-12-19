@@ -3,5 +3,6 @@
 /.idea
 /out
 /deprecated
-game of life.iml
+game_of_life.iml
 /src/queP
+/depr
