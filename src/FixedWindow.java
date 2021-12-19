@@ -15,7 +15,7 @@ public class FixedWindow extends GUI {
     private JButton clear = new JButton("clear");
 
     public static void main(String[] args){
-        Settings settings = new Settings(Color.GRAY, true, true);
+        Settings settings = new Settings(Color.GRAY, true, false);
         GUI gui = new FixedWindow(40,40, settings);
         Game game = new GameOfLife(gui, 40, 40);
     }
