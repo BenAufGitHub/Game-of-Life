@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.*;
 import java.util.HashMap;
 
 public class FixedWindow extends GUI {
@@ -26,6 +27,7 @@ public class FixedWindow extends GUI {
         JPanel control = getControlPanel();
         JPanel grid = getGridPanel();
         JPanel gridWrapper = new JPanel();
+        JTextField speedPrompt = new Prompt("Speed %");
 
         this.setLayout(new BorderLayout(10,0));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +43,8 @@ public class FixedWindow extends GUI {
         grid.setSize(d.width, d.height);
         gridWrapper.add(grid);
 
-        clear.setBounds(130, 320, 70, 30);
+        speedPrompt.setLocation(130, 320);
+        clear.setBounds(130, 370, 70, 30);
         clear.setFocusable(false);
         clear.addActionListener( e -> {
             if(getGame().running())
@@ -50,6 +53,7 @@ public class FixedWindow extends GUI {
             this.clear();
         });
         control.add(clear);
+        control.add(speedPrompt);
 
         this.add(control, BorderLayout.EAST);
         this.add(gridWrapper, BorderLayout.WEST);
@@ -170,6 +174,61 @@ public class FixedWindow extends GUI {
     public static class CoordinatesNotInBoundsException extends Exception{
         public CoordinatesNotInBoundsException(int x, int y){
             super("The coordinates ("+x+"/"+y+") are not in the bounds of the Grid!");
+        }
+    }
+
+    class Prompt extends JTextField implements ActionListener, FocusListener, MouseListener {
+        private String predeterminedText;
+
+        public Prompt(String text){
+            this.predeterminedText = text;
+            this.setSize(100,30);
+            this.setBorder(null);
+            this.setEditable(false);
+            this.addActionListener(this);
+            this.addFocusListener(this);
+            this.addMouseListener(this);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println(this.getText());
+            this.setEditable(false);
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            this.setText("");
+            this.setForeground(Color.BLACK);
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            this.setEditable(true);
+            synchronized (this){
+
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+            synchronized (this){
+                this.setEditable(false);
+                this.setForeground(Color.GRAY);
+                this.setText(predeterminedText);
+            }
         }
     }
 }
