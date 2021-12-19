@@ -12,6 +12,7 @@ public class FixedWindow extends GUI {
     private final int WIDTH = 1100;
     private final int HEIGHT = 800;
     private HashMap<Image, ImageIcon> scaledImages = new HashMap<>();
+    private JButton clear = new JButton("clear");
 
     public static void main(String[] args){
         Settings settings = new Settings(Color.GRAY, true, false);
@@ -39,6 +40,16 @@ public class FixedWindow extends GUI {
         Dimension d = getProperGridScale(x,y);
         grid.setSize(d.width, d.height);
         gridWrapper.add(grid);
+
+        clear.setBounds(130, 320, 70, 30);
+        clear.setFocusable(false);
+        clear.addActionListener( e -> {
+            if(getGame().running())
+                return;
+            getGame().reset();
+            this.clear();
+        });
+        control.add(clear);
 
         this.add(control, BorderLayout.EAST);
         this.add(gridWrapper, BorderLayout.WEST);

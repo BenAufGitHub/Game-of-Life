@@ -135,6 +135,7 @@ public class CellTracker {
      * deletes all saved Cells and rescans Grid for tracking Cells
      */
     public void revalidate(){
+        log.add(new HashMap<>());
         for(Cell cell : getReviewList())
             log.peekLast().put(cell, Update.DELETE);
         getReviewList().clear();
