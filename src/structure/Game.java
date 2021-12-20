@@ -126,7 +126,7 @@ public abstract class Game {
 
 
     public void setTimeoutLength(int milliseconds) throws TimeSpanException {
-        if(milliseconds < 300)
+        if(milliseconds < 30)
             throw new TimeSpanException(milliseconds, "too small");
         if(milliseconds > 12000)
             throw new TimeSpanException(milliseconds, "too big");
