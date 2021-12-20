@@ -36,7 +36,9 @@ public class GameOfLife extends Game {
      */
     @Override
     public void reset() {
-        getCellTracker().setGrid(new Grid(getOutput().gridWidth(), getOutput().gridHeight()));
+        int x = getCellTracker().getGrid().getWidth();
+        int y = getCellTracker().getGrid().getHeight();
+        getCellTracker().setGrid(new Grid(x,y));
         getOutput().clear();
         getCellTracker().getUpdateLog().clear();
     }
