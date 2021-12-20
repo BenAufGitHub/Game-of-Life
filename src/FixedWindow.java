@@ -223,17 +223,14 @@ public class FixedWindow extends GUI {
 
 
         public ChoiceButton(String[] choices, ChoiceListener listener){
-            this.choices = (choices != null) ? choices : new String[0];
+            String[] empty = {"---"};
+            this.choices = (choices != null) ? choices : empty;
             this.listener = listener;
             this.choice = 0;
 
             this.addActionListener(e -> next());
 
-            if(choices == null){
-                this.setText("---");
-                return;
-            }
-            this.setText(choices[0]);
+            this.setText(this.choices[0]);
         }
 
 
