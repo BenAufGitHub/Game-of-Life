@@ -7,7 +7,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.*;
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class FixedWindow extends GUI {
     private final int WIDTH = 1100;
@@ -27,7 +29,7 @@ public class FixedWindow extends GUI {
         JPanel control = getControlPanel();
         JPanel grid = getGridPanel();
         JPanel gridWrapper = new JPanel();
-        JTextField speedPrompt = new Prompt("Speed %");
+        JButton choiceButton = Factory.createSpeedButton(this);
 
         this.setLayout(new BorderLayout(10,0));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,8 +45,10 @@ public class FixedWindow extends GUI {
         grid.setSize(d.width, d.height);
         gridWrapper.add(grid);
 
-        speedPrompt.setLocation(130, 320);
-        clear.setBounds(130, 370, 70, 30);
+        choiceButton.setBounds(100, 350, 100, 30);
+        choiceButton.setFocusable(false);
+
+        clear.setBounds(130, 400, 70, 30);
         clear.setFocusable(false);
         clear.addActionListener( e -> {
             if(getGame().running())
@@ -53,7 +57,7 @@ public class FixedWindow extends GUI {
             this.clear();
         });
         control.add(clear);
-        control.add(speedPrompt);
+        control.add(choiceButton);
 
         this.add(control, BorderLayout.EAST);
         this.add(gridWrapper, BorderLayout.WEST);
@@ -177,58 +181,62 @@ public class FixedWindow extends GUI {
         }
     }
 
-    class Prompt extends JTextField implements ActionListener, FocusListener, MouseListener {
-        private String predeterminedText;
+    /**
+     * pass a String array: by every click, the button changes text to next item + performs action for it
+     */
+    static class ChoiceButton extends JButton{
+        ChoiceListener listener;
+        private boolean isStatic;
+        private String[] choices;
+        private int choice;
 
-        public Prompt(String text){
-            this.predeterminedText = text;
-            this.setSize(100,30);
-            this.setBorder(null);
-            this.setEditable(false);
-            this.addActionListener(this);
-            this.addFocusListener(this);
-            this.addMouseListener(this);
-        }
+        public ChoiceButton(String[] choices, ChoiceListener listener){
+            this.choices = choices;
+            this.listener = listener;
+            this.isStatic = false;
+            this.choice = 0;
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println(this.getText());
-            this.setEditable(false);
-        }
+            this.addActionListener(e -> next());
 
-        @Override
-        public void focusGained(FocusEvent e) {
-            this.setText("");
-            this.setForeground(Color.BLACK);
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            this.setEditable(true);
-            synchronized (this){
-
+            if(choices == null){
+                isStatic = true;
+                this.setText("---");
+                return;
             }
+            if(choices.length == 1)
+                isStatic = true;
+            this.setText(choices[0]);
         }
 
-        @Override
-        public void mousePressed(MouseEvent e) {}
-        @Override
-        public void mouseReleased(MouseEvent e) {}
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-            synchronized (this){
-                this.setEditable(false);
-                this.setForeground(Color.GRAY);
-                this.setText(predeterminedText);
+        public void next(){
+            if(isStatic)
+                return;
+            if((++choice)==choices.length){
+                choice = 0;
             }
+            setText(choices[choice]);
+            listener.perform(choices[choice]);
+        }
+    }
+
+    interface ChoiceListener{
+        void perform(String s);
+    }
+
+    class Factory {
+        public static JButton createSpeedButton(GUI window){
+            String[] choices = {"Slow", "Normal", "Fast"};
+            return new FixedWindow.ChoiceButton(choices, s -> {
+                Game game = window.getGame();
+                try {
+                    switch (s) {
+                        case "Normal", "Fast" -> game.setTimeoutLength(game.getTimeoutLength() - 450);
+                        case "Slow" -> game.setTimeoutLength(game.getTimeoutLength() + 900);
+                    }
+                } catch(TimeSpanException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 }
