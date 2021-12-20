@@ -50,7 +50,8 @@ public class GameOfLife extends Game {
      */
     @Override
     public void clicked(int x, int y) {
-        if(running())
+        //if running or exceeding x or y bounds -> return
+        if(running() || x >= getCellTracker().getGrid().getWidth() || y >= getCellTracker().getGrid().getHeight())
             return;
         getCellTracker().clicked(x,y);
         while(!getCellTracker().getUpdateLog().isEmpty())
