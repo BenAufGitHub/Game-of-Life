@@ -1,15 +1,22 @@
-import structure.*;
+import structure.Blueprint;
+import structure.ErrorHandler;
+import structure.GUI;
+import structure.Game;
+import structure.Settings;
+import structure.TimeSpanException;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.*;
-import java.nio.channels.FileChannel;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class FixedWindow extends GUI {
     private final int WIDTH = 1100;
@@ -66,6 +73,12 @@ public class FixedWindow extends GUI {
     }
 
 
+    /**
+     * in order to place Images into Cells aka JLabels of the grid, they here need to be adjusted to the right space
+     * @param x
+     * @param y
+     * @return
+     */
     private Dimension getProperGridScale(int x, int y){
         JPanel panel = getGridPanel();
         Dimension d = panel.getPreferredSize();
@@ -82,11 +95,10 @@ public class FixedWindow extends GUI {
         return new Dimension(width, height);
     }
 
+
     /**
      * supports: STANDARD, BORDERLESS, BORDER
      * does not support: SELECTED, UNSELECTED,
-     * @param x
-     * @param y
      * @param action (STANDARD, BORDERLESS, BORDER, OPAQUE, NON_OPAQUE)
      */
     @Override
@@ -108,6 +120,7 @@ public class FixedWindow extends GUI {
 
         }
     }
+
 
     @Override
     public void showAction(int x, int y, Blueprint blueprint) {
@@ -138,10 +151,6 @@ public class FixedWindow extends GUI {
     /**
      * private method in support for showAction, readability purposes, separated error handling
      * if out of bounds, error gets redirected to ErrorHandler
-     * @param x
-     * @param y
-     * @param grid
-     * @return
      */
     private JLabel getLabel(int x, int y, JLabel[][] grid){
         JLabel label = null;
@@ -175,45 +184,61 @@ public class FixedWindow extends GUI {
     }
 
 
+    //---------------------------- nested classes --------------------------------------------
+
+
     public static class CoordinatesNotInBoundsException extends Exception{
         public CoordinatesNotInBoundsException(int x, int y){
             super("The coordinates ("+x+"/"+y+") are not in the bounds of the Grid!");
         }
     }
 
+
     /**
      * pass a String array: by every click, the button changes text to next item + performs action for it
+     * params:
+     * choices: whatever gets put as an option for the button
+     * listener: (func. interface: ChoiceButton.ChoiceListener)
+     *      '-> when clicked, selected choice will be param for listener.perform(String)
      */
     static class ChoiceButton extends JButton{
+
+
+        /**
+         * can be applied when multiple when a ChoiceButton/program can have multiple,
+         * but not simultaneous, states that can be switched.
+         */
         private interface ChoiceListener{
+            /**
+             * should ideally be called only from choice listener
+             * @param s -> the state the program/ChoiceButton is being changed to
+             */
             void perform(String s);
         }
 
+
         ChoiceListener listener;
-        private boolean isStatic;
         private String[] choices;
         private int choice;
 
+
         public ChoiceButton(String[] choices, ChoiceListener listener){
-            this.choices = choices;
+            this.choices = (choices != null) ? choices : new String[0];
             this.listener = listener;
-            this.isStatic = false;
             this.choice = 0;
 
             this.addActionListener(e -> next());
 
             if(choices == null){
-                isStatic = true;
                 this.setText("---");
                 return;
             }
-            if(choices.length == 1)
-                isStatic = true;
             this.setText(choices[0]);
         }
 
+
         public void next(){
-            if(isStatic)
+            if(choices.length < 2)
                 return;
             if((++choice)==choices.length){
                 choice = 0;
@@ -223,13 +248,21 @@ public class FixedWindow extends GUI {
         }
     }
 
+
     class Factory {
+
+        /**
+         * on click - changes behaviour from slow -> normal -> fast game.
+         * creates Specific Button, that changes game breaks from 1000 ms -> 550 ms -> 100 ms -> 1000 ms and so on ...
+         * @param window
+         * @return
+         */
         public static JButton createSpeedButton(GUI window){
             String[] choices = {"Slow", "Normal", "Fast"};
-            return new FixedWindow.ChoiceButton(choices, s -> {
+            return new FixedWindow.ChoiceButton(choices, text -> {
                 Game game = window.getGame();
                 try {
-                    switch (s) {
+                    switch (text) {
                         case "Normal", "Fast" -> game.setTimeoutLength(game.getTimeoutLength() - 450);
                         case "Slow" -> game.setTimeoutLength(game.getTimeoutLength() + 900);
                     }
@@ -238,5 +271,7 @@ public class FixedWindow extends GUI {
                 }
             });
         }
+
+
     }
 }
