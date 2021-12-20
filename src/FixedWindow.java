@@ -185,6 +185,10 @@ public class FixedWindow extends GUI {
      * pass a String array: by every click, the button changes text to next item + performs action for it
      */
     static class ChoiceButton extends JButton{
+        private interface ChoiceListener{
+            void perform(String s);
+        }
+
         ChoiceListener listener;
         private boolean isStatic;
         private String[] choices;
@@ -217,10 +221,6 @@ public class FixedWindow extends GUI {
             setText(choices[choice]);
             listener.perform(choices[choice]);
         }
-    }
-
-    interface ChoiceListener{
-        void perform(String s);
     }
 
     class Factory {
