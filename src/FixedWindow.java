@@ -37,13 +37,12 @@ public class FixedWindow extends GUI {
         JPanel control = getControlPanel();
         JPanel grid = getGridPanel();
         JPanel gridWrapper = new JPanel();
-        JButton choiceButton = Factory.createSpeedButton(this);
 
         this.setLayout(new BorderLayout(10,0));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        setBounds(0,0, WIDTH,  HEIGHT);
-        setTitle("start.structure.Game of Life");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.setBounds(0,0, WIDTH,  HEIGHT);
+        this.setTitle("start.structure.Game of Life");
 
         gridWrapper.setPreferredSize(new Dimension(800,0));
         gridWrapper.setBackground(Color.LIGHT_GRAY);
@@ -53,24 +52,8 @@ public class FixedWindow extends GUI {
         grid.setSize(d.width, d.height);
         gridWrapper.add(grid);
 
-        choiceButton.setBounds(100, 350, 100, 30);
-        choiceButton.setFocusable(false);
-
-        clear.setBounds(130, 400, 70, 30);
-        clear.setFocusable(false);
-        clear.addActionListener( e -> {
-            if(getGame().running())
-                return;
-            getGame().reset();
-            this.clear();
-        });
-        control.add(clear);
-        control.add(choiceButton);
-
         this.add(control, BorderLayout.EAST);
         this.add(gridWrapper, BorderLayout.WEST);
-
-        this.setVisible(true);
     }
 
 
@@ -194,31 +177,4 @@ public class FixedWindow extends GUI {
         }
     }
 
-
-
-    class Factory {
-
-        /**
-         * on click - changes behaviour from slow -> normal -> fast game.
-         * creates Specific Button, that changes game breaks from 1000 ms -> 550 ms -> 100 ms -> 1000 ms and so on ...
-         * @param window
-         * @return
-         */
-        public static JButton createSpeedButton(GUI window){
-            String[] choices = {"Slow", "Normal", "Fast"};
-            return new ChoiceButton(choices, text -> {
-                Game game = window.getGame();
-                try {
-                    switch (text) {
-                        case "Normal", "Fast" -> game.setTimeoutLength(game.getTimeoutLength() - 450);
-                        case "Slow" -> game.setTimeoutLength(game.getTimeoutLength() + 900);
-                    }
-                } catch(TimeSpanException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-
-
-    }
 }
