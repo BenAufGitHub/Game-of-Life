@@ -11,8 +11,7 @@ y: 3
  */
 
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,15 +20,16 @@ import java.util.List;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class SaveWriter {
-    public static void main(String[] args){
-        Point[] arr = new Point[2];
-        arr[0] = new Point(2,5);
-        arr[1] = new Point(1,0);
-        SaveWriter.save("Marianne", arr);
-    }
+public class SaveManager {
 
+    /**
+     *
+     * @param filename that you want to name your save: without paths, without ".txt" endings etc.
+     * @param points all coordinates that should be saved as active cells
+     */
     public static void save(String filename, Point[] points){
+        if(points == null || points.length <2)
+            return;
         filename = format(filename);
         if(filename.length() < 4)
             filename += "xx" + filename;
@@ -42,8 +42,34 @@ public class SaveWriter {
         write(filename, lines);
     }
 
-    public static Point[] get(String relativePath){
-        return new Point[0];
+
+    /**
+     *
+     * @param name -> Filename of SaveData, all Saves should be placed into the resources folder in order to load them
+     *             with this message.
+     * @return awt.Point Array with all the active cells
+     * @throws IOException
+     */
+    public static Point[] get(String name) throws IOException {
+        ArrayList<Point> points = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader("resources/"+name));
+        try {
+            String x = br.readLine();
+            String y = br.readLine();
+            while (x != null && y != null && !x.trim().isEmpty()) {
+                int h = Integer.parseInt(x.substring(3));
+                int v = Integer.parseInt(y.substring(3));
+                points.add(new Point(h, v));
+                x = br.readLine();
+                y = br.readLine();
+            }
+        } finally { br.close(); }
+
+        Point[] array = new Point[points.size()];
+        for(int i=0; i<points.size(); i++)
+            array[i] = points.get(i);
+
+        return array;
     }
 
 
@@ -62,7 +88,7 @@ public class SaveWriter {
      * @param unformated
      * @return
      */
-    public static String format(String unformated){
+    private static String format(String unformated){
         String result = unformated.trim();
         int ind = result.indexOf(".");
         while(ind != -1){String front = result.substring(0,ind);
