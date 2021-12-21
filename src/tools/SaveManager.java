@@ -1,15 +1,5 @@
 package tools;
 
-/*
-textfiles are provisionally structured as the following:
-Point(1,2) , Point(5,3)
-
-x: 1
-y: 2
-x: 5
-y: 3
- */
-
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -20,7 +10,18 @@ import java.util.List;
 import java.awt.Point;
 import java.util.ArrayList;
 
+
+/**
+ text files are provisionally structured as the following:
+ Point(1,2) , Point(5,3)
+
+ x: 1
+ y: 2
+ x: 5
+ y: 3
+ */
 public class SaveManager {
+
 
     /**
      *
@@ -52,7 +53,7 @@ public class SaveManager {
      */
     public static Point[] get(String name) throws IOException {
         ArrayList<Point> points = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader("resources/"+name));
+        BufferedReader br = new BufferedReader(new FileReader("resources/saves/"+name));
         try {
             String x = br.readLine();
             String y = br.readLine();
@@ -96,6 +97,6 @@ public class SaveManager {
             result = front + end;
             ind = result.indexOf(".");
         }
-        return "./resources/"+ result + ".txt";
+        return "./resources/saves/"+ result + ".txt";
     }
 }
