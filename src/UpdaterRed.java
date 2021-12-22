@@ -1,17 +1,17 @@
 import structure.Output;
 
-public class UpdaterRed extends Updater{
+public class UpdaterRed extends UpdaterGOL{
 
     public UpdaterRed(Output out) {
         super(out);
     }
 
     @Override
-    public void update(Cell cell, CellTracker.Update upd) {
+    public void update(int x, int y, Updates upd) {
         switch(upd){
-            case DELETE -> getOut().showAction(cell.getX(),cell.getY(), GRAY);
-            case LIVE -> getOut().showAction(cell.getX(),cell.getY(), WHITE);
-            case DIE, NEW -> getOut().showAction(cell.getX(), cell.getY(), RED);
+            case DELETE -> update(x,y, GRAY);
+            case LIVE -> update(x,y, WHITE);
+            case DIE, NEW -> update(x,y, RED);
         }
     }
 }

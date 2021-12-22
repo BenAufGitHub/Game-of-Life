@@ -7,12 +7,8 @@ public class CellTracker {
     private Grid grid;
     private HashSet<Cell> tracked = new HashSet();
     private HashSet<Cell> forChange = new HashSet();
-    private ArrayDeque<HashMap<Cell, Update>> log = new ArrayDeque();
+    private ArrayDeque<HashMap<Cell, Updates>> log = new ArrayDeque();
 
-    enum Update {
-        DELETE, LIVE, DIE, NEW
-    }
-    // TODO turn log into ArrQueue<HashMap<Cell, Update> , game can then review and drop the latest changes
 
     public CellTracker(Grid grid){
         this.grid = grid;
@@ -51,10 +47,10 @@ public class CellTracker {
 
             if(cell.isAlive()){
                 track(cell.getNeighbours());
-                log.getLast().put(cell, Update.LIVE);
+                log.getLast().put(cell, Updates.LIVE);
             }
             else {
-                log.getLast().put(cell, Update.DIE);
+                log.getLast().put(cell, Updates.DIE);
             }
 
         }
@@ -69,13 +65,13 @@ public class CellTracker {
         Cell cell = grid.getCell(x,y);
         if(cell.isAlive()){
             cell.setAlive(false);
-            log.getLast().put(cell, Update.DIE);
+            log.getLast().put(cell, Updates.DIE);
             cleanReviewList();
             return;
         }
         cell.setAlive(true);
         track(cell);
-        log.getLast().put(cell, Update.LIVE);
+        log.getLast().put(cell, Updates.LIVE);
         track(cell.getNeighbours());
     }
 
@@ -84,7 +80,7 @@ public class CellTracker {
             if(!getReviewList().contains(cell)){
                 getReviewList().add(cell);
                 cell.setTracked(true);
-                log.getLast().put(cell, Update.NEW);
+                log.getLast().put(cell, Updates.NEW);
             }
         }
     }
@@ -111,12 +107,12 @@ public class CellTracker {
         for(Cell cell : dump){
             getReviewList().remove(cell);
             cell.setTracked(false);
-            log.getLast().put(cell, Update.DELETE);
+            log.getLast().put(cell, Updates.DELETE);
         }
     }
 
 
-    public ArrayDeque<HashMap<Cell, Update>> getUpdateLog(){
+    public ArrayDeque<HashMap<Cell, Updates>> getUpdateLog(){
         return log;
     }
 
@@ -137,21 +133,21 @@ public class CellTracker {
     public void revalidate(){
         log.add(new HashMap<>());
         for(Cell cell : getReviewList())
-            log.peekLast().put(cell, Update.DELETE);
+            log.peekLast().put(cell, Updates.DELETE);
         getReviewList().clear();
         for(int x=0; x< grid.getWidth(); x++){
             for(int y=0; y< grid.getHeight(); y++){
                 Cell cell = grid.getCell(x, y);
                 if(cell.isAlive() || cell.getCompany() > 0){
                     getReviewList().add(cell);
-                    log.peekLast().put(cell, Update.NEW);
+                    log.peekLast().put(cell, Updates.NEW);
                 }
             }
         }
         log.add(new HashMap<>());
         for(Cell cell : getReviewList()){
             if(cell.isAlive())
-                log.getLast().put(cell, Update.LIVE);
+                log.getLast().put(cell, Updates.LIVE);
         }
     }
 

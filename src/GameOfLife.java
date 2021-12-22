@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class GameOfLife extends Game {
 
     CellTracker cellTracker;
-    Updater updater;
+    UpdaterGOL updater;
 
     /**
      * the coordinates need to be in bounds of output grid, else the Error-Handler takes over
@@ -91,9 +91,9 @@ public class GameOfLife extends Game {
      * updates GUI with the given Update
      * @param updates
      */
-    public void updateGUI(HashMap<Cell, CellTracker.Update> updates){
+    public void updateGUI(HashMap<Cell, Updates> updates){
         for(Cell cell : updates.keySet()) {
-            updater.update(cell, updates.get(cell));
+            updater.update(cell.getX(), cell.getY(), updates.get(cell));
         }
         getOutput().refresh();
     }
@@ -112,7 +112,7 @@ public class GameOfLife extends Game {
         this.cellTracker = cellTracker;
     }
 
-    public void setUpdater(Updater updater){
+    public void setUpdater(UpdaterGOL updater){
         this.updater = updater;
     }
 }
