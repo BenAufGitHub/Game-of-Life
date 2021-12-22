@@ -42,18 +42,7 @@ public abstract class GUI extends JFrame implements Output {
         control.add(act);
         control.add(stop);
 
-        synchronized (this){
-            initEmptyGame();
-        }
-    }
-
-    protected void initEmptyGame(){
-        new Thread(()-> {
-            synchronized (this){
-                this.setGame(new EmptyGame(this));
-            }
-        }).start();
-
+        this.setGame(new EmptyGame(this));
     }
 
 
