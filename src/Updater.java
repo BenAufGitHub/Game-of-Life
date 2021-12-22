@@ -13,7 +13,7 @@ public abstract class Updater {
         this.out = out;
     }
 
-    public Output getGUI(){
+    public Output getOut(){
         return out;
     }
 
