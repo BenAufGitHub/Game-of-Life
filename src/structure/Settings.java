@@ -6,9 +6,9 @@ import java.awt.Color;
     possible extensions with: color, size of window
  */
 public class Settings {
-    private boolean changableColours;
-    private Color standardColor;
-    private boolean borderless;
+    private final boolean changableColours;
+    private final Color standardColor;
+    private final boolean borderless;
 
     public Settings(Color gridStandard, boolean changableColours){
         this.standardColor = gridStandard;
