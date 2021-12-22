@@ -1,10 +1,9 @@
+package worlds;
+
 import structure.Blueprint;
 import structure.ErrorHandler;
 import structure.GUI;
-import structure.Game;
 import structure.Settings;
-import structure.TimeSpanException;
-import tools.ChoiceButton;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -23,14 +22,7 @@ public class FixedWindow extends GUI {
     private final int WIDTH = 1100;
     private final int HEIGHT = 800;
     private HashMap<Image, ImageIcon> scaledImages = new HashMap<>();
-    private JButton clear = new JButton("clear");
 
-    public static void main(String[] args){
-        Settings settings = new Settings(Color.GRAY, true, false);
-        GUI gui = new ExtendedFixedWindow(40,40, settings);
-        Game game = new GameOfLife(gui, 40, 40);
-        gui.setVisible(true);
-    }
 
     public FixedWindow(int x, int y, Settings settings) {
         super(x, y, settings);
@@ -174,7 +166,7 @@ public class FixedWindow extends GUI {
 
     public static class CoordinatesNotInBoundsException extends Exception{
         public CoordinatesNotInBoundsException(int x, int y){
-            super("The coordinates ("+x+"/"+y+") are not in the bounds of the Grid!");
+            super("The coordinates ("+x+"/"+y+") are not in the bounds of the extension.Grid!");
         }
     }
 

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package gol_extension;
 
 public class Grid {
     private Cell[][] grid;
@@ -76,7 +76,7 @@ public class Grid {
 
 
     /**
-     * returns all existing Cell neighbours of a cell
+     * returns all existing extension.Cell neighbours of a cell
      */
     private Cell[] getSurroundingCells(int x, int y){
         Cell[] street = new Cell[8];

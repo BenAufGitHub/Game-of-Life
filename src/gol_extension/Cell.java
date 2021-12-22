@@ -1,3 +1,5 @@
+package gol_extension;
+
 public class Cell {
 
     private boolean alive = false;

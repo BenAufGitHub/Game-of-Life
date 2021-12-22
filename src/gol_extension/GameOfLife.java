@@ -1,3 +1,8 @@
+package gol_extension;
+
+import gol_extension.updates.Updater;
+import gol_extension.updates.UpdaterClean;
+import gol_extension.updates.Updates;
 import structure.ErrorHandler;
 import structure.GUI;
 import structure.Game;

@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+
 public class ErrorHandler {
 
     /*

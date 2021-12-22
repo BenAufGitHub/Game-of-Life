@@ -1,5 +1,8 @@
+package gol_extension;
+
+import gol_extension.updates.Updates;
+
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -128,7 +131,7 @@ public class CellTracker {
 
 
     /**
-     * deletes all saved Cells and rescans Grid for tracking Cells
+     * deletes all saved Cells and rescans extension.Grid for tracking Cells
      */
     public void revalidate(){
         log.add(new HashMap<>());

@@ -1,10 +1,12 @@
+package gol_extension.updates;
+
 import structure.Blueprint;
 import structure.Output;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
- * A custom Updater made for Game of Life's GUI
+ * A custom extension.gol_updates.Updater made for Game of Life's GUI
  */
 public abstract class Updater {
     protected final static Blueprint WHITE = new Blueprint(Color.WHITE, null);

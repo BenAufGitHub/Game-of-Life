@@ -1,21 +1,22 @@
+package gol_extension.updates;
+
 import structure.Blueprint;
 import structure.Output;
 
-public class UpdaterRed extends Updater {
+public class UpdaterClean extends Updater {
 
-    public UpdaterRed(Output out) {
+    public UpdaterClean(Output out) {
         super(out);
     }
+
 
     @Override
     protected Blueprint getBlueprint(int x, int y, Updates update) {
         return switch(update){
-            case DELETE -> GRAY;
+            case DELETE, DIE -> GRAY;
             case LIVE -> WHITE;
-            case DIE, NEW -> RED;
             default -> null;
         };
     }
-
 
 }

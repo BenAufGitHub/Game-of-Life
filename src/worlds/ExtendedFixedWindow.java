@@ -1,3 +1,5 @@
+package worlds;
+
 import structure.GUI;
 import structure.Game;
 import structure.Settings;
@@ -6,7 +8,7 @@ import tools.ChoiceButton;
 
 import javax.swing.*;
 
-public class ExtendedFixedWindow extends FixedWindow{
+public class ExtendedFixedWindow extends FixedWindow {
     private JPanel controller;
     private JButton clear;
     private JButton choiceButton;
@@ -37,7 +39,7 @@ public class ExtendedFixedWindow extends FixedWindow{
 
 
     /**
-     * provides the ExtendedFixedWindow with specific practical Buttons
+     * provides the worlds.ExtendedFixedWindow with specific practical Buttons
      */
     class Factory {
 
