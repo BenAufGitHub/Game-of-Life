@@ -1,3 +1,4 @@
+import structure.Blueprint;
 import structure.Output;
 
 public class UpdaterRed extends UpdaterGOL{
@@ -7,11 +8,14 @@ public class UpdaterRed extends UpdaterGOL{
     }
 
     @Override
-    public void update(int x, int y, Updates upd) {
-        switch(upd){
-            case DELETE -> update(x,y, GRAY);
-            case LIVE -> update(x,y, WHITE);
-            case DIE, NEW -> update(x,y, RED);
-        }
+    protected Blueprint getBlueprint(int x, int y, Updates update) {
+        return switch(update){
+            case DELETE -> GRAY;
+            case LIVE -> WHITE;
+            case DIE, NEW -> RED;
+            default -> null;
+        };
     }
+
+
 }
