@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class GameOfLife extends Game {
-    private final static Blueprint live = new Blueprint(Color.WHITE, null);
-    private final static Blueprint clear = new Blueprint(Color.GRAY, null);
+    public final static Blueprint LIVE = new Blueprint(Color.WHITE, null);
+    public final static Blueprint CLEAR = new Blueprint(Color.GRAY, null);
 
     CellTracker cellTracker;
 
@@ -79,15 +79,10 @@ public class GameOfLife extends Game {
      */
     public void updateGUI(HashMap<Cell, CellTracker.Update> updates){
         for(Cell cell : updates.keySet()) {
-            CellTracker.Update upd = updates.get(cell);
-            switch(upd){
-                case DELETE, DIE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
-                case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
-            }
+            //TODO updateCell(cell, updates.get(cell));
         }
         getOutput().refresh();
     }
-
 
 
     public CellTracker getCellTracker(){
