@@ -9,8 +9,8 @@ public class UpdaterClean extends Updater{
     @Override
     public void update(Cell cell, CellTracker.Update upd) {
         switch(upd){
-            case DELETE, DIE -> getGUI().showAction(cell.getX(),cell.getY(), GameOfLife.CLEAR);
-            case LIVE -> getGUI().showAction(cell.getX(),cell.getY(), GameOfLife.LIVE);
+            case DELETE, DIE -> getGUI().showAction(cell.getX(),cell.getY(), GRAY);
+            case LIVE -> getGUI().showAction(cell.getX(),cell.getY(), WHITE);
         }
     }
 }

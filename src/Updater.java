@@ -1,6 +1,12 @@
+import structure.Blueprint;
 import structure.Output;
 
+import java.awt.*;
+
 public abstract class Updater {
+    protected final static Blueprint WHITE = new Blueprint(Color.WHITE, null);
+    protected final static Blueprint GRAY = new Blueprint(Color.GRAY, null);
+    protected final static Blueprint RED = new Blueprint(Color.RED, null);
     private Output out;
 
     public Updater(Output out){

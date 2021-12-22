@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class GameOfLife extends Game {
-    public final static Blueprint LIVE = new Blueprint(Color.WHITE, null);
-    public final static Blueprint CLEAR = new Blueprint(Color.GRAY, null);
 
     CellTracker cellTracker;
 
