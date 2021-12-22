@@ -1,7 +1,7 @@
 import structure.Blueprint;
 import structure.Output;
 
-public class UpdaterClean extends UpdaterGOL {
+public class UpdaterClean extends Updater {
 
     public UpdaterClean(Output out) {
         super(out);

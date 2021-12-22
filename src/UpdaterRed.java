@@ -1,7 +1,7 @@
 import structure.Blueprint;
 import structure.Output;
 
-public class UpdaterRed extends UpdaterGOL{
+public class UpdaterRed extends Updater {
 
     public UpdaterRed(Output out) {
         super(out);

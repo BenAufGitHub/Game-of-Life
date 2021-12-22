@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class GameOfLife extends Game {
 
     CellTracker cellTracker;
-    UpdaterGOL updater;
+    Updater updater;
 
     /**
      * the coordinates need to be in bounds of output grid, else the Error-Handler takes over
@@ -112,7 +112,7 @@ public class GameOfLife extends Game {
         this.cellTracker = cellTracker;
     }
 
-    public void setUpdater(UpdaterGOL updater){
+    public void setUpdater(Updater updater){
         this.updater = updater;
     }
 }
