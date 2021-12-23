@@ -17,6 +17,8 @@ public class AccessPoint {
     }
 }
 
+//TODO add main class to gitignore -> convenience  (until push)
+
 //TODO merge into dev/ branches
 //TODO change dev/branches to border/borderless
 //TODO delete some unnecessary Branches
