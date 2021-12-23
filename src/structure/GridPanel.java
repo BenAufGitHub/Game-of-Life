@@ -3,7 +3,6 @@ package structure;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;

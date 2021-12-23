@@ -1,39 +1,57 @@
-import structure.*;
+package gol_extension;
 
-import java.awt.Color;
+import gol_extension.updates.Updater;
+import gol_extension.updates.UpdaterClean;
+import gol_extension.updates.Updates;
+import structure.ErrorHandler;
+import structure.GUI;
+import structure.Game;
+import structure.Output;
+
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class GameOfLife extends Game {
-    private final static Blueprint live = new Blueprint(Color.WHITE, null);
-    private final static Blueprint clear = new Blueprint(Color.GRAY, null);
-    private final static Blueprint track = new Blueprint(Color.RED, null);
 
     CellTracker cellTracker;
-
+    Updater updater;
 
     /**
-     * the coordinates need to be in bounds of output grid, else the errorhandler takes over
+     * the coordinates need to be in bounds of output grid, else the Error-Handler takes over
      * @param op -> output
      * @param x
      * @param y
      */
     public GameOfLife(Output op, int x, int y) {
         super(op);
-        if(x > op.gridWidth() || y > op.gridHeight()){
-            if( op instanceof GUI){
-                new Thread( () -> {
-                    ErrorHandler.catchError((GUI) op, new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!"), 1);
-                }).start();
-            }
-            throw new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!");
-        }
+        validateBounds(x, y);
         this.cellTracker = new CellTracker(new Grid(x,y));
+        this.updater = new UpdaterClean(getOutput());
     }
 
 
     /**
-     * TODO not in use, comes with addition of reset button
+     * called to check whether x and y are in output bounds.
+     * if not && GUI: process cancel (ErrorHandler).
+     * if not && !GUI: throws IndexOutOfBoundsException at Runtime.
+     * @param x
+     * @param y
+     */
+    private void validateBounds(int x, int y){
+        final Output op = getOutput();
+        if(x > op.gridWidth() || y > op.gridHeight()){
+            if( op instanceof GUI){
+                new Thread( () -> {
+                    Exception exc = new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+ op.gridHeight()+"!");
+                    ErrorHandler.catchError((GUI) op, exc, 1);
+                }).start();
+            }
+            throw new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!");
+        }
+    }
+
+
+    /**
+     * Needs to be called at Clear-Button click.
      */
     @Override
     public void reset() {
@@ -78,18 +96,12 @@ public class GameOfLife extends Game {
      * updates GUI with the given Update
      * @param updates
      */
-    public void updateGUI(HashMap<Cell, CellTracker.Update> updates){
+    public void updateGUI(HashMap<Cell, Updates> updates){
         for(Cell cell : updates.keySet()) {
-            CellTracker.Update upd = updates.get(cell);
-            switch(upd){
-                case DELETE -> getOutput().showAction(cell.getX(),cell.getY(), clear);
-                case LIVE -> getOutput().showAction(cell.getX(),cell.getY(), live);
-                case DIE, NEW -> getOutput().showAction(cell.getX(), cell.getY(), track);
-            }
+            updater.update(cell.getX(), cell.getY(), updates.get(cell));
         }
         getOutput().refresh();
     }
-
 
 
     public CellTracker getCellTracker(){
@@ -103,5 +115,9 @@ public class GameOfLife extends Game {
      */
     public void setCellTracker(CellTracker cellTracker){
         this.cellTracker = cellTracker;
+    }
+
+    public void setUpdater(Updater updater){
+        this.updater = updater;
     }
 }
