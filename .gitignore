@@ -1,9 +1,11 @@
-# Default ignored files
-/shelf/
-/.idea
-/out
-/deprecated
-game_of_life.iml
-/src/queP
-/depr
-/src/AccessPoint.java
+*
+!*/
+!/*/
+
+# track this file
+!.gitignore
+
+# whitelist everything in ./config/
+!/src/
+!/resources/
+!README.md
