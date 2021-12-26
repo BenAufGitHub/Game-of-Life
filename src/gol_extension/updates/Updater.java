@@ -1,6 +1,7 @@
 package gol_extension.updates;
 
 import structure.Blueprint;
+import structure.GUI;
 import structure.Output;
 
 import java.awt.Color;
@@ -28,6 +29,14 @@ public abstract class Updater {
         Blueprint upd = getBlueprint(x,y,update);
         if(upd != null)
             getOut().showAction(x,y, upd);
+    }
+
+    protected Blueprint getStandartBlueprint(){
+        if(getOut() instanceof GUI){
+            Color color = ((GUI) getOut()).getSettings().getStandardGridColor();
+            return new Blueprint(color, null);
+        }
+        return GRAY;
     }
 
     protected abstract Blueprint getBlueprint(int x, int y, Updates update);

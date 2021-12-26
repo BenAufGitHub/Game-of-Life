@@ -13,7 +13,7 @@ public class UpdaterClean extends Updater {
     @Override
     protected Blueprint getBlueprint(int x, int y, Updates update) {
         return switch(update){
-            case DELETE, DIE -> GRAY;
+            case DELETE, DIE -> getStandartBlueprint();
             case LIVE -> WHITE;
             default -> null;
         };
