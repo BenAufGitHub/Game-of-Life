@@ -15,6 +15,7 @@ public abstract class Updater {
     protected final static Blueprint RED = new Blueprint(Color.RED, null);
 
     private Output out;
+    private Blueprint standard;
 
     public Output getOut(){
         return out;
@@ -23,6 +24,13 @@ public abstract class Updater {
 
     public Updater(Output out) {
         this.out = out;
+
+        if(getOut() instanceof GUI){
+            Color color = ((GUI) getOut()).getSettings().getStandardGridColor();
+            this.standard = new Blueprint(color, null);
+            return;
+        }
+        this.standard = GRAY;
     }
 
     public void update(int x, int y, Updates update){
@@ -31,12 +39,8 @@ public abstract class Updater {
             getOut().showAction(x,y, upd);
     }
 
-    protected Blueprint getStandartBlueprint(){
-        if(getOut() instanceof GUI){
-            Color color = ((GUI) getOut()).getSettings().getStandardGridColor();
-            return new Blueprint(color, null);
-        }
-        return GRAY;
+    protected Blueprint getStandardBlueprint(){
+        return standard;
     }
 
     protected abstract Blueprint getBlueprint(int x, int y, Updates update);
