@@ -6,6 +6,6 @@
 !.gitignore
 
 # whitelist everything in ./config/
-!/src/
-!/resources/
+!/src/**
+!/resources/**
 !README.md
