@@ -1,5 +1,6 @@
 package worlds;
 
+import structure.Printer;
 import structure.Settings;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 /**
  * Provides a header that is to be seen on top of the Application and can be filesd with any Text
  */
-public class HeaderFWindow extends ExtendedFixedWindow{
+public class HeaderFWindow extends ExtendedFixedWindow implements Printer {
     private JPanel header;
     private JLabel headerText;
 
@@ -17,6 +18,7 @@ public class HeaderFWindow extends ExtendedFixedWindow{
         this.header = new JPanel();
         this.headerText = new JLabel();
         this.headerText.setVerticalAlignment(SwingConstants.CENTER);
+        this.getGridPanel().getParent().setPreferredSize(new Dimension(780, 0));
 
         header.setLayout(new BorderLayout());
         header.add(headerText, BorderLayout.CENTER);
@@ -57,5 +59,10 @@ public class HeaderFWindow extends ExtendedFixedWindow{
 
     public void setHeaderSize(int height){
         header.setPreferredSize(new Dimension(0, height));
+    }
+
+    @Override
+    public void write(String text) {
+        setHeader(text);
     }
 }
