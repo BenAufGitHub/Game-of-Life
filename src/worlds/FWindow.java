@@ -9,13 +9,13 @@ import tools.ChoiceButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class ExtendedFixedWindow extends FixedWindow {
+public class FWindow extends PureFWindow {
     private JPanel controller;
     private JButton clear;
     private JButton choiceButton;
     private JButton save;
 
-    public ExtendedFixedWindow(int x, int y, Settings settings) {
+    public FWindow(int x, int y, Settings settings) {
         super(x, y, settings);
 
         this.controller = getControlPanel();

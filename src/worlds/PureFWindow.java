@@ -17,13 +17,17 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.util.HashMap;
 
-public class FixedWindow extends GUI {
+
+/**
+ * FWindow: FixedWindow, a static Window, you cannot zoom in nor move inside the GridPanel
+ */
+public class PureFWindow extends GUI {
     private final int WIDTH = 1100;
     private final int HEIGHT = 800;
     private HashMap<Image, ImageIcon> scaledImages = new HashMap<>();
 
 
-    public FixedWindow(int x, int y, Settings settings) {
+    public PureFWindow(int x, int y, Settings settings) {
         super(x, y, settings);
 
         JPanel control = getControlPanel();
