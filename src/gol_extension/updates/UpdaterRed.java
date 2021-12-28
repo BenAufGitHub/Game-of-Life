@@ -12,7 +12,7 @@ public class UpdaterRed extends Updater {
     @Override
     protected Blueprint getBlueprint(int x, int y, Updates update) {
         return switch(update){
-            case DELETE -> GRAY;
+            case DELETE -> getStandardBlueprint();
             case LIVE -> WHITE;
             case DIE, NEW -> RED;
             default -> null;
