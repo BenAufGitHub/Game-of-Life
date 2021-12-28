@@ -100,7 +100,6 @@ public class GameOfLife extends Game {
         for(Cell cell : updates.keySet()) {
             updater.update(cell.getX(), cell.getY(), updates.get(cell));
         }
-        getOutput().refresh();
     }
 
 
