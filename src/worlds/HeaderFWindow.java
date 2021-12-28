@@ -2,8 +2,11 @@ package worlds;
 
 import structure.Settings;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 /**
  * Provides a header that is to be seen on top of the Application and can be filesd with any Text

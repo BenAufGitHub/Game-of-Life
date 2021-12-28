@@ -2,11 +2,10 @@ import gol_extension.GameOfLife;
 import gol_extension.updates.UpdaterClean;
 import gol_extension.updates.UpdaterRed;
 import structure.Settings;
-import worlds.ExtendedFixedWindow;
 import worlds.HeaderFWindow;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class AccessPoint {
 

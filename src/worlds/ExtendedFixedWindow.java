@@ -6,7 +6,8 @@ import structure.Settings;
 import structure.TimeSpanException;
 import tools.ChoiceButton;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class ExtendedFixedWindow extends FixedWindow {
     private JPanel controller;
