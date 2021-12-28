@@ -12,8 +12,8 @@ import java.util.HashMap;
 
 public class GameOfLife extends Game {
 
-    CellTracker cellTracker;
-    Updater updater;
+    private CellTracker cellTracker;
+    private Updater updater;
 
     /**
      * the coordinates need to be in bounds of output grid, else the Error-Handler takes over
