@@ -3,6 +3,9 @@ package gol_extension;
 import structure.Output;
 import structure.Printer;
 
+/**
+ * adding a count system to GOL, output is shown by Printer
+ */
 public class CountingGOL extends GameOfLife{
     private String outline = "The Game Of Life / Generation: ";
     private int count = 1;

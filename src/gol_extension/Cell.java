@@ -1,5 +1,10 @@
 package gol_extension;
 
+
+/**
+ * the Cell is a single, individual representation of life in Game of Life.
+ * It stores important information about itself, such as position and is linked to its neighbours.
+ */
 public class Cell {
 
     private boolean alive = false;
@@ -17,6 +22,11 @@ public class Cell {
         return alive;
     }
 
+
+    /**
+     * reevaluates the neighbour-array
+     * @return number of alive surrounding cells
+     */
     public int getCompany(){
         int friends = 0;
         for(Cell c: neighbours){
@@ -26,6 +36,10 @@ public class Cell {
         return friends;
     }
 
+    /**
+     * especially used by: Grid to initialize itself and the connections between the Cells
+     * @param neighbours surrounding cells
+     */
     public void setNeighbours(Cell[] neighbours){
         this.neighbours = neighbours;
     }
@@ -46,6 +60,12 @@ public class Cell {
         this.alive = alive;
     }
 
+
+    /**
+     * CAN EFFECT outcome of the game.
+     * especially used by: Celltracker
+     * @param bool
+     */
     public void setTracked(boolean bool){
         tracked = bool;
     }

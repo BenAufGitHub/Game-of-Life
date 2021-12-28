@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 
 /**
- * FWindow: FixedWindow, a static Window, you cannot zoom in nor move inside the GridPanel
+ * PureFWindow: FixedWindow, a static Window, you cannot zoom in nor move inside the GridPanel
  */
 public class PureFWindow extends GUI {
     private final int WIDTH = 1100;

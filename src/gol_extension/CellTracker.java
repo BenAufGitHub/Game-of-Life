@@ -6,6 +6,12 @@ import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * this class determines which Cells need to be changed, changes the Cells accordingly.
+ * It keeps Cell updates in a log, so that the Game Of Life can access those and send update requests to GUI
+ * most of Game of Lifes "technical" methods are rebased into this bundled class
+ * Has Power over how the games rules are set up (as of now: classic GOL)
+ */
 public class CellTracker {
     private Grid grid;
     private HashSet<Cell> tracked = new HashSet();
@@ -22,12 +28,16 @@ public class CellTracker {
      * called by game, once per game act
      */
     public void act(){
-        log.addLast(new HashMap<>());
+        log.addLast(new HashMap<>());     // <- new Map for new Updates
         trackGridChanges();
         loadNext();
     }
 
 
+    /**
+     * every Cell in reviewList will be prospect to this evaluation.
+     * if Cell need to be changed (dead <=> alive) -> listed in forChange (HashSet)
+     */
     private void trackGridChanges(){
         forChange.clear();
         for(Cell cell: getReviewList()){
@@ -39,6 +49,11 @@ public class CellTracker {
         }
     }
 
+    /**
+     * if cell is in the latest update log, this return true
+     * @param cell
+     * @return
+     */
     public boolean latelyChanged(Cell cell){
         return log.peekLast().containsKey(cell);
     }
@@ -61,6 +76,9 @@ public class CellTracker {
     }
 
 
+    /**
+     * called by GOL clicked method
+     */
     public void clicked(int x, int y){
         log.addLast(new HashMap<>());
         if(y >= getGrid().getHeight() || x >= getGrid().getWidth())
@@ -78,6 +96,7 @@ public class CellTracker {
         track(cell.getNeighbours());
     }
 
+
     public void track(Cell... cells) {
         for(Cell cell : cells){
             if(!getReviewList().contains(cell)){
@@ -88,6 +107,7 @@ public class CellTracker {
         }
     }
 
+
     private boolean change(Cell cell){
         if(cell.isAlive()){
             cell.setAlive(false);
@@ -97,9 +117,11 @@ public class CellTracker {
         return true;
     }
 
+
     public HashSet<Cell> getReviewList(){
         return tracked;
     }
+
 
     public void cleanReviewList(){
         HashSet<Cell> dump = new HashSet<>();

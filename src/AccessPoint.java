@@ -26,7 +26,6 @@ public class AccessPoint {
 
 //TODO
 //make other games and compare time + optimal solution
-//implement counter
 //implement save button
 //update preselect class
 //optimize imports

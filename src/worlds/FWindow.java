@@ -9,6 +9,9 @@ import tools.ChoiceButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * extension of PureFWindow with additional features such as clear, speed and save Button
+ */
 public class FWindow extends PureFWindow {
     private JPanel controller;
     private JButton clear;

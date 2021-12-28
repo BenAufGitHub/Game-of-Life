@@ -18,7 +18,7 @@ public class ChoiceButton extends JButton {
 
 
     /**
-     * @param choices represents possible states of the Programm
+     * @param choices represents possible states of the Program
      * @param listener receives the selected choices and can operate with them
      */
     public ChoiceButton(String[] choices, ChoiceListener listener){

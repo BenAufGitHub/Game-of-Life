@@ -14,8 +14,8 @@ import java.io.StringWriter;
 
 public class ErrorHandler {
 
-    /*
-    only publicly callable message, disposes all other processes and informs user of an error
+    /**
+    disposes the process and informs user of an error
      */
     public static void catchError(GUI window, Exception e, int errorCode){
         new Thread(() -> {
@@ -29,7 +29,7 @@ public class ErrorHandler {
         window.dispose();
     }
 
-    /*
+    /**
     opens a window for insightful error message
      */
     private static void informUser(Exception e, int errorCode) {
@@ -57,7 +57,7 @@ public class ErrorHandler {
     }
 
 
-    /*
+    /**
     get all printed text for window
      */
     private static String getText(Exception e, int errorCode) {
@@ -73,7 +73,7 @@ public class ErrorHandler {
     }
 
 
-    /*
+    /**
     custom error message for each code, done w switch-case
      */
     private static String getErrorMessage(int errorCode) {
@@ -92,7 +92,7 @@ public class ErrorHandler {
     }
 
 
-    /*
+    /**
     in use to override processWindowEvent, which lets us exit the sys with the proper exit code
      */
     static class ErrorFrame extends JFrame{

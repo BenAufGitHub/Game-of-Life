@@ -57,6 +57,11 @@ public abstract class GUI extends JFrame implements Output {
         return new ImageIcon(scaled);
     }
 
+
+    /**
+     * if a game wants to recreate the specified cell,
+     * it can get its Blueprint and request for other Cells to be changes likewise.
+     */
     @Override
     public Blueprint getBlueprint(int x, int y){
         JLabel label = getGridPanel().getGrid()[y][x];
