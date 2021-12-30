@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 /**
- * Provides a header that is to be seen on top of the Application and can be filesd with any Text
+ * Provides a header that is to be seen on top of the Application and can be filled with any Text
  */
 public class HeaderFWindow extends FWindow implements Printer{
     private JPanel header;
