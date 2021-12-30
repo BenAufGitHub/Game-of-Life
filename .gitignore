@@ -7,5 +7,5 @@
 
 # whitelist everything in ./config/
 !/src/**
-!/resources/**
+!/resources/
 !README.md
