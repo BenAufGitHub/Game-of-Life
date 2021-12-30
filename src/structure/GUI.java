@@ -2,6 +2,7 @@ package structure;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Image;
@@ -55,6 +56,15 @@ public abstract class GUI extends JFrame implements Output {
     public ImageIcon scaleImage(Image image, JLabel label){
         Image scaled = image.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_DEFAULT);
         return new ImageIcon(scaled);
+    }
+
+
+    /**
+     * adds custom Components to ControlPanel (never GridPanel!)
+     * the feature can be blocked by overriding this method
+     */
+    public void addToControlPanel(JComponent jcomponent){
+        this.getControlPanel().add(jcomponent);
     }
 
 
