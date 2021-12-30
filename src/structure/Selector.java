@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.HashSet;
 
 public class Selector {
-    private HashSet<Point> selection= new HashSet<>();
     private Game game;
 
     public Selector(Game game){
@@ -16,22 +15,14 @@ public class Selector {
         game.clicked(x, y);
     }
 
-    public void preselect(){
-        for(Point p : selection){
+    public void selectAll(Point[] points){
+        for(Point p : points){
             game.clicked(p.x, p.y);
         }
     }
 
     public void setGame(Game game){
         this.game = game;
-    }
-
-    public void setPreselection(HashSet<Point> selection){
-        this.selection = selection;
-    }
-
-    public void clearSelection(){
-        this.selection = new HashSet();
     }
 
 
