@@ -72,13 +72,14 @@ public class FWindow extends PureFWindow {
          * @return
          */
         public static JButton createSpeedButton(GUI window){
-            String[] choices = {"Slow", "Normal", "Fast"};
+            String[] choices = {"Slow", "Normal", "Fast", "Supersonic"};
             return new ChoiceButton(choices, text -> {
                 Game game = window.getGame();
                 try {
                     switch (text) {
-                        case "Normal", "Fast" -> game.setTimeoutLength(game.getTimeoutLength() - 450);
-                        case "Slow" -> game.setTimeoutLength(game.getTimeoutLength() + 900);
+                        case "Normal", "Fast" -> game.setTimeoutLength(game.getTimeoutLength() - 350);
+                        case "Supersonic" -> game.setTimeoutLength(game.getTimeoutLength() - 65);
+                        case "Slow" -> game.setTimeoutLength(game.getTimeoutLength() + 765);
                     }
                 } catch(TimeSpanException e) {
                     e.printStackTrace();

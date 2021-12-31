@@ -6,7 +6,7 @@ public abstract class Game {
     private Boolean stopping = Boolean.FALSE;
     private Boolean noProcess = Boolean.TRUE;
     private boolean forceInterrupt = false;
-    private int timeoutLength = 1000;
+    private int timeoutLength = 800;
     private Output output;
 
 
