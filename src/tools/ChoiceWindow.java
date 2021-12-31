@@ -1,17 +1,14 @@
 package tools;
 
-import gol_extension.Grid;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class ChoiceWindow extends JDialog implements MouseListener{
+public class ChoiceWindow extends PopUp<String> implements MouseListener{
 
     private String[] choices;
-    private String result;
 
     private final int maxPanelHeight = 100;
     private final int panelMargin = 10;
@@ -29,7 +26,7 @@ public class ChoiceWindow extends JDialog implements MouseListener{
     private JPanel current;
 
     public ChoiceWindow(String[] choices, JFrame parent){
-        super(parent, true);
+        super(parent);
         this.choices = choices;
         this.container = new JPanel();
 
@@ -112,15 +109,11 @@ public class ChoiceWindow extends JDialog implements MouseListener{
     }
 
 
-    public String getResult(){
-        return result;
-    }
-
-
     @Override
     public void mouseClicked(MouseEvent e) {
         JLabel label = (JLabel) e.getSource();
-        result = label.getText();
+        String result = label.getText();
+        setResult(result);
         this.dispose();
     }
 
