@@ -97,13 +97,36 @@ public abstract class GUI extends JFrame implements Output {
     protected final GridPanel getGridPanel(){ return grid; }
 
 
+    /**
+     deactivates all buttons that would cause unsafe threading when a specific button is pressed
+     */
+    protected void deactivateButtons(Clicked button){
+        run.setEnabled(false);
+        act.setEnabled(false);
 
+        if(button == Clicked.RUN){
+            stop.setEnabled(true);
+        } else
+            stop.setEnabled(false);
+    }
+
+
+    /**
+     buttons into default position: run+act enabled, stop disabled
+     */
+    protected void buttonsToDefault(){
+        run.setEnabled(true);
+        act.setEnabled(true);
+        stop.setEnabled(false);
+    }
+
+
+    public enum Clicked {
+        ACT, RUN, STOP
+    }
 
 
     protected class ButtonFactory{
-        enum Clicked {
-            ACT, RUN, STOP
-        }
 
         protected final JButton createRunButton(){
             JButton button = new JButton("run");
@@ -157,29 +180,6 @@ public abstract class GUI extends JFrame implements Output {
             return button;
         }
 
-
-        /**
-    deactivates all buttons that would cause unsafe threading when a specific button is pressed
-     */
-        private void deactivateButtons(Clicked button){
-            run.setEnabled(false);
-            act.setEnabled(false);
-
-            if(button == Clicked.RUN){
-                stop.setEnabled(true);
-            } else
-                stop.setEnabled(false);
-        }
-
-
-        /**
-        buttons into default position: run+act enabled, stop disabled
-         */
-        private void buttonsToDefault(){
-            run.setEnabled(true);
-            act.setEnabled(true);
-            stop.setEnabled(false);
-        }
     }
 
     private class DimensionsTooBigException extends Exception{
