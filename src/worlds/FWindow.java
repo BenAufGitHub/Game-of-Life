@@ -43,6 +43,23 @@ public class FWindow extends PureFWindow {
 
 
     /**
+     deactivates all buttons that would cause unsafe threading when a specific button is pressed
+     */
+    @Override
+    protected void deactivateButtons(GUI.Clicked button){
+        super.deactivateButtons(button);
+        if(button == GUI.Clicked.RUN){
+            clear.setEnabled(false);
+        }
+    }
+
+    @Override
+    protected void buttonsToDefault(){
+        super.buttonsToDefault();
+        clear.setEnabled(true);
+    }
+
+    /**
      * provides the worlds.ExtendedFixedWindow with specific practical Buttons
      */
     class Factory {
