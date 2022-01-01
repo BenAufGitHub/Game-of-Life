@@ -86,6 +86,8 @@ public class ErrorHandler {
                 return "The gui doesn't support the input numbers.";
             case(5):
                 return "World is too big.";
+            case(6):
+                return "File does not exist.";
             default:
                 return "An error occurred.";
         }
