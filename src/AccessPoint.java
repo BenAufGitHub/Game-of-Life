@@ -32,8 +32,10 @@ public class AccessPoint {
 
 
 //TODO
-//make other games and compare time + optimal solution
-//implement save button
-//implement error output
-//update preselect class
-//plot the references onto paper
+//  make method to add buttons
+//  set Speed for Subclasses of FWindow
+//  make other games and compare time + optimal solution
+//  implement save button
+//  implement error output
+//  update preselect class
+//  plot the references onto paper
