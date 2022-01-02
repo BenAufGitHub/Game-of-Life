@@ -32,6 +32,11 @@ public class ChoiceButton extends JButton {
     }
 
 
+    public void setListener(ChoiceListener listener){
+        this.listener = listener;
+    }
+
+
     /**
      * gets called by click on Object, switches to next Choice -> calls listener
      */
@@ -42,6 +47,7 @@ public class ChoiceButton extends JButton {
             choice = 0;
         }
         setText(choices[choice]);
-        listener.perform(choices[choice]);
+        if(listener != null)
+            listener.perform(choices[choice]);
     }
 }
