@@ -8,11 +8,14 @@ import tools.ChoiceButton;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * extension of PureFWindow with additional features such as clear, speed and save Button
  */
 public class FWindow extends PureFWindow {
+    private List<JButton> staleButtonsOnRun;
     private JPanel controller;
     private JButton clear;
     private JButton choiceButton;
@@ -20,6 +23,7 @@ public class FWindow extends PureFWindow {
     public FWindow(int x, int y, Settings settings) {
         super(x, y, settings);
 
+        this.staleButtonsOnRun = new ArrayList();
         this.controller = getControlPanel();
         this.clear = new JButton("clear");
         this.choiceButton =  Factory.createSpeedButton(this);
@@ -41,21 +45,34 @@ public class FWindow extends PureFWindow {
     }
 
 
+    public void addButton(JButton button, boolean activeOnRun){
+        if(!activeOnRun)
+            staleButtonsOnRun.add(button);
+        controller.add(button);
+    }
+
+
     /**
      deactivates all buttons that would cause unsafe threading when a specific button is pressed
      */
     @Override
     protected void deactivateButtons(GUI.Clicked button){
         super.deactivateButtons(button);
-        if(button == GUI.Clicked.RUN){
-            clear.setEnabled(false);
+        if(button == GUI.Clicked.RUN || button == GUI.Clicked.RUN){
+            allListedButtonsEnabled(false);
         }
     }
 
     @Override
     protected void buttonsToDefault(){
         super.buttonsToDefault();
-        clear.setEnabled(true);
+        allListedButtonsEnabled(true);
+    }
+
+
+    private void allListedButtonsEnabled(boolean enabled){
+        for(JButton button : staleButtonsOnRun)
+            button.setEnabled(enabled);
     }
 
     /**
