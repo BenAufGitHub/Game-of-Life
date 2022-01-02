@@ -55,6 +55,20 @@ public class FWindow extends PureFWindow {
 
 
     /**
+     * note that each pause (slow to supersonic) should be progressively shorter
+     * params: time of pause between game acts in Milliseconds
+     */
+    public void configureSpeedButton(int slowPause, int normalPause, int fastPause, int supersonicPause){
+        ((Factory.SpeedButton) choiceButton).setGameSpeed(slowPause, normalPause, fastPause, supersonicPause);
+    }
+
+
+    public JButton getSpeedButton(){
+        return choiceButton;
+    }
+
+
+    /**
      deactivates all buttons that would cause unsafe threading when a specific button is pressed
      */
     @Override
@@ -76,6 +90,7 @@ public class FWindow extends PureFWindow {
         for(JButton button : staleButtonsOnRun)
             button.setEnabled(enabled);
     }
+
 
     /**
      * provides the worlds.ExtendedFixedWindow with specific practical Buttons
