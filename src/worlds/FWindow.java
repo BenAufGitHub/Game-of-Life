@@ -1,10 +1,12 @@
 package worlds;
 
+import structure.ErrorHandler;
 import structure.GUI;
 import structure.Game;
 import structure.Settings;
 import structure.TimeSpanException;
 import tools.ChoiceButton;
+import tools.ChoiceListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,7 +28,7 @@ public class FWindow extends PureFWindow {
         this.staleButtonsOnRun = new ArrayList();
         this.controller = getControlPanel();
         this.clear = new JButton("clear");
-        this.choiceButton =  Factory.createSpeedButton(this);
+        this.choiceButton =  new Factory.SpeedButton(this);
 
         choiceButton.setBounds(100, 350, 100, 30);
         choiceButton.setFocusable(false);
@@ -82,25 +84,51 @@ public class FWindow extends PureFWindow {
 
 
         /**
-         * on click - changes behaviour from slow -> normal -> fast game.
-         * creates Specific Button, that changes game breaks from 1000 ms -> 550 ms -> 100 ms -> 1000 ms and so on ...
-         * @param window
-         * @return
+         * Button that changes state from: slow to normal to fast to supersonic to slow again etc.
+         * custom game Pauses can be applied with setGameSpeed method
          */
-        public static JButton createSpeedButton(GUI window){
-            String[] choices = {"Slow", "Normal", "Fast", "Supersonic"};
-            return new ChoiceButton(choices, text -> {
+        static class SpeedButton extends ChoiceButton implements ChoiceListener{
+
+            private GUI window;
+            private int slowPause = 800;
+            private int normalPause = 400;
+            private int fastPause = 90;
+            private int supersonicPause = 35;
+
+
+            private SpeedButton(GUI window) {
+                super(new String[]{"Slow", "Normal", "Fast", "Supersonic"}, null);
+                this.window = window;
+                super.setListener(this);
+            }
+
+
+            @Override
+            public void perform(String text) {
                 Game game = window.getGame();
                 try {
                     switch (text) {
-                        case "Normal", "Fast" -> game.setTimeoutLength(game.getTimeoutLength() - 350);
-                        case "Supersonic" -> game.setTimeoutLength(game.getTimeoutLength() - 65);
-                        case "Slow" -> game.setTimeoutLength(game.getTimeoutLength() + 765);
+                        case "Normal"-> game.setTimeoutLength(normalPause);
+                        case "Fast" -> game.setTimeoutLength(fastPause);
+                        case "Supersonic" -> game.setTimeoutLength(supersonicPause);
+                        case "Slow" -> game.setTimeoutLength(slowPause);
                     }
                 } catch(TimeSpanException e) {
-                    e.printStackTrace();
+                    ErrorHandler.catchError(null, e, -1);
                 }
-            });
+            }
+
+
+            /**
+             * note that each pause (slow to supersonic) should be progressively shorter
+             * params: time of pause between game acts in Milliseconds
+             */
+            public void setGameSpeed(int slowPause, int normalPause, int fastPause, int supersonicPause){
+                this.slowPause = slowPause;
+                this.normalPause = normalPause;
+                this.fastPause = fastPause;
+                this.supersonicPause = supersonicPause;
+            }
         }
     }
 }
