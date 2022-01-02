@@ -64,8 +64,8 @@ public class SaveManager {
             String y = br.readLine();
             while (x != null && y != null && !x.trim().isEmpty()) {
                 int h = Integer.parseInt(x.substring(3));
-                int v = Integer.parseInt(y.substring(3));
-                points.add(new Point(h, v));
+                int w = Integer.parseInt(y.substring(3));
+                points.add(new Point(h, w));
                 x = br.readLine();
                 y = br.readLine();
             }
