@@ -1,4 +1,5 @@
-package gol_extension;
+package gol_extension.structure;
+
 
 public class Grid {
     private Cell[][] grid;

@@ -1,4 +1,4 @@
-package gol_extension;
+package gol_extension.structure;
 
 import gol_extension.updates.Updates;
 
