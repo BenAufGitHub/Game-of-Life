@@ -20,7 +20,7 @@ public class FWindow extends PureFWindow {
     private List<JButton> staleButtonsOnRun;
     private JPanel controller;
     private JButton clear;
-    private JButton choiceButton;
+    private Factory.SpeedButton speedButton;
 
     public FWindow(int x, int y, Settings settings) {
         super(x, y, settings);
@@ -28,10 +28,10 @@ public class FWindow extends PureFWindow {
         this.staleButtonsOnRun = new ArrayList();
         this.controller = getControlPanel();
         this.clear = new JButton("clear");
-        this.choiceButton =  new Factory.SpeedButton(this);
+        this.speedButton =  new Factory.SpeedButton(this);
 
-        choiceButton.setBounds(100, 350, 100, 30);
-        choiceButton.setFocusable(false);
+        speedButton.setBounds(100, 350, 100, 30);
+        speedButton.setFocusable(false);
 
         clear.setBounds(130, 400, 70, 30);
         clear.setFocusable(false);
@@ -42,7 +42,7 @@ public class FWindow extends PureFWindow {
             this.clear();
         });
 
-        addButton(choiceButton, true);
+        addButton(speedButton, true);
         addButton(clear, false);
     }
 
@@ -63,12 +63,12 @@ public class FWindow extends PureFWindow {
      * params: time of pause between game acts in Milliseconds
      */
     public void configureSpeedButton(int slowPause, int normalPause, int fastPause, int supersonicPause){
-        ((Factory.SpeedButton) choiceButton).setGameSpeed(slowPause, normalPause, fastPause, supersonicPause);
+        speedButton.setGameSpeed(slowPause, normalPause, fastPause, supersonicPause);
     }
 
 
     public JButton getSpeedButton(){
-        return choiceButton;
+        return speedButton;
     }
 
 
@@ -96,14 +96,14 @@ public class FWindow extends PureFWindow {
     }
 
 
+    /**
+     * adjusts timeOutLength of an already existing game that is now associated with this window
+     */
     @Override
     public void afterGameIsSet(){
         try {
-
-            Factory.SpeedButton button = (Factory.SpeedButton) getSpeedButton();
-            int timeOut = (button != null) ? button.getNormalPause() : 400;
+            int timeOut = (speedButton != null) ? speedButton.getNormalPause() : 400;
             getGame().setTimeoutLength(timeOut);
-
         } catch (TimeSpanException e) {
             ErrorHandler.catchError(this, e, -1);
         }
