@@ -115,7 +115,7 @@ public class FWindow extends PureFWindow {
 
 
     /**
-     * provides the worlds.ExtendedFixedWindow with specific practical Buttons
+     * provides the worlds.FWindow with specific and practical Buttons
      */
     class Factory {
 
