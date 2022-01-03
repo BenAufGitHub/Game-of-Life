@@ -29,7 +29,7 @@ public class ExtendedGOL extends GameOfLife {
 
     private void initGameSpeed(WindowGOL output) {
         //sets output-configs for slow, normal, fast and supersonic speed on Button click
-        output.configureSpeedButton(800, 150, 55, 30);
+        output.configureSpeedButton(800, 150, 50, 7);
     }
 
 
