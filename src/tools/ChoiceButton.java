@@ -18,7 +18,7 @@ public class ChoiceButton extends JButton {
 
 
     /**
-     * @param choices represents possible states of the Programm
+     * @param choices represents possible states of the Program
      * @param listener receives the selected choices and can operate with them
      */
     public ChoiceButton(String[] choices, ChoiceListener listener){
@@ -32,6 +32,16 @@ public class ChoiceButton extends JButton {
     }
 
 
+    public void setListener(ChoiceListener listener){
+        this.listener = listener;
+    }
+
+
+    public String getCurrentState(){
+        return choices[choice];
+    }
+
+
     /**
      * gets called by click on Object, switches to next Choice -> calls listener
      */
@@ -42,6 +52,7 @@ public class ChoiceButton extends JButton {
             choice = 0;
         }
         setText(choices[choice]);
-        listener.perform(choices[choice]);
+        if(listener != null)
+            listener.perform(choices[choice]);
     }
 }

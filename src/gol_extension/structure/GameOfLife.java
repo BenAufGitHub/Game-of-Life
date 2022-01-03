@@ -1,4 +1,4 @@
-package gol_extension;
+package gol_extension.structure;
 
 import gol_extension.updates.Updater;
 import gol_extension.updates.UpdaterClean;
@@ -12,8 +12,8 @@ import java.util.HashMap;
 
 public class GameOfLife extends Game {
 
-    CellTracker cellTracker;
-    Updater updater;
+    private CellTracker cellTracker;
+    private Updater updater;
 
     /**
      * the coordinates need to be in bounds of output grid, else the Error-Handler takes over
@@ -33,8 +33,6 @@ public class GameOfLife extends Game {
      * called to check whether x and y are in output bounds.
      * if not && GUI: process cancel (ErrorHandler).
      * if not && !GUI: throws IndexOutOfBoundsException at Runtime.
-     * @param x
-     * @param y
      */
     private void validateBounds(int x, int y){
         final Output op = getOutput();
@@ -100,8 +98,8 @@ public class GameOfLife extends Game {
         for(Cell cell : updates.keySet()) {
             updater.update(cell.getX(), cell.getY(), updates.get(cell));
         }
-        getOutput().refresh();
     }
+
 
 
     public CellTracker getCellTracker(){
@@ -119,5 +117,13 @@ public class GameOfLife extends Game {
 
     public void setUpdater(Updater updater){
         this.updater = updater;
+    }
+
+    public int getHeight(){
+        return getCellTracker().getGrid().getHeight();
+    }
+
+    public int getWidth(){
+        return getCellTracker().getGrid().getWidth();
     }
 }

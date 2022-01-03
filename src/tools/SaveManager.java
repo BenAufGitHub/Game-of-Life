@@ -2,6 +2,7 @@ package tools;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -39,8 +40,10 @@ public class SaveManager {
 
         List<String> lines = new ArrayList();
         for(Point point : points){
-            lines.add(new String("x: "+point.x));
-            lines.add(new String("y: "+ point.y));
+            if(point == null)
+                continue;
+            lines.add("x: " + point.x);
+            lines.add("y: " + point.y);
         }
         write(filename, lines);
     }
@@ -61,8 +64,8 @@ public class SaveManager {
             String y = br.readLine();
             while (x != null && y != null && !x.trim().isEmpty()) {
                 int h = Integer.parseInt(x.substring(3));
-                int v = Integer.parseInt(y.substring(3));
-                points.add(new Point(h, v));
+                int w = Integer.parseInt(y.substring(3));
+                points.add(new Point(h, w));
                 x = br.readLine();
                 y = br.readLine();
             }
@@ -101,4 +104,17 @@ public class SaveManager {
         }
         return "./resources/saves/"+ result + ".txt";
     }
+
+
+    public static String[] getSaveNames(){
+        File folder = new File("./resources/saves/");
+        File[] listOfFiles = folder.listFiles();
+        String[] names = new String[listOfFiles.length];
+        for(int i=0; i< listOfFiles.length; i++){
+            names[i] = listOfFiles[i].toString().substring(18);
+        }
+        return names;
+    }
+
+
 }

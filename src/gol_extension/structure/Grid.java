@@ -1,4 +1,5 @@
-package gol_extension;
+package gol_extension.structure;
+
 
 import java.util.LinkedList;
 
@@ -56,7 +57,7 @@ public class Grid {
 
 
     /**
-     * given an offset, validate wether the coordinates are in bounds of the grid
+     * given an offset, validate whether the coordinates are in bounds of the grid
      * @param row
      * @param column
      * @param xDiff
