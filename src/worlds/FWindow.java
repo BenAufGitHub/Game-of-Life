@@ -96,6 +96,20 @@ public class FWindow extends PureFWindow {
     }
 
 
+    @Override
+    public void afterGameIsSet(){
+        try {
+
+            Factory.SpeedButton button = (Factory.SpeedButton) getSpeedButton();
+            int timeOut = (button != null) ? button.getNormalPause() : 400;
+            getGame().setTimeoutLength(timeOut);
+
+        } catch (TimeSpanException e) {
+            ErrorHandler.catchError(this, e, -1);
+        }
+    }
+
+
     /**
      * provides the worlds.ExtendedFixedWindow with specific practical Buttons
      */
@@ -116,7 +130,7 @@ public class FWindow extends PureFWindow {
 
 
             private SpeedButton(GUI window) {
-                super(new String[]{"Slow", "Normal", "Fast", "Supersonic"}, null);
+                super(new String[]{"Normal", "Fast", "Supersonic", "Slow"}, null);
                 this.window = window;
                 super.setListener(this);
             }
@@ -147,6 +161,14 @@ public class FWindow extends PureFWindow {
                 this.normalPause = normalPause;
                 this.fastPause = fastPause;
                 this.supersonicPause = supersonicPause;
+            }
+
+
+            /**
+             * in milliseconds
+             */
+            public int getNormalPause(){
+                return normalPause;
             }
         }
     }

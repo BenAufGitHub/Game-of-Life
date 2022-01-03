@@ -51,7 +51,17 @@ public abstract class GUI extends JFrame implements Output {
     public final void setGame(Game game){
         this.game = game;
         getGridPanel().getSelector().setGame(game);
+        afterGameIsSet();
     }
+
+
+    /**
+     * Called after new Game is initialized with this GUI.
+     * Can be overridden to add functionality.
+     */
+    public void afterGameIsSet(){
+    }
+
 
     public ImageIcon scaleImage(Image image, JLabel label){
         Image scaled = image.getScaledInstance(label.getWidth(), label.getHeight(),  Image.SCALE_DEFAULT);
