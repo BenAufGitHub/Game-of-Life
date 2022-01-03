@@ -60,10 +60,13 @@ public class FWindow extends PureFWindow {
 
     /**
      * note that each pause (slow to supersonic) should be progressively shorter
+     * also note that it applies the new settings immediately
      * params: time of pause between game acts in Milliseconds
      */
     public void configureSpeedButton(int slowPause, int normalPause, int fastPause, int supersonicPause){
         speedButton.setGameSpeed(slowPause, normalPause, fastPause, supersonicPause);
+        String pause = speedButton.getCurrentState();
+        speedButton.perform(pause);
     }
 
 
@@ -97,11 +100,12 @@ public class FWindow extends PureFWindow {
 
 
     /**
-     * adjusts timeOutLength of an already existing game that is now associated with this window
+     * adjusts timeOutLength of an already existing game that is now associated with this window to the window's settings
      */
     @Override
     public void afterGameIsSet(){
         try {
+            // If speed button doesn't exist, it means that the GUI constructor isn't yet finished.
             int timeOut = (speedButton != null) ? speedButton.getNormalPause() : 400;
             getGame().setTimeoutLength(timeOut);
         } catch (TimeSpanException e) {
