@@ -37,6 +37,11 @@ public class ChoiceButton extends JButton {
     }
 
 
+    public String getCurrentState(){
+        return choices[choice];
+    }
+
+
     /**
      * gets called by click on Object, switches to next Choice -> calls listener
      */
