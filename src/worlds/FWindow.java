@@ -42,11 +42,15 @@ public class FWindow extends PureFWindow {
             this.clear();
         });
 
-        controller.add(choiceButton);
-        controller.add(clear);
+        addButton(choiceButton, true);
+        addButton(clear, false);
     }
 
 
+    /**
+     * adds Button to ControlPanel.
+     * @param activeOnRun specifies whether users should be able to click the button during game-runtime.
+     */
     public void addButton(JButton button, boolean activeOnRun){
         if(!activeOnRun)
             staleButtonsOnRun.add(button);
