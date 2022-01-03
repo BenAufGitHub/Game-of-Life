@@ -1,6 +1,6 @@
-import gol_extension.CountingGOL;
-import gol_extension.GameOfLife;
-import gol_extension.SaveExtension;
+package gol_extension.start;
+
+import gol_extension.updates.Updater;
 import gol_extension.updates.UpdaterClean;
 import gol_extension.updates.UpdaterRed;
 import structure.Selector;
@@ -15,17 +15,19 @@ import java.io.IOException;
 public class AccessPoint {
 
     public static void main(String[] args) throws IOException {
+
         Settings settings = new Settings(Color.GRAY, true);
-        HeaderFWindow window = new HeaderFWindow(100, 100, settings);
+        WindowGOL window = new WindowGOL(100, 100, settings);
+        ExtendedGOL gol = new ExtendedGOL(window, 100, 100, window);
 
-        CountingGOL gol = new CountingGOL(window, 100, 100);
-        gol.enableSaving(70, 700, 170, 700); //adds buttons to window
-        gol.setUpdater(new UpdaterRed(window));                                        //determines colouring
-        gol.setCountPrinter(window);                                                   // where Count is shown
-        new Selector(gol).selectAll(SaveManager.get("save.txt"));                          // loads a save
+        Updater colouring = new UpdaterClean(window);
+        String save_name = "save.txt";
 
-        window.setHeader("The Game Of Life / Generation: 1");
-        window.setHeaderTextAlignment(SwingConstants.CENTER);
+        gol.setUpdater(colouring);                                        //determines colouring
+
+        if(save_name != null)
+            new Selector(gol).selectAll(SaveManager.get(save_name));         // loads a save
+
         window.setVisible(true);
     }
 }
