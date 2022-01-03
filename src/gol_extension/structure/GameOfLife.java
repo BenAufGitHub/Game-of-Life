@@ -1,4 +1,4 @@
-package gol_extension;
+package gol_extension.structure;
 
 import gol_extension.updates.Updater;
 import gol_extension.updates.UpdaterClean;
@@ -30,23 +30,9 @@ public class GameOfLife extends Game {
 
 
     /**
-     * loads the saving expansion and adds the buttons save/load to the specified positions
-     */
-    public void enableSaving(int xSaveButton, int ySaveButton, int xLoadButton, int yLoadButton){
-        if (getOutput() instanceof GUI){
-            SaveExtension extension = new SaveExtension((GUI) getOutput(), this);
-            extension.addLoadButton(xLoadButton, yLoadButton);
-            extension.addSaveButton(xSaveButton, ySaveButton);
-        }
-    }
-
-
-    /**
      * called to check whether x and y are in output bounds.
      * if not && GUI: process cancel (ErrorHandler).
      * if not && !GUI: throws IndexOutOfBoundsException at Runtime.
-     * @param x
-     * @param y
      */
     private void validateBounds(int x, int y){
         final Output op = getOutput();
