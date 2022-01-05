@@ -29,6 +29,7 @@ public abstract class SaveManagement<Elements> {
 
     /**
      * Translates file content into the save-objects.
+     * This deciphering-method should use the same concept as the enciphering-method elementsToText.
      */
     protected abstract List<Elements> getObjects(String[] file_content) throws FaultyFileException;
 
@@ -36,7 +37,7 @@ public abstract class SaveManagement<Elements> {
     public void save(String saveName, List<Elements> elements){
         customizeSaveName(saveName);
         saveName = formatWithRelativePath(saveName);
-        List<String> lines = elementsToText(elements);
+        List<String> lines = elementsToFileText(elements);
         write(saveName, lines);
     }
 
@@ -47,7 +48,11 @@ public abstract class SaveManagement<Elements> {
     protected void customizeSaveName(String name){}
 
 
-    public abstract List<String> elementsToText(List<Elements> elements);
+    /**
+     *  This method defines how the elements are portrayed as text in the save-document. (encipher)
+     *  This method has to be a partner of getObjects (decipher) as they should use the same System.
+     */
+    public abstract List<String> elementsToFileText(List<Elements> elements);
 
 
     public String[] getSaveNames(){
@@ -134,6 +139,7 @@ public abstract class SaveManagement<Elements> {
 
     //-------------------------------------> file format ------------------------------------------
 
+
     /**
      * @param format
      * @return if no exception is thrown, it returns a valid format
@@ -197,7 +203,7 @@ public abstract class SaveManagement<Elements> {
 
 
     /**
-     * only files with the appropriate format ending while be classified as a save ar load-time
+     * only files with the appropriate format ending while be classified as a save on load-time
      * to load from multiple formats, change the format and run "getSaveNames" again
      */
     private boolean isASave(String name) {
@@ -226,12 +232,13 @@ public abstract class SaveManagement<Elements> {
         }
     }
 
+
     //------------------------------------------> Reading -------------------------------------------------
 
 
     /**
      * br: BufferedReader wired to a file
-     * return: String[] with no null values
+     * return: String[] with no null values guaranteed.
      */
     public String[] read(BufferedReader br) throws IOException {
         ArrayList<String> list = new ArrayList<>();
