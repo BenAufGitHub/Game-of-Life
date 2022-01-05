@@ -1,6 +1,8 @@
 package tools;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,12 +15,22 @@ public abstract class SaveManagement<Elements> {
     private String format = "txt";
 
 
+    /**
+     * for this to work, the subclass needs to implement the method get()
+     * @return
+     * @throws CouldNotLoadFileException
+     */
     public List<Elements> load(String saveName) throws CouldNotLoadFileException {
-        return get(nameToRelativePath(saveName));
+        String path = nameToRelativePath(saveName);
+        String[] file_content = getPlainText(path);
+        return getObjects(file_content);
     }
 
 
-    protected abstract List<Elements> get(String relativePath) throws CouldNotLoadFileException;
+    /**
+     * Translates file content into the save-objects.
+     */
+    protected abstract List<Elements> getObjects(String[] file_content) throws FaultyFileException;
 
 
     public void save(String saveName, List<Elements> elements){
@@ -56,6 +68,19 @@ public abstract class SaveManagement<Elements> {
             Files.write(p, lines, StandardCharsets.UTF_8);
         } catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+
+    private String[] getPlainText(String path) throws CouldNotLoadFileException {
+        BufferedReader br = null;
+        try{
+            br = new BufferedReader(new FileReader(path));
+            return read(br);
+        } catch (IOException e) {
+            throw new CouldNotLoadFileException("Path "+path+" is unable to load.", e);
+        } finally {
+            closeReader(br);
         }
     }
 
@@ -189,8 +214,48 @@ public abstract class SaveManagement<Elements> {
 
 
     static class CouldNotLoadFileException extends IOException{
-        public CouldNotLoadFileException(String message){
-            super(message);
+        public CouldNotLoadFileException(String message, Exception e){
+            super(message, e);
+        }
+    }
+
+
+    static class FaultyFileException extends CouldNotLoadFileException{
+        public FaultyFileException(String message, Exception exc){
+            super(message, exc);
+        }
+    }
+
+    //------------------------------------------> Reading -------------------------------------------------
+
+
+    /**
+     * br: BufferedReader wired to a file
+     * return: String[] with no null values
+     */
+    public String[] read(BufferedReader br) throws IOException {
+        ArrayList<String> list = new ArrayList<>();
+
+        String line = br.readLine();
+        while(line != null){
+            list.add(line);
+            line = br.readLine();
+        }
+
+        String[] result = new String[list.size()];
+        for(int i=0; i<list.size(); i++){
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
+
+    private void closeReader(BufferedReader br) {
+        try {
+            if(br != null)
+                br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
