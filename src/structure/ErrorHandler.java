@@ -1,9 +1,6 @@
 package structure;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -51,15 +48,16 @@ public class ErrorHandler {
         text.setForeground(Color.CYAN);
 
         scroll.setPreferredSize(new Dimension(380,380));
+        scroll.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout());
         frame.setLocationRelativeTo(null);
-        frame.setSize(400,440);
         frame.getContentPane().setBackground(Color.BLACK);
 
         frame.add(scroll);
         frame.setVisible(true);
+        frame.pack();
     }
 
 
