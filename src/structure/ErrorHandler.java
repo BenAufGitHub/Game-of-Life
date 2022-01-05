@@ -15,25 +15,31 @@ import java.io.StringWriter;
 public class ErrorHandler {
 
     /**
-    disposes the process and informs user of an error
+     disposes the process and informs user of an error
      */
-    public static void catchError(GUI window, Exception e, int errorCode){
+    public static void catchError(GUI disposable, Exception e, int errorCode, boolean exit){
         new Thread(() -> {
-            informUser(e, errorCode);
+            informUser(e, errorCode, exit);
         }).start();
 
-        if(window == null){
-            throw new RuntimeException();
+        if(disposable == null){
+            throw new RuntimeException(e);
         }
-        window.setVisible(false);
-        window.dispose();
+        disposable.setVisible(false);
+        disposable.dispose();
     }
 
+
+    public static void catchError(Exception e, int errorCode, boolean exit){
+        catchError(null, e, errorCode, exit);
+    }
+
+
     /**
-    opens a window for insightful error message
+     opens a window for insightful error message
      */
-    private static void informUser(Exception e, int errorCode) {
-        JFrame frame = new ErrorFrame("An issue occurred", errorCode);
+    private static void informUser(Exception e, int errorCode, boolean exit) {
+        JFrame frame = new ErrorFrame("An issue occurred", errorCode, exit);
         JTextArea text = new JTextArea("", 3, 20);
         JScrollPane scroll = new JScrollPane (text, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -49,7 +55,7 @@ public class ErrorHandler {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout());
         frame.setLocationRelativeTo(null);
-        frame.setSize(400,400);
+        frame.setSize(400,440);
         frame.getContentPane().setBackground(Color.BLACK);
 
         frame.add(scroll);
@@ -58,7 +64,7 @@ public class ErrorHandler {
 
 
     /**
-    get all printed text for window
+     get all printed text for window
      */
     private static String getText(Exception e, int errorCode) {
         StringBuilder text = new StringBuilder();
@@ -74,7 +80,7 @@ public class ErrorHandler {
 
 
     /**
-    custom error message for each code, done w switch-case
+     custom error message for each code, done w switch-case
      */
     private static String getErrorMessage(int errorCode) {
         switch(errorCode){
@@ -87,7 +93,7 @@ public class ErrorHandler {
             case(5):
                 return "World is too big.";
             case(6):
-                return "File does not exist.";
+                return "File does not exist or is faulty.";
             default:
                 return "An error occurred.";
         }
@@ -95,21 +101,24 @@ public class ErrorHandler {
 
 
     /**
-    in use to override processWindowEvent, which lets us exit the sys with the proper exit code
+     * In use to override processWindowEvent, which lets us exit the sys with the proper exit code if it has a parent window to remove.
      */
     static class ErrorFrame extends JFrame{
+        boolean exit;
         int errorCode;
 
-        public ErrorFrame(String s, int errorcode){
+        public ErrorFrame(String s, int errorcode, boolean exit){
             super(s);
             this.errorCode = errorcode;
+            this.exit = exit;
         }
 
         @Override
         public void processWindowEvent(WindowEvent e) {
             if (e.getID() == WindowEvent.WINDOW_CLOSING) {
                 dispose();
-                System.exit(errorCode);
+                if(exit)
+                    System.exit(errorCode);
             }
         }
     }

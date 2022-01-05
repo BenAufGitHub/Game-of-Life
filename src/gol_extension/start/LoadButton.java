@@ -38,7 +38,7 @@ public class LoadButton extends JButton{
             if(result != null)
                 load(result);
         } catch (IOException ex) {
-            ErrorHandler.catchError((GUI) getGame().getOutput(), ex, 6);
+            ErrorHandler.catchError((GUI) getGame().getOutput(), ex, 6, true);
         }
     }
 

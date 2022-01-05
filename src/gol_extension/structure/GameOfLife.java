@@ -40,7 +40,7 @@ public class GameOfLife extends Game {
             if( op instanceof GUI){
                 new Thread( () -> {
                     Exception exc = new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+ op.gridHeight()+"!");
-                    ErrorHandler.catchError((GUI) op, exc, 1);
+                    ErrorHandler.catchError((GUI) op, exc, 1, true);
                 }).start();
             }
             throw new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!");

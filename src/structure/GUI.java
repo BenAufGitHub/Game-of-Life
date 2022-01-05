@@ -22,7 +22,7 @@ public abstract class GUI extends JFrame implements Output {
 
     public GUI(int x, int y, Settings settings){
         if(x > 200 || y> 200){
-            ErrorHandler.catchError(null, new DimensionsTooBigException(), 5);
+            ErrorHandler.catchError(new DimensionsTooBigException(), 5, false);
         }
         setSettings(settings);
         ButtonFactory factory = new ButtonFactory();
@@ -160,7 +160,7 @@ public abstract class GUI extends JFrame implements Output {
                         buttonsToDefault();
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        ErrorHandler.catchError(GUI.this, ex, 2);
+                        ErrorHandler.catchError(GUI.this, ex, 2, true);
                     }
                 });
                 t.start();

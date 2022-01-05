@@ -109,7 +109,7 @@ public class FWindow extends PureFWindow {
             int timeOut = (speedButton != null) ? speedButton.getNormalPause() : 400;
             getGame().setTimeoutLength(timeOut);
         } catch (TimeSpanException e) {
-            ErrorHandler.catchError(this, e, -1);
+            ErrorHandler.catchError(this, e, -1, true);
         }
     }
 
@@ -151,7 +151,7 @@ public class FWindow extends PureFWindow {
                         case "Slow" -> game.setTimeoutLength(slowPause);
                     }
                 } catch(TimeSpanException e) {
-                    ErrorHandler.catchError(null, e, -1);
+                    ErrorHandler.catchError(e, -1, false);
                 }
             }
 

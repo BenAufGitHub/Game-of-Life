@@ -139,7 +139,7 @@ public class PureFWindow extends GUI {
         } catch( IndexOutOfBoundsException e){
             try{ throw new CoordinatesNotInBoundsException(x,y); }
             catch(Exception exception){
-                ErrorHandler.catchError(this, exception, 4);
+                ErrorHandler.catchError(this, exception, 4, true);
             }
         }
         return label;
