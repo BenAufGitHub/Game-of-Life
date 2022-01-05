@@ -158,6 +158,7 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
     private void fillLastPanel() {
         int toBeDisplayed = optionsPerSite;
         int unfilled = toBeDisplayed - (choices.length % toBeDisplayed);
+        current = holder.get();
 
         for(int i=0; i<unfilled; i++){
             current.add(getStandardLabel());
