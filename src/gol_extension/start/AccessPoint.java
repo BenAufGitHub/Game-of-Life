@@ -5,7 +5,7 @@ import gol_extension.updates.UpdaterClean;
 import gol_extension.updates.UpdaterRed;
 import structure.Selector;
 import structure.Settings;
-import tools.SaveManager;
+import tools.CoordinateSaver;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class AccessPoint {
 
         // loads a save
         if(save_name != null)
-            new Selector(gol).selectAll(SaveManager.get(save_name));
+            new Selector(gol).selectAll(new CoordinateSaver().load(save_name));
 
         window.setVisible(true);
     }

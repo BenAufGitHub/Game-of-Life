@@ -2,12 +2,13 @@ package gol_extension.start;
 
 import gol_extension.structure.GameOfLife;
 import structure.GUI;
+import tools.CoordinateSaver;
 import tools.EntryPopUp;
 import tools.EntryVerification;
-import tools.SaveManager;
 
 import javax.swing.JButton;
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class SaveButton extends JButton implements EntryVerification {
 
@@ -36,18 +37,14 @@ public class SaveButton extends JButton implements EntryVerification {
 
 
     public void save(String filename){
-        int width = getGame().getWidth();
-        int height = getGame().getHeight();
-
-        Point[] points = new Point[width * height];
-        int index = 0;
-        for(int x=0; x< width; x++){
-            for(int y=0; y< height; y++){
+        ArrayList<Point> points = new ArrayList<>();
+        for(int x=0; x< getGame().getWidth(); x++){
+            for(int y=0; y< getGame().getHeight(); y++){
                 if(cellAlive(x,y))
-                    points[index++] = new Point(x, y);
+                    points.add(new Point(x, y));
             }
         }
-        SaveManager.save(filename, points);
+        new CoordinateSaver().save(filename, points);
     }
 
 

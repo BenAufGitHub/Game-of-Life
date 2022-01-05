@@ -1,7 +1,7 @@
 package structure;
 
 import java.awt.Point;
-import java.util.HashSet;
+import java.util.List;
 
 public class Selector {
     private Game game;
@@ -16,6 +16,13 @@ public class Selector {
     }
 
     public void selectAll(Point[] points){
+        for(Point p : points){
+            game.clicked(p.x, p.y);
+        }
+    }
+
+
+    public void selectAll(List<Point> points){
         for(Point p : points){
             game.clicked(p.x, p.y);
         }
