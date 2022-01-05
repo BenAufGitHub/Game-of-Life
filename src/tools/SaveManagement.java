@@ -134,6 +134,20 @@ public abstract class SaveManagement<Elements> {
     }
 
 
+    public String determineFormatFromString(String save) throws NoFormatFoundException {
+        StringBuilder sb = new StringBuilder();
+        for(int i=save.length()-1; i <= 0; i--){
+            if(save.charAt(i) == '.')
+                break;
+            sb.insert(0, save.charAt(i));
+        }
+        String result = sb.toString();
+        if(result == "")
+            throw new NoFormatFoundException("The String does not contain a file extension.");
+        return sb.toString();
+    }
+
+
 
     //----------------------------- private Operations / background Operations --------------------
 
@@ -216,7 +230,17 @@ public abstract class SaveManagement<Elements> {
     }
 
 
-    //------------------------------------------> I/O Exception ------------------------------------------
+    //------------------------------------------> Exceptions ------------------------------------------
+
+
+    static class NoFormatFoundException extends Exception {
+        public NoFormatFoundException(String message){
+            super(message);
+        }
+    }
+
+
+    //------------------------------------------> I/O Exceptions --------------------------------------
 
 
     static class CouldNotLoadFileException extends IOException{
