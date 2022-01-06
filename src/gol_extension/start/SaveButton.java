@@ -1,27 +1,27 @@
 package gol_extension.start;
 
+import gol_extension.saving.GOLSaver;
 import gol_extension.structure.GameOfLife;
 import structure.GUI;
-import tools.CoordinateSaver;
 import tools.EntryPopUp;
 import tools.EntryVerification;
 
 import javax.swing.JButton;
-import java.awt.Point;
-import java.util.ArrayList;
 
 public class SaveButton extends JButton implements EntryVerification {
 
     private EntryPopUp popUp = null;
     private GameOfLife game;
+    private GOLSaver saver;
 
 
     /**
      * params: x/y = location
      */
-    public SaveButton(GameOfLife game) {
+    public SaveButton(GameOfLife game, GOLSaver saver) {
         super("save");
         this.game = game;
+        this.saver = saver;
         this.addActionListener(e -> {
             if(!getGame().running())
                 onSave();
@@ -32,19 +32,7 @@ public class SaveButton extends JButton implements EntryVerification {
     public void onSave(){
         String saveName = nameFile();
         if(saveName != null)
-            save(saveName);
-    }
-
-
-    public void save(String filename){
-        ArrayList<Point> points = new ArrayList<>();
-        for(int x=0; x< getGame().getWidth(); x++){
-            for(int y=0; y< getGame().getHeight(); y++){
-                if(cellAlive(x,y))
-                    points.add(new Point(x, y));
-            }
-        }
-        new CoordinateSaver().save(filename, points);
+            saver.save(saveName);
     }
 
 
@@ -105,9 +93,5 @@ public class SaveButton extends JButton implements EntryVerification {
 
     public GameOfLife getGame(){
         return game;
-    }
-
-    private boolean cellAlive(int x, int y){
-        return getGame().getCellTracker().getGrid().getCell(x,y).isAlive();
     }
 }
