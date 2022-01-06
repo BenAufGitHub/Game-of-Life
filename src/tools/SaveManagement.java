@@ -20,7 +20,8 @@ public abstract class SaveManagement<Elements> {
      * @return
      * @throws CouldNotLoadFileException
      */
-    public List<Elements> load(String saveName) throws CouldNotLoadFileException {
+    public List<Elements> load(String saveName) throws CouldNotLoadFileException, FileFormatException {
+        assertCorrectFileFormat(saveName);
         String path = nameToRelativePath(saveName);
         String[] file_content = getPlainText(path);
         return getObjects(file_content);
@@ -154,6 +155,13 @@ public abstract class SaveManagement<Elements> {
     //-------------------------------------> file format ------------------------------------------
 
 
+    private void assertCorrectFileFormat(String saveName) throws FileFormatException {
+        if(isASave(saveName) || saveName.indexOf('.') == -1)
+            return;
+        throw new FileFormatException("Cannot load the given file with a JSONSaver.");
+    }
+
+
     /**
      * @param format
      * @return if no exception is thrown, it returns a valid format
@@ -190,7 +198,7 @@ public abstract class SaveManagement<Elements> {
     }
 
 
-    static class FileFormatException extends Exception {
+    static class FileFormatException extends IOException {
         public FileFormatException(String message){
             super(message);
         }
