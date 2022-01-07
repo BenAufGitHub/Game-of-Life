@@ -3,8 +3,10 @@ package gol_extension.start;
 import gol_extension.saving.GOLCoordSaver;
 import gol_extension.saving.GOLSaver;
 import gol_extension.saving.GOL_JSONSaver;
+import gol_extension.saving.OffsetSaver;
 import gol_extension.structure.GameOfLife;
 import structure.Printer;
+import tools.CoordinateSaver;
 
 /**
  * adding a count system to GOL, output is shown by Printer
@@ -37,7 +39,7 @@ public class ExtendedGOL extends GameOfLife {
 
 
     private void initSaveModule(WindowGOL window) {
-        GOLSaver saver = new GOLCoordSaver(this);
+        GOLSaver saver = new OffsetSaver( this);
 
         LoadButton load = new LoadButton(this, saver);
         SaveButton save = new SaveButton(this, saver);
