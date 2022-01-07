@@ -35,7 +35,7 @@ public class OffsetSaver extends GOL_JSONSaver{
     /**
      * Calculates the offset + margin into the Coordinates if they exist.
      */
-    private Point getCoordinates(JSONObject obj) {
+    protected Point getCoordinates(JSONObject obj) {
         long x = (long) obj.get("x");
         long y = (long) obj.get("y");
 
@@ -62,7 +62,7 @@ public class OffsetSaver extends GOL_JSONSaver{
     /**
      * Determines the most top left Point of the save-structure and sets that as the structures offset relative to the top left.
      */
-    private JSONObject getOffset(List<Cell> aliveCells) {
+    protected JSONObject getOffset(List<Cell> aliveCells) {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
         for(Cell cell : aliveCells){
@@ -76,7 +76,7 @@ public class OffsetSaver extends GOL_JSONSaver{
     /**
      * alive Cells are collected as JSON
      */
-    private List<JSONObject> collectJSON(List<Cell> alive, JSONObject offset) {
+    protected List<JSONObject> collectJSON(List<Cell> alive, JSONObject offset) {
         ArrayList<JSONObject> collection = new ArrayList<>();
         for(Cell cell : alive){
             JSONObject obj = toJSON(cell.getX(),cell.getY());
@@ -84,5 +84,13 @@ public class OffsetSaver extends GOL_JSONSaver{
             collection.add(obj);
         }
         return collection;
+    }
+
+
+    public void setMargin(int xMargin, int yMargin){
+        if(xMargin < 0 || yMargin < 0)
+            throw new RuntimeException("Cannot set margin to a negative value: "+xMargin+" and "+yMargin);
+        this.xMargin = xMargin;
+        this.yMargin = yMargin;
     }
 }
