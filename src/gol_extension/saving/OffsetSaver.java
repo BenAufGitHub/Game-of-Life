@@ -85,38 +85,4 @@ public class OffsetSaver extends GOL_JSONSaver{
         }
         return collection;
     }
-
-
-    private JSONObject toJSON(int x, int y){
-        JSONObject js = new JSONObject();
-        js.put("x", x);
-        js.put("y", y);
-        return js;
-    }
-
-
-    //-------------------------------- background operations -------------------------------------------
-
-
-    private List<Cell> getAliveCells(){
-        ArrayList<Cell> list = new ArrayList();
-        for(int x=0; x< getGame().getWidth(); x++){
-            for(int y=0; y< getGame().getHeight(); y++){
-                if(cellAlive(x,y)){
-                    list.add(getCell(x,y));
-                }
-            }
-        }
-        return list;
-    }
-
-
-    private boolean cellAlive(int x, int y){
-        return getGame().getCellTracker().getGrid().getCell(x,y).isAlive();
-    }
-
-
-    private Cell getCell(int x, int y){
-        return getGame().getCellTracker().getGrid().getCell(x,y);
-    }
 }

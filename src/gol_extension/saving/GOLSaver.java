@@ -1,9 +1,11 @@
 package gol_extension.saving;
 
+import gol_extension.structure.Cell;
 import gol_extension.structure.GameOfLife;
 import tools.SaveManagement;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GOLSaver<Element> {
@@ -49,6 +51,32 @@ public abstract class GOLSaver<Element> {
 
     public SaveManagement getSaver(){
         return saver;
+    }
+
+
+    // ---------------------------------------> Utility -----------------------------------------------
+
+
+    protected List<Cell> getAliveCells(){
+        ArrayList<Cell> list = new ArrayList();
+        for(int x=0; x< getGame().getWidth(); x++){
+            for(int y=0; y< getGame().getHeight(); y++){
+                if(cellAlive(x,y)){
+                    list.add(getCell(x,y));
+                }
+            }
+        }
+        return list;
+    }
+
+
+    private boolean cellAlive(int x, int y){
+        return getGame().getCellTracker().getGrid().getCell(x,y).isAlive();
+    }
+
+
+    private Cell getCell(int x, int y){
+        return getGame().getCellTracker().getGrid().getCell(x,y);
     }
 
 }

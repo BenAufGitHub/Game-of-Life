@@ -1,5 +1,6 @@
 package gol_extension.saving;
 
+import gol_extension.structure.Cell;
 import gol_extension.structure.GameOfLife;
 import org.json.simple.JSONObject;
 import tools.JSONSaver;
@@ -34,27 +35,16 @@ public class GOL_JSONSaver extends GOLSaver<JSONObject>{
     @Override
     protected List<JSONObject> translateGame(){
         ArrayList<JSONObject> objects = new ArrayList<>();
-        for(int x=0; x< getGame().getWidth(); x++){
-            for(int y=0; y< getGame().getHeight(); y++){
-
-                if(cellAlive(x,y))
-                    objects.add(toJSON(x,y));
-
-            }
-        }
+        for(Cell c: getAliveCells())
+            objects.add(toJSON(c.getX(), c.getY()));
         return objects;
     }
 
 
-    private JSONObject toJSON(int x, int y){
+    protected JSONObject toJSON(int x, int y){
         JSONObject js = new JSONObject();
         js.put("x", x);
         js.put("y", y);
         return js;
-    }
-
-
-    private boolean cellAlive(int x, int y){
-        return getGame().getCellTracker().getGrid().getCell(x,y).isAlive();
     }
 }

@@ -1,5 +1,6 @@
 package gol_extension.saving;
 
+import gol_extension.structure.Cell;
 import gol_extension.structure.GameOfLife;
 import org.json.simple.JSONObject;
 import tools.CoordinateSaver;
@@ -28,18 +29,9 @@ public class GOLCoordSaver extends GOLSaver<Point>{
     @Override
     protected List<Point> translateGame() {
         List<Point> points = new ArrayList();
-        for(int x=0; x< getGame().getWidth(); x++){
-            for(int y=0; y< getGame().getHeight(); y++){
-                if(cellAlive(x,y)){
-                    points.add(new Point(x,y));
-                }
-            }
+        for(Cell cell : getAliveCells()){
+            points.add(new Point(cell.getX(), cell.getY()));
         }
         return points;
-    }
-
-
-    private boolean cellAlive(int x, int y){
-        return getGame().getCellTracker().getGrid().getCell(x,y).isAlive();
     }
 }
