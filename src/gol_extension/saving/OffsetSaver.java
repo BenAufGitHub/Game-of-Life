@@ -11,8 +11,11 @@ import java.util.List;
 public class OffsetSaver extends GOL_JSONSaver{
 
     // Margins as for the insertion of the saved obj from the top left corner.
-    private int xMargin = 2;
-    private int yMargin = 2;
+    public final int STANDARD_X_MARGIN = 2;
+    public final int STANDARD_Y_MARGIN = 2;
+
+    private int xMargin = STANDARD_X_MARGIN;
+    private int yMargin = STANDARD_Y_MARGIN;
 
 
     public OffsetSaver(GameOfLife game) {
