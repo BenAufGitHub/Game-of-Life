@@ -56,8 +56,8 @@ public class CentralSaver extends OffsetSaver{
          long maxY = (long) max_offset.get("y");
 
          // Construct bounds
-         long width = maxX -minX;
-         long height = maxY - minY;
+         long width = 1 + maxX -minX;
+         long height = 1 + maxY - minY;
 
          // Margin in order to center
          int xShift = (getGame().getWidth() - ((int) width)) / 2;
@@ -105,6 +105,9 @@ public class CentralSaver extends OffsetSaver{
     }
 
 
+    /**
+     * Set how from top-left corner the loaded-structure should be at least, if game limitations make the auto-margin to small.
+     */
     public void setMinimumRelativeMargin(int x, int y){
         minOffsetX = x;
         minOffsetY = y;
