@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.util.HashMap;
 
@@ -42,11 +43,11 @@ public class PureFWindow extends GUI {
 
         gridWrapper.setPreferredSize(new Dimension(800,0));
         gridWrapper.setBackground(Color.LIGHT_GRAY);
-        gridWrapper.setLayout(new FlowLayout());
+        gridWrapper.setLayout(new GridBagLayout());
 
         Dimension d = getProperGridScale(x,y);
-        grid.setSize(d.width, d.height);
-        gridWrapper.add(grid);
+        grid.setPreferredSize(d);
+        gridWrapper.add(grid, new GridBagConstraints());
 
         this.add(control, BorderLayout.EAST);
         this.add(gridWrapper, BorderLayout.WEST);
