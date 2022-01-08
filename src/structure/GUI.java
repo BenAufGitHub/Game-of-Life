@@ -21,9 +21,8 @@ public abstract class GUI extends JFrame implements Output {
 
 
     public GUI(int x, int y, Settings settings){
-        if(x > 200 || y> 200){
-            ErrorHandler.catchError(new DimensionsTooBigException(), 5, false);
-        }
+        checkBounds(x, y);
+
         setSettings(settings);
         ButtonFactory factory = new ButtonFactory();
 
@@ -44,6 +43,16 @@ public abstract class GUI extends JFrame implements Output {
         control.add(stop);
 
         this.setGame(new EmptyGame(this));
+    }
+
+
+    protected void checkBounds(int x, int y){
+        if(x > 200 || y> 200){
+            ErrorHandler.catchError(new DimensionsTooBigException(), 5, true);
+        }
+        if(x<1 || y<1){
+            ErrorHandler.catchError(new RuntimeException("Too Small"), -1, true);
+        }
     }
 
 
