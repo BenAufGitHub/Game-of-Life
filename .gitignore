@@ -8,4 +8,5 @@
 # whitelist everything in ./config/
 !/src/**
 !/resources/
+!/lib/**
 !README.md
