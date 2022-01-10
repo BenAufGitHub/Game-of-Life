@@ -1,0 +1,12 @@
+Ausführen in Intellij:
+	1. Project-Structure -> libraries
+	add lib folder
+	2. Run-Configurations -> Select AccessPoint
+	3. Ausführen
+
+Manuelles Compiling und ausführen des Source Codes durch die cmd:
+
+	cd {ProjectPath}
+	dir /s /B "*.java" > sources.txt
+    javac -d bin -cp lib\* @sources.txt
+	java -cp bin;lib\* gol_extension.start.AccessPoint
