@@ -82,6 +82,7 @@ public class CentralSaver extends OffsetSaver{
     }
 
 
+    @SuppressWarnings("unchecked")
     protected List<JSONObject> collectJSON(List<Cell> alive, JSONObject offset, JSONObject maxOffset){
         List<JSONObject> objects = super.collectJSON(alive, offset);
         for(JSONObject obj : objects){
