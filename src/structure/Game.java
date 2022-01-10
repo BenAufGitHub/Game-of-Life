@@ -3,8 +3,11 @@ package structure;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Game {
-    private Boolean stopping = Boolean.FALSE;
-    private Boolean noProcess = Boolean.TRUE;
+    private Object stopLock = new Object();
+    private Object processCheckLock = new Object();
+
+    private boolean noProcess = true;
+    private boolean stopping = false;
     private boolean forceInterrupt = false;
     private int timeoutLength = 800;
     private Output output;
@@ -49,7 +52,7 @@ public abstract class Game {
      * @return return true if accepted: changes noProcess to false
      */
     private final boolean ownProcessRequest(){
-        synchronized (noProcess){
+        synchronized (processCheckLock){
             if(!running()){
                 setRunning(true);
                 return true;
@@ -80,7 +83,7 @@ public abstract class Game {
     caution: graphics.structure.GUI is presumably multi-threading
      */
     public void stop(){
-        synchronized (stopping){
+        synchronized (stopLock){
             stopping = true;
         }
     }
@@ -91,7 +94,7 @@ public abstract class Game {
     stops the running process
      */
     private boolean stopRequest(){
-        synchronized (stopping){
+        synchronized (stopLock){
             if(stopping){
                 stopping = false;
                 return true;
@@ -102,7 +105,7 @@ public abstract class Game {
 
 
     private final void setRunning(Boolean bool) {
-        synchronized (noProcess){
+        synchronized (processCheckLock){
             noProcess = !bool;
         }
     }
@@ -111,8 +114,8 @@ public abstract class Game {
      * @return whether there is an ongoing process
      */
     public final boolean running(){
-        synchronized(noProcess){
-            return (noProcess) ? false : true;
+        synchronized(processCheckLock){
+            return !noProcess;
         }
     }
 
