@@ -17,7 +17,7 @@ import java.util.List;
  * extension of PureFWindow with additional features such as clear, speed and save Button
  */
 public class FWindow extends PureFWindow {
-    private List<JButton> staleButtonsOnRun;
+    private List<JButton> inactiveOnRun;
     private JPanel controller;
     private JButton clear;
     private Factory.SpeedButton speedButton;
@@ -25,7 +25,7 @@ public class FWindow extends PureFWindow {
     public FWindow(int x, int y, Settings settings) {
         super(x, y, settings);
 
-        this.staleButtonsOnRun = new ArrayList<>();
+        this.inactiveOnRun = new ArrayList<>();
         this.controller = getControlPanel();
         this.clear = new JButton("clear");
         this.speedButton =  new Factory.SpeedButton(this);
@@ -53,7 +53,7 @@ public class FWindow extends PureFWindow {
      */
     public void addButton(JButton button, boolean activeOnRun){
         if(!activeOnRun)
-            staleButtonsOnRun.add(button);
+            inactiveOnRun.add(button);
         controller.add(button);
     }
 
@@ -94,7 +94,7 @@ public class FWindow extends PureFWindow {
 
 
     private void allListedButtonsEnabled(boolean enabled){
-        for(JButton button : staleButtonsOnRun)
+        for(JButton button : inactiveOnRun)
             button.setEnabled(enabled);
     }
 
