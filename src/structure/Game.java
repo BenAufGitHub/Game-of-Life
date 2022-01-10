@@ -20,6 +20,7 @@ public abstract class Game {
         if(ownProcessRequest() != true)
             return;
 
+        stopping = false;
         forceInterrupt = false;
         while(!stopRequest() && !forceInterrupt){
             act();
