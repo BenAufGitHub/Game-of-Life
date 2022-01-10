@@ -79,6 +79,7 @@ public class OffsetSaver extends GOL_JSONSaver{
     /**
      * alive Cells are collected as JSON
      */
+    @SuppressWarnings("unchecked")
     protected List<JSONObject> collectJSON(List<Cell> alive, JSONObject offset) {
         ArrayList<JSONObject> collection = new ArrayList<>();
         for(Cell cell : alive){

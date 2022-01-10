@@ -12,13 +12,13 @@ public class SaveButton extends JButton implements EntryVerification {
 
     private EntryPopUp popUp = null;
     private GameOfLife game;
-    private GOLSaver saver;
+    private GOLSaver<?> saver;
 
 
     /**
      * params: x/y = location
      */
-    public SaveButton(GameOfLife game, GOLSaver saver) {
+    public SaveButton(GameOfLife game, GOLSaver<?> saver) {
         super("save");
         this.game = game;
         this.saver = saver;

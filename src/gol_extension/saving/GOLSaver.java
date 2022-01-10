@@ -49,7 +49,7 @@ public abstract class GOLSaver<Element> {
     }
 
 
-    public SaveManagement getSaver(){
+    public SaveManagement<Element> getSaver(){
         return saver;
     }
 
@@ -58,7 +58,7 @@ public abstract class GOLSaver<Element> {
 
 
     protected List<Cell> getAliveCells(){
-        ArrayList<Cell> list = new ArrayList();
+        ArrayList<Cell> list = new ArrayList<>();
         for(int x=0; x< getGame().getWidth(); x++){
             for(int y=0; y< getGame().getHeight(); y++){
                 if(cellAlive(x,y)){

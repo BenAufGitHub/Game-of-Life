@@ -12,13 +12,13 @@ import java.io.IOException;
 public class LoadButton extends JButton{
 
     private GameOfLife game;
-    private GOLSaver saver;
+    private GOLSaver<?> saver;
 
     /**
      * loads save files
      * params: x/y = location
      */
-    public LoadButton(GameOfLife game, GOLSaver saver) {
+    public LoadButton(GameOfLife game, GOLSaver<?> saver) {
         super("load");
         this.game = game;
         this.saver = saver;

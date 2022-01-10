@@ -36,7 +36,7 @@ public class ExtendedGOL extends GameOfLife {
 
 
     private void initSaveModule(WindowGOL window) {
-        GOLSaver saver = new CentralSaver(this);
+        GOLSaver<?> saver = new CentralSaver(this);
 
         LoadButton load = new LoadButton(this, saver);
         SaveButton save = new SaveButton(this, saver);

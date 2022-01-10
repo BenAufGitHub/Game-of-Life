@@ -41,6 +41,7 @@ public class GOL_JSONSaver extends GOLSaver<JSONObject>{
     }
 
 
+    @SuppressWarnings("unchecked")
     protected JSONObject toJSON(int x, int y){
         JSONObject js = new JSONObject();
         js.put("x", x);

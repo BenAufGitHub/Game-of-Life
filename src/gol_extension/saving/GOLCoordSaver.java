@@ -28,7 +28,7 @@ public class GOLCoordSaver extends GOLSaver<Point>{
     
     @Override
     protected List<Point> translateGame() {
-        List<Point> points = new ArrayList();
+        List<Point> points = new ArrayList<>();
         for(Cell cell : getAliveCells()){
             points.add(new Point(cell.getX(), cell.getY()));
         }

@@ -64,7 +64,6 @@ public class Cell {
     /**
      * CAN EFFECT outcome of the game.
      * especially used by: Celltracker
-     * @param bool
      */
     public void setTracked(boolean bool){
         tracked = bool;
