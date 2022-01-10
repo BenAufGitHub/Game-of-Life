@@ -81,20 +81,14 @@ public class ErrorHandler {
      custom error message for each code, done w switch-case
      */
     private static String getErrorMessage(int errorCode) {
-        switch(errorCode){
-            case(2):
-                return "Something interrupted the game process.";
-            case(3):
-                return "The run process was suddenly interrupted.";
-            case(4):
-                return "The gui doesn't support the input numbers.";
-            case(5):
-                return "World is too big.";
-            case(6):
-                return "File does not exist or is faulty.";
-            default:
-                return "An error occurred.";
-        }
+        return switch (errorCode) {
+            case (2) -> "Something interrupted the game process.";
+            case (3) -> "The run process was suddenly interrupted.";
+            case (4) -> "The gui doesn't support the input numbers.";
+            case (5) -> "World is too big.";
+            case (6) -> "File does not exist or is faulty.";
+            default -> "An error occurred.";
+        };
     }
 
 

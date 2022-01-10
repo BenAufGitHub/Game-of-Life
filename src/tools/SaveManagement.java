@@ -17,7 +17,6 @@ public abstract class SaveManagement<Elements> {
 
     /**
      * for this to work, the subclass needs to implement the method get()
-     * @return
      * @throws CouldNotLoadFileException
      */
     public List<Elements> load(String saveName) throws CouldNotLoadFileException, FileFormatException {
@@ -59,6 +58,8 @@ public abstract class SaveManagement<Elements> {
     public String[] getSaveNames(){
         File folder = new File("./resources/saves/");
         File[] listOfFiles = folder.listFiles();
+        listOfFiles = (listOfFiles != null) ? listOfFiles : new File[0];
+
         String[] names = new String[listOfFiles.length];
         for(int i=0; i< listOfFiles.length; i++){
             // substring cuts the path away
@@ -92,7 +93,7 @@ public abstract class SaveManagement<Elements> {
 
 
     /**
-     * formates strings in a way that they do not contain dots or spaces
+     * formats strings in a way that they do not contain dots or spaces
      * @param saveName
      * @return ./resources/saves/properSaveName.format
      */
@@ -137,13 +138,13 @@ public abstract class SaveManagement<Elements> {
 
     public String determineFormatFromString(String save) throws NoFormatFoundException {
         StringBuilder sb = new StringBuilder();
-        for(int i=save.length()-1; i <= 0; i--){
+        for(int i=save.length()-1; i >= 0; i--){
             if(save.charAt(i) == '.')
                 break;
             sb.insert(0, save.charAt(i));
         }
         String result = sb.toString();
-        if(result == "")
+        if(result.equals(""))
             throw new NoFormatFoundException("The String does not contain a file extension.");
         return sb.toString();
     }
@@ -163,7 +164,7 @@ public abstract class SaveManagement<Elements> {
 
 
     /**
-     * @param format
+     * @param format like file.txt or file.json
      * @return if no exception is thrown, it returns a valid format
      * @throws FileFormatException format too short, too long or with special characters
      */

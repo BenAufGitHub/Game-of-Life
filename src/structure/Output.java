@@ -13,8 +13,6 @@ public interface Output {
 
     /**
      * game can call an Action for specific coordinates to take place
-     * @param x
-     * @param y
      * @param action = DIE, LIVE, COLOR, UNCOLOR
      */
     void showAction(int x, int y, Action action);

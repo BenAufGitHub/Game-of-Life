@@ -35,6 +35,7 @@ public class JSONSaver extends SaveManagement<JSONObject> {
 
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<String> elementsToFileText(List<JSONObject> list) {
         JSONArray array = new JSONArray();
             array.addAll(list);

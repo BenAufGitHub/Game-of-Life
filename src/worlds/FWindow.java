@@ -25,7 +25,7 @@ public class FWindow extends PureFWindow {
     public FWindow(int x, int y, Settings settings) {
         super(x, y, settings);
 
-        this.staleButtonsOnRun = new ArrayList();
+        this.staleButtonsOnRun = new ArrayList<>();
         this.controller = getControlPanel();
         this.clear = new JButton("clear");
         this.speedButton =  new Factory.SpeedButton(this);
@@ -81,7 +81,7 @@ public class FWindow extends PureFWindow {
     @Override
     protected void deactivateButtons(GUI.Clicked button){
         super.deactivateButtons(button);
-        if(button == GUI.Clicked.RUN || button == GUI.Clicked.RUN){
+        if(button == GUI.Clicked.RUN || button == GUI.Clicked.ACT){
             allListedButtonsEnabled(false);
         }
     }

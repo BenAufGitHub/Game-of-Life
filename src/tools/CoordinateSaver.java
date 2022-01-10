@@ -1,6 +1,5 @@
 package tools;
 
-import java.io.IOException;
 import java.util.List;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class CoordinateSaver extends SaveManagement<Point>{
 
     /**
      * @return awt.Point List with all the active cells
-     * @throws IOException
+     * @throws tools.SaveManagement.FaultyFileException
      */
     @Override
     protected List<Point> getObjects(String[] content) throws FaultyFileException {

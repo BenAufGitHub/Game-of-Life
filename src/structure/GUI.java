@@ -132,11 +132,7 @@ public abstract class GUI extends JFrame implements Output {
     protected void deactivateButtons(Clicked button){
         run.setEnabled(false);
         act.setEnabled(false);
-
-        if(button == Clicked.RUN){
-            stop.setEnabled(true);
-        } else
-            stop.setEnabled(false);
+        stop.setEnabled(button == Clicked.RUN);
     }
 
 
@@ -211,7 +207,7 @@ public abstract class GUI extends JFrame implements Output {
 
     }
 
-    private class DimensionsTooBigException extends Exception{
+    private static class DimensionsTooBigException extends Exception{
         public DimensionsTooBigException(){
             super("Either x or y extended the dimension limit of 200");
         }

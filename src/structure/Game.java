@@ -3,8 +3,8 @@ package structure;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Game {
-    private Object stopLock = new Object();
-    private Object processCheckLock = new Object();
+    private final Object stopLock = new Object();
+    private final Object processCheckLock = new Object();
 
     private boolean noProcess = true;
     private boolean stopping = false;
@@ -51,7 +51,7 @@ public abstract class Game {
      * whether this is allowed to run
      * @return return true if accepted: changes noProcess to false
      */
-    private final boolean ownProcessRequest(){
+    private boolean ownProcessRequest(){
         synchronized (processCheckLock){
             if(!running()){
                 setRunning(true);
@@ -104,7 +104,7 @@ public abstract class Game {
     }
 
 
-    private final void setRunning(Boolean bool) {
+    private void setRunning(Boolean bool) {
         synchronized (processCheckLock){
             noProcess = !bool;
         }

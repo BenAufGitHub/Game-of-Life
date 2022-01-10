@@ -110,7 +110,7 @@ public class PureFWindow extends GUI {
         JLabel label = getLabel(x, y, grid);
 
         Color color = blueprint.color;
-        if(color != null && getSettings().coloursChangable() && label.getBackground() != color){
+        if(color != null && getSettings().coloursChangeable() && label.getBackground() != color){
             label.setBackground(color);
         }
         if(blueprint.iconChange){
