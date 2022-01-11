@@ -10,11 +10,20 @@ import java.util.List;
 
 /**
  * positions all loaded structures centered into the Grid.
- */
+ * Can read saves from superclass.
+ * Reading superclass description recommended.
+ * Structure:
+ *       List:
+ *           [0]: JSONObject:
+ *                   {
+ *                       "header": {"offset": coordinates, "max_offset": coordinates}
+ *                       "contents": {coordinates0, coordinates1, ... , coordinatesX
+ *                   }
+ **/
 public class CentralSaver extends OffsetSaver{
 
-    private int minOffsetX = STANDARD_X_MARGIN;
-    private int minOffsetY = STANDARD_Y_MARGIN;
+    private int minMarginX = STANDARD_X_MARGIN;
+    private int minMarginY = STANDARD_Y_MARGIN;
 
 
     public CentralSaver(GameOfLife game) {
@@ -22,52 +31,54 @@ public class CentralSaver extends OffsetSaver{
     }
 
 
+    //------------------------------- save file -> game -----------------------------------------------------
+
+
     /**
      * Elements to game (load).
      */
     @Override
     protected void translateElements(List<JSONObject> objects){
-        for(JSONObject obj : objects){
-            Point point = getCoordinates(obj);
+        Point shiftToCenter = calcShift(objects.get(0));
+        for(JSONObject obj : retrieveContentsFromRootObject(objects.get(0))){
+            Point coordinates = getJSONCoordinates(obj);
+            Point point = getCoordinates(coordinates.x, coordinates.y, shiftToCenter.x, shiftToCenter.y);
             getGame().clicked(point.x, point.y);
         }
     }
 
 
     /**
-     * if objects has a maxOffset Key, this calcs the Point in a relative, centered position
+     * If root has a maxOffset Key, this calcs relative offset to the center.
+     * If not but has a minOffset Key, super method calcs relative offset to top-left corner.
+     * else return no offset (new Point(0, 0))
      */
     @Override
-    protected Point getCoordinates(JSONObject obj) {
-        if(obj.containsKey("max_offset")) {
-            setMargin(0,0);
-            Point rawPoint = super.getCoordinates(obj);
-            return getRelativeLocation(rawPoint, (JSONObject) obj.get("offset"), (JSONObject) obj.get("max_offset"));
-        }
-        setMargin(STANDARD_X_MARGIN, STANDARD_Y_MARGIN);
-        return super.getCoordinates(obj);
+    protected Point calcShift(JSONObject root) {
+        JSONObject offset = readHeaderAttr(root, "offset");
+        JSONObject maxOffset = readHeaderAttr(root, "max_offset");
+        if(maxOffset == null)
+            return super.calcShift(root);
+
+        // minPoint and maxPoint of the structure
+        Point min = getJSONCoordinates(offset);
+        Point max = getJSONCoordinates(maxOffset);
+
+        int width = 1 + max.x - min.x;
+        int height = 1 + max.y - min.y;
+
+        // Margin from top/left corner in order to center
+        int xMargin = (getGame().getWidth() - width) / 2;
+        int yMargin = (getGame().getHeight() - height) / 2;
+
+        // relative shift
+        int xShift = Math.max(xMargin, minMarginX) - min.x;
+        int yShift = Math.max(yMargin, minMarginY) - min.y;
+        return new Point(xShift, yShift);
     }
 
 
-    private Point getRelativeLocation(Point rawPoint, JSONObject offset, JSONObject max_offset) {
-         long minX = (long) offset.get("x");
-         long minY = (long) offset.get("y");
-         long maxX = (long) max_offset.get("x");
-         long maxY = (long) max_offset.get("y");
-
-         // Construct bounds
-         long width = 1 + maxX -minX;
-         long height = 1 + maxY - minY;
-
-         // Margin in order to center
-         int xShift = (getGame().getWidth() - ((int) width)) / 2;
-         int yShift = (getGame().getHeight() - ((int) height)) / 2;
-
-         xShift = Math.max(xShift, minOffsetX);
-         yShift = Math.max(yShift, minOffsetY);
-
-         return new Point(rawPoint.x + xShift, rawPoint.y + yShift);
-    }
+    //-------------------------------- game -> save file --------------------------------
 
 
     /**
@@ -75,20 +86,11 @@ public class CentralSaver extends OffsetSaver{
      */
     @Override
     protected List<JSONObject> translateGame(){
-        List<Cell> aliveCells = getAliveCells();
-        JSONObject minOffset = getOffset(aliveCells);
-        JSONObject maxOffset = getMaxOffset(aliveCells);
-        return collectJSON(aliveCells, minOffset, maxOffset);
-    }
-
-
-    @SuppressWarnings("unchecked")
-    protected List<JSONObject> collectJSON(List<Cell> alive, JSONObject offset, JSONObject maxOffset){
-        List<JSONObject> objects = super.collectJSON(alive, offset);
-        for(JSONObject obj : objects){
-            obj.put("max_offset", maxOffset);
-        }
-        return objects;
+        List<JSONObject> saveList = super.translateGame();
+        JSONObject root = saveList.get(0);
+        JSONObject maxOffset = getMaxOffset(getAliveCells());
+        addToHeader(root, "max_offset", maxOffset);
+        return saveList;
     }
 
 
@@ -110,7 +112,7 @@ public class CentralSaver extends OffsetSaver{
      * Set how from top-left corner the loaded-structure should be at least, if game limitations make the auto-margin to small.
      */
     public void setMinimumRelativeMargin(int x, int y){
-        minOffsetX = x;
-        minOffsetY = y;
+        minMarginX = x;
+        minMarginY = y;
     }
 }
