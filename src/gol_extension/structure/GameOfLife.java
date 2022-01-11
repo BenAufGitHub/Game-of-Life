@@ -108,7 +108,7 @@ public class GameOfLife extends Game {
 
 
     /**
-     * called with care,  since the celltracker tracks the files cells
+     * Call with care,  since the celltracker tracks the files cells.
      * @param cellTracker
      */
     public void setCellTracker(CellTracker cellTracker){
@@ -125,5 +125,10 @@ public class GameOfLife extends Game {
 
     public int getWidth(){
         return getCellTracker().getGrid().getWidth();
+    }
+
+    @Override
+    public void hovered(int x, int y){
+        System.out.println("Hovering");
     }
 }

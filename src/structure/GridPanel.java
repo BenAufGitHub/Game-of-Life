@@ -75,7 +75,9 @@ public class GridPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        JLabel label = (JLabel) e.getSource();
+        Point point = coordinates.get(label);
+        selector.selectAsHovered(point.x, point.y);
     }
 
     @Override

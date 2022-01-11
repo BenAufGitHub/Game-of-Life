@@ -41,9 +41,15 @@ public abstract class Game {
 
 
     /**
-     * determines what happens when a cell is clicked in the structure.Output
+     * determines what happens when a cell is clicked at the output Object (Output has to be setup manually).
      */
     public abstract void clicked(int x, int y);
+
+
+    /**
+     * determines what happens if a cell is hovered in the output object (Output has be set up manually).
+     */
+    public abstract void hovered(int x, int y);
 
 
     /**

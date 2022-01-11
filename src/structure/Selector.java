@@ -15,6 +15,10 @@ public class Selector {
         game.clicked(x, y);
     }
 
+    public void selectAsHovered(int x, int y){
+        game.hovered(x,y);
+    }
+
     public void selectAll(Point[] points){
         for(Point p : points){
             game.clicked(p.x, p.y);
