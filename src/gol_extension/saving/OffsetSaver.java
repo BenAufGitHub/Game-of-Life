@@ -92,7 +92,7 @@ public class OffsetSaver extends GOL_JSONSaver{
     /**
      * Game to Elements (Save).
      */
-    @Override
+    @Override @SuppressWarnings("unchecked")
     protected List<JSONObject> translateGame(){
         List<Cell> aliveCells = getAliveCells();
         JSONObject header = new JSONObject();
@@ -129,6 +129,7 @@ public class OffsetSaver extends GOL_JSONSaver{
     }
 
 
+    @SuppressWarnings("unchecked")
     protected void addToHeader(JSONObject root, String key, JSONObject value){
         JSONObject header = (JSONObject) root.get("header");
         if(header != null)

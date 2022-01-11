@@ -2,7 +2,6 @@ package gol_extension.saving;
 
 import gol_extension.structure.Cell;
 import gol_extension.structure.GameOfLife;
-import org.json.simple.JSONObject;
 import tools.CoordinateSaver;
 
 import java.awt.Point;

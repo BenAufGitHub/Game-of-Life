@@ -41,6 +41,7 @@ public class GOL_JSONSaver extends GOLSaver<JSONObject>{
 
 
     @Override
+    @SuppressWarnings("unchecked")
     protected List<JSONObject> translateGame(){
         List<JSONObject> list = new ArrayList<>();
         JSONObject wrapper = new JSONObject();

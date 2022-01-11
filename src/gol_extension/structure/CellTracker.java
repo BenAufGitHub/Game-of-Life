@@ -5,6 +5,7 @@ import gol_extension.updates.Updates;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * this class determines which Cells need to be changed, changes the Cells accordingly.
@@ -54,7 +55,8 @@ public class CellTracker {
      * if cell is in the latest update log, this return true
      */
     public boolean latelyChanged(Cell cell){
-        return cell != null && log.peekLast().containsKey(cell);
+        Map<Cell, Updates> changes = log.peekLast();
+        return changes != null && changes.containsKey(cell);
     }
 
 
@@ -171,7 +173,7 @@ public class CellTracker {
         log.add(new HashMap<>());
         for(Cell cell : getReviewList()){
             if(cell.isAlive())
-                log.getLast().put(cell, Updates.LIVE);
+                log.getLast().put(cell, Updates.LIVE); //overrides "new" for alive Cells
         }
     }
 
