@@ -9,10 +9,16 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GOLCoordSaver extends GOLSaver<Point>{
+
+/**
+ * Since I settled on using JSONObjects to save the game, this class is redundant.
+ * Anyways, this class can be used if there is a need in the future.
+ * This class remains as the quality test for the tools.CoordinateSaver class.
+ */
+ public class GOLCoordinateSaver extends GOLSaver<Point>{
 
 
-    public GOLCoordSaver(GameOfLife game) {
+    public GOLCoordinateSaver(GameOfLife game) {
         super(game, new CoordinateSaver());
     }
 
