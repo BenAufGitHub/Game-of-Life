@@ -1,3 +1,5 @@
+Since this project uses Googles json-simple library. The lib folder either needs to be added to the classpath/module-path,
+or delete JSONSaver locally / don't use it. Here is how it is done:
 
 Ausführen in Intellij:
 Run in Intellij:
@@ -13,3 +15,5 @@ Manuel compiling and running of the source code with cmd:
 	dir /s /B "*.java" > sources.txt
     javac -d bin -cp lib\* @sources.txt
 	java -cp bin;lib\* gol_extension.start.AccessPoint
+
+Alternatively, download the jars if given on my GitHub: https://github.com/BenAufGitHub/Game-of-Life
