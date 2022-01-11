@@ -19,7 +19,16 @@ public abstract class Game {
     }
 
 
-    public void run() throws InterruptedException {
+    /**
+     * game should be able to reset and start from new
+     */
+    public abstract void reset();
+
+
+    //------------------------------------------ running ---------------------------------------------
+
+
+    public final void run() throws InterruptedException {
         if(ownProcessRequest() != true)
             return;
 
@@ -32,24 +41,6 @@ public abstract class Game {
         forceInterrupt = false;
         setRunning(false);
     }
-
-
-    /**
-     * game should be able to reset and start from new
-     */
-    public abstract void reset();
-
-
-    /**
-     * determines what happens when a cell is clicked at the output Object (Output has to be setup manually).
-     */
-    public abstract void clicked(int x, int y);
-
-
-    /**
-     * determines what happens if a cell is hovered in the output object (Output has be set up manually).
-     */
-    public abstract void hovered(int x, int y);
 
 
     /**
@@ -133,6 +124,31 @@ public abstract class Game {
         forceInterrupt = true;
     }
 
+
+    //------------------------------- clicking and hovering --------------------------------------------
+
+    /**
+     * determines what happens when a cell is clicked at the output Object (Output has to be setup manually).
+     */
+    public synchronized final void clicked(int x, int y){
+        onClick(x,y);
+    }
+
+    /** Override to get functionality, is called by "clicked" method. */
+    protected void onClick(int x, int y){}
+
+    /**
+     * determines what happens if a cell is hovered in the output object (Output has be set up manually).
+     */
+    public synchronized final void hovered(int x, int y){
+        onHover(x, y);
+    }
+
+    /** Override to get functionality, is called by "hovered" method. */
+    protected void onHover(int x, int y){}
+
+
+    // ----------------------------------------- other --------------------------------------------------
 
 
     public void setTimeoutLength(int milliseconds) throws TimeSpanException {

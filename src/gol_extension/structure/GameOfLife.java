@@ -67,7 +67,7 @@ public class GameOfLife extends Game {
      * @param y
      */
     @Override
-    public void clicked(int x, int y) {
+    protected void onClick(int x, int y) {
         //if running or exceeding x or y bounds -> return
         if(running() || x >= getCellTracker().getGrid().getWidth() || y >= getCellTracker().getGrid().getHeight())
             return;
@@ -125,10 +125,5 @@ public class GameOfLife extends Game {
 
     public int getWidth(){
         return getCellTracker().getGrid().getWidth();
-    }
-
-    @Override
-    public void hovered(int x, int y){
-        System.out.println("Hovering");
     }
 }

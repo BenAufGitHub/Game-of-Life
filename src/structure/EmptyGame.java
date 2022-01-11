@@ -14,16 +14,6 @@ public class EmptyGame  extends Game{
     }
 
     @Override
-    public void clicked(int x, int y) {
-
-    }
-
-    @Override
-    public void hovered(int x, int y) {
-
-    }
-
-    @Override
     protected void act() {
 
     }
