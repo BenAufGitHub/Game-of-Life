@@ -41,10 +41,10 @@ public class ExtendedGOL extends GameOfLife {
         LoadButton load = new LoadButton(this, saver);
         SaveButton save = new SaveButton(this, saver);
 
-        load.setBounds(170, 700, 80, 25);
+        load.setBounds(170, window.getHeight()-100, 80, 25);
         load.setFocusable(false);
 
-        save.setBounds(70, 700, 80, 25);
+        save.setBounds(70, window.getHeight()-100, 80, 25);
         save.setFocusable(false);
 
         window.addButton(save, false);
