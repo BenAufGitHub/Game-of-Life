@@ -12,14 +12,9 @@
 # whitelist resources
 !/resources/
 
-# whitelisted save-files
-!/resources/saves/Eater.json
-!/resources/saves/Eater_Glider.json
-!/resources/saves/Eater_Spaceship.json
-!/resources/saves/Glider.json
-!/resources/saves/Gosper_Glider_Gun.json
-!/resources/saves/Gosper_Gun.coords
-!/resources/saves/Octopus.json
+# whitelist save-folder
+!/resources/saves/.gitkeep
+
 
 # whitelisted txt-files
 !README.md
