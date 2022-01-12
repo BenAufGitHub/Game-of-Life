@@ -5,18 +5,19 @@ import gol_extension.updates.Updates;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * this class determines which Cells need to be changed, changes the Cells accordingly.
  * It keeps Cell updates in a log, so that the Game Of Life can access those and send update requests to GUI
- * most of Game of Lifes "technical" methods are rebased into this bundled class
+ * Most of Game of Lifes "technical" methods are rebased into this bundled class
  * Has Power over how the games rules are set up (as of now: classic GOL)
  */
 public class CellTracker {
     private Grid grid;
-    private HashSet<Cell> tracked = new HashSet();
-    private HashSet<Cell> forChange = new HashSet();
-    private ArrayDeque<HashMap<Cell, Updates>> log = new ArrayDeque();
+    private HashSet<Cell> tracked = new HashSet<>();
+    private HashSet<Cell> forChange = new HashSet<>();
+    private ArrayDeque<HashMap<Cell, Updates>> log = new ArrayDeque<>();
 
 
     public CellTracker(Grid grid){
@@ -49,13 +50,13 @@ public class CellTracker {
         }
     }
 
+
     /**
      * if cell is in the latest update log, this return true
-     * @param cell
-     * @return
      */
     public boolean latelyChanged(Cell cell){
-        return log.peekLast().containsKey(cell);
+        Map<Cell, Updates> changes = log.peekLast();
+        return changes != null && changes.containsKey(cell);
     }
 
 
@@ -172,7 +173,7 @@ public class CellTracker {
         log.add(new HashMap<>());
         for(Cell cell : getReviewList()){
             if(cell.isAlive())
-                log.getLast().put(cell, Updates.LIVE);
+                log.getLast().put(cell, Updates.LIVE); //overrides "new" for alive Cells
         }
     }
 

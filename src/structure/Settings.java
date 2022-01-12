@@ -6,24 +6,24 @@ import java.awt.Color;
     possible extensions with: color, size of window
  */
 public class Settings {
-    private final boolean changableColours;
+    private final boolean changeableColours;
     private final Color standardColor;
     private final boolean borderless;
 
-    public Settings(Color gridStandard, boolean changableColours){
+    public Settings(Color gridStandard, boolean changeableColours){
         this.standardColor = gridStandard;
-        this.changableColours = changableColours;
+        this.changeableColours = changeableColours;
         this.borderless = false;
     }
 
-    public Settings(Color gridStandard, boolean changableColours, boolean borderless){
+    public Settings(Color gridStandard, boolean changeableColours, boolean borderless){
         this.standardColor = gridStandard;
-        this.changableColours = changableColours;
+        this.changeableColours = changeableColours;
         this.borderless = borderless;
     }
 
-    public boolean coloursChangable(){
-        return changableColours;
+    public boolean coloursChangeable(){
+        return changeableColours;
     }
 
     public Color getStandardGridColor(){

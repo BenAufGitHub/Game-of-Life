@@ -5,7 +5,22 @@
 # track this file
 !.gitignore
 
-# whitelist everything in ./config/
+# whitelist everything in src, lib
 !/src/**
+!/lib/**
+
+# whitelist resources
 !/resources/
+
+# whitelisted save-files
+!/resources/saves/Eater.json
+!/resources/saves/Eater_Glider.json
+!/resources/saves/Eater_Spaceship.json
+!/resources/saves/Glider.json
+!/resources/saves/Gosper_Glider_Gun.json
+!/resources/saves/Gosper_Gun.coords
+!/resources/saves/Octopus.json
+
+# whitelisted txt-files
 !README.md
+!Compile_Guide.txt

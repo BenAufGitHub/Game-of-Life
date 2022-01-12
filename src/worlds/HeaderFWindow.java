@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 
 /**
@@ -21,7 +22,11 @@ public class HeaderFWindow extends FWindow implements Printer{
         this.header = new JPanel();
         this.headerText = new JLabel();
         this.headerText.setVerticalAlignment(SwingConstants.CENTER);
-        this.getGridPanel().getParent().setPreferredSize(new Dimension(780, 0));
+
+        // leaving space (20) between elements
+        Container container = getGridPanel().getParent();
+        int cWidth = Math.max(container.getPreferredSize().width - 20, 0);
+        container.setPreferredSize(new Dimension(cWidth, 0));
 
         header.setLayout(new BorderLayout());
         header.add(headerText, BorderLayout.CENTER);

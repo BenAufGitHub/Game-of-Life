@@ -40,7 +40,7 @@ public class GameOfLife extends Game {
             if( op instanceof GUI){
                 new Thread( () -> {
                     Exception exc = new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+ op.gridHeight()+"!");
-                    ErrorHandler.catchError((GUI) op, exc, 1);
+                    ErrorHandler.catchError((GUI) op, exc, 1, true);
                 }).start();
             }
             throw new IndexOutOfBoundsException("Dimensions "+x+" and "+y+" out of Output bounds "+ op.gridWidth()+" and "+op.gridHeight()+"!");
@@ -67,7 +67,7 @@ public class GameOfLife extends Game {
      * @param y
      */
     @Override
-    public void clicked(int x, int y) {
+    protected void onClick(int x, int y) {
         //if running or exceeding x or y bounds -> return
         if(running() || x >= getCellTracker().getGrid().getWidth() || y >= getCellTracker().getGrid().getHeight())
             return;
@@ -108,7 +108,7 @@ public class GameOfLife extends Game {
 
 
     /**
-     * called with care,  since the celltracker tracks the files cells
+     * Call with care,  since the celltracker tracks the files cells.
      * @param cellTracker
      */
     public void setCellTracker(CellTracker cellTracker){

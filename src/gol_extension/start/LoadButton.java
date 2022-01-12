@@ -1,26 +1,27 @@
 package gol_extension.start;
 
+import gol_extension.saving.GOLSaver;
 import gol_extension.structure.GameOfLife;
 import structure.ErrorHandler;
 import structure.GUI;
 import tools.ChoiceWindow;
-import tools.SaveManager;
 
 import javax.swing.JButton;
-import java.awt.Point;
 import java.io.IOException;
 
 public class LoadButton extends JButton{
 
     private GameOfLife game;
+    private GOLSaver<?> saver;
 
     /**
      * loads save files
      * params: x/y = location
      */
-    public LoadButton(GameOfLife game) {
+    public LoadButton(GameOfLife game, GOLSaver<?> saver) {
         super("load");
         this.game = game;
+        this.saver = saver;
 
         this.addActionListener(e -> {
             if(!getGame().running())
@@ -36,24 +37,15 @@ public class LoadButton extends JButton{
         String result = chooseFile();
         try {
             if(result != null)
-                load(result);
+                saver.load(result);
         } catch (IOException ex) {
-            ErrorHandler.catchError((GUI) getGame().getOutput(), ex, 6);
-        }
-    }
-
-
-    public void load(String filename) throws IOException {
-        getGame().reset();
-        Point[] points = SaveManager.get(filename);
-        for(Point point : points){
-            getGame().clicked(point.x, point.y);
+            ErrorHandler.catchError(ex, 6, false);
         }
     }
 
 
     public String chooseFile(){
-        String[] choices = SaveManager.getSaveNames();
+        String[] choices = saver.getSaveNamesWithRightFormat();
         ChoiceWindow picker = new ChoiceWindow(choices, (GUI) getGame().getOutput());
         picker.setVisible(true);
         return picker.getResult();

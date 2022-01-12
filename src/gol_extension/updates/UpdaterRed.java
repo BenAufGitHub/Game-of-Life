@@ -24,7 +24,6 @@ public class UpdaterRed extends Updater {
             case DELETE -> getStandardBlueprint();
             case LIVE -> WHITE;
             case DIE, NEW -> RED;
-            default -> null;
         };
     }
 

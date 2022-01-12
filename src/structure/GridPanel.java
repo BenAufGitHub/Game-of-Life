@@ -26,7 +26,7 @@ public class GridPanel extends JPanel implements MouseListener {
         this.setLayout(new GridLayout(vertical, horizontal));
 
         setOpaque(false);
-        setPreferredSize(new Dimension(700,700));
+        setPreferredSize(new Dimension(725,725));
 
         for(int y=0; y< vertical; y++){
             for(int x=0; x< horizontal; x++){
@@ -75,7 +75,9 @@ public class GridPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        JLabel label = (JLabel) e.getSource();
+        Point point = coordinates.get(label);
+        selector.selectAsHovered(point.x, point.y);
     }
 
     @Override

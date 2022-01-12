@@ -3,8 +3,11 @@ package structure;
 import java.util.concurrent.TimeUnit;
 
 public abstract class Game {
-    private Boolean stopping = Boolean.FALSE;
-    private Boolean noProcess = Boolean.TRUE;
+    private final Object stopLock = new Object();
+    private final Object processCheckLock = new Object();
+
+    private boolean noProcess = true;
+    private boolean stopping = false;
     private boolean forceInterrupt = false;
     private int timeoutLength = 800;
     private Output output;
@@ -16,10 +19,20 @@ public abstract class Game {
     }
 
 
-    public void run() throws InterruptedException {
+    /**
+     * game should be able to reset and start from new
+     */
+    public abstract void reset();
+
+
+    //------------------------------------------ running ---------------------------------------------
+
+
+    public final void run() throws InterruptedException {
         if(ownProcessRequest() != true)
             return;
 
+        stopping = false;
         forceInterrupt = false;
         while(!stopRequest() && !forceInterrupt){
             act();
@@ -31,24 +44,12 @@ public abstract class Game {
 
 
     /**
-     * game should be able to reset and start from new
-     */
-    public abstract void reset();
-
-
-    /**
-     * determines what happens when a cell is clicked in the structure.Output
-     */
-    public abstract void clicked(int x, int y);
-
-
-    /**
      * every method that can be called from the Gui has to thread safe, therefore, this checks
      * whether this is allowed to run
      * @return return true if accepted: changes noProcess to false
      */
-    private final boolean ownProcessRequest(){
-        synchronized (noProcess){
+    private boolean ownProcessRequest(){
+        synchronized (processCheckLock){
             if(!running()){
                 setRunning(true);
                 return true;
@@ -79,7 +80,7 @@ public abstract class Game {
     caution: graphics.structure.GUI is presumably multi-threading
      */
     public void stop(){
-        synchronized (stopping){
+        synchronized (stopLock){
             stopping = true;
         }
     }
@@ -90,7 +91,7 @@ public abstract class Game {
     stops the running process
      */
     private boolean stopRequest(){
-        synchronized (stopping){
+        synchronized (stopLock){
             if(stopping){
                 stopping = false;
                 return true;
@@ -100,8 +101,8 @@ public abstract class Game {
     }
 
 
-    private final void setRunning(Boolean bool) {
-        synchronized (noProcess){
+    private void setRunning(Boolean bool) {
+        synchronized (processCheckLock){
             noProcess = !bool;
         }
     }
@@ -110,8 +111,8 @@ public abstract class Game {
      * @return whether there is an ongoing process
      */
     public final boolean running(){
-        synchronized(noProcess){
-            return (noProcess) ? false : true;
+        synchronized(processCheckLock){
+            return !noProcess;
         }
     }
 
@@ -123,6 +124,31 @@ public abstract class Game {
         forceInterrupt = true;
     }
 
+
+    //------------------------------- clicking and hovering --------------------------------------------
+
+    /**
+     * determines what happens when a cell is clicked at the output Object (Output has to be setup manually).
+     */
+    public synchronized final void clicked(int x, int y){
+        onClick(x,y);
+    }
+
+    /** Override to get functionality, is called by "clicked" method. */
+    protected void onClick(int x, int y){}
+
+    /**
+     * determines what happens if a cell is hovered in the output object (Output has be set up manually).
+     */
+    public synchronized final void hovered(int x, int y){
+        onHover(x, y);
+    }
+
+    /** Override to get functionality, is called by "hovered" method. */
+    protected void onHover(int x, int y){}
+
+
+    // ----------------------------------------- other --------------------------------------------------
 
 
     public void setTimeoutLength(int milliseconds) throws TimeSpanException {

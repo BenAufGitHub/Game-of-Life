@@ -1,10 +1,21 @@
 package tools;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 
 public class ChoiceWindow extends PopUp<String> implements MouseListener{
 
@@ -21,7 +32,8 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
     private final int panelHeight;
 
     private PanelHolder holder;
-    private JPanel arrows;
+    private JPanel navigation;
+    private JLabel pageIndication;
     private JPanel container;
     private JPanel current;
 
@@ -44,11 +56,11 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
         this.holder = new PanelHolder(panelAmount);
 
         setUpChoiceContainer();
-        setUpArrows();
+        setUpNavigation();
 
         this.current = holder.get();
         this.add(container, BorderLayout.NORTH);
-        this.add(arrows, BorderLayout.SOUTH);
+        this.add(navigation, BorderLayout.SOUTH);
         this.pack();
     }
 
@@ -70,32 +82,39 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
     /**
      * sets up left/right click arrow to change the page
      */
-    private void setUpArrows() {
+    private void setUpNavigation() {
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
         JButton left = new JButton("<--");
         JButton right = new JButton("-->");
+        JLabel pageInd = new JLabel("", SwingConstants.CENTER);
 
         Border border = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        Dimension dim = new Dimension(40,20);
+        Dimension arrowDim = new Dimension(40,20);
 
         left.setBorder(border);
         left.setFocusable(false);
-        left.setPreferredSize(dim);
+        left.setPreferredSize(arrowDim);
         left.addActionListener( e -> {
             changePanel(holder.last());
+            refreshPageIndication();
         });
 
         right.setBorder(border);
         right.setFocusable(false);
-        right.setPreferredSize(dim);
+        right.setPreferredSize(arrowDim);
         right.addActionListener( e -> {
             changePanel(holder.next());
+            refreshPageIndication();
         });
 
+        panel.setLayout(new BorderLayout());
         panel.add(left, BorderLayout.WEST);
         panel.add(right, BorderLayout.EAST);
-        this.arrows = panel;
+        panel.add(pageInd, BorderLayout.CENTER);
+
+        this.navigation = panel;
+        this.pageIndication = pageInd;
+        refreshPageIndication();
     }
 
 
@@ -106,6 +125,11 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
         this.revalidate();
         this.repaint();
         this.pack();
+    }
+
+
+    public void refreshPageIndication(){
+        this.pageIndication.setText(holder.getPage() + "/" + panelAmount);
     }
 
 
@@ -158,6 +182,7 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
     private void fillLastPanel() {
         int toBeDisplayed = optionsPerSite;
         int unfilled = toBeDisplayed - (choices.length % toBeDisplayed);
+        current = holder.get();
 
         for(int i=0; i<unfilled; i++){
             current.add(getStandardLabel());
@@ -212,8 +237,8 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
 
 
     private class PanelHolder{
-        JPanel[] content;
-        int current = 0;
+        private JPanel[] content;
+        private int current = 0;
 
 
         private PanelHolder(int amount){
@@ -245,6 +270,11 @@ public class ChoiceWindow extends PopUp<String> implements MouseListener{
                 return null;
             current = (current - 1 + content.length) % content.length;
             return content[current];
+        }
+
+
+        private int getPage(){
+            return (current % content.length) +1;
         }
 
 

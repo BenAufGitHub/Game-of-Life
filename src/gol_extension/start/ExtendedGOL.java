@@ -1,5 +1,7 @@
 package gol_extension.start;
 
+import gol_extension.saving.CentralSaver;
+import gol_extension.saving.GOLSaver;
 import gol_extension.structure.GameOfLife;
 import structure.Printer;
 
@@ -34,13 +36,15 @@ public class ExtendedGOL extends GameOfLife {
 
 
     private void initSaveModule(WindowGOL window) {
-        LoadButton load = new LoadButton(this);
-        SaveButton save = new SaveButton(this);
+        GOLSaver<?> saver = new CentralSaver(this);
 
-        load.setBounds(170, 700, 80, 25);
+        LoadButton load = new LoadButton(this, saver);
+        SaveButton save = new SaveButton(this, saver);
+
+        load.setBounds(170, window.getHeight()-100, 80, 25);
         load.setFocusable(false);
 
-        save.setBounds(70, 700, 80, 25);
+        save.setBounds(70, window.getHeight()-100, 80, 25);
         save.setFocusable(false);
 
         window.addButton(save, false);

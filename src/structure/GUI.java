@@ -21,9 +21,8 @@ public abstract class GUI extends JFrame implements Output {
 
 
     public GUI(int x, int y, Settings settings){
-        if(x > 200 || y> 200){
-            ErrorHandler.catchError(null, new DimensionsTooBigException(), 5);
-        }
+        checkBounds(x, y);
+
         setSettings(settings);
         ButtonFactory factory = new ButtonFactory();
 
@@ -44,6 +43,16 @@ public abstract class GUI extends JFrame implements Output {
         control.add(stop);
 
         this.setGame(new EmptyGame(this));
+    }
+
+
+    protected void checkBounds(int x, int y){
+        if(x > 200 || y> 200){
+            ErrorHandler.catchError(new DimensionsTooBigException(), 5, true);
+        }
+        if(x<1 || y<1){
+            ErrorHandler.catchError(new RuntimeException("Too Small"), -1, true);
+        }
     }
 
 
@@ -123,11 +132,7 @@ public abstract class GUI extends JFrame implements Output {
     protected void deactivateButtons(Clicked button){
         run.setEnabled(false);
         act.setEnabled(false);
-
-        if(button == Clicked.RUN){
-            stop.setEnabled(true);
-        } else
-            stop.setEnabled(false);
+        stop.setEnabled(button == Clicked.RUN);
     }
 
 
@@ -160,7 +165,7 @@ public abstract class GUI extends JFrame implements Output {
                         buttonsToDefault();
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        ErrorHandler.catchError(GUI.this, ex, 2);
+                        ErrorHandler.catchError(GUI.this, ex, 2, true);
                     }
                 });
                 t.start();
@@ -202,7 +207,7 @@ public abstract class GUI extends JFrame implements Output {
 
     }
 
-    private class DimensionsTooBigException extends Exception{
+    private static class DimensionsTooBigException extends Exception{
         public DimensionsTooBigException(){
             super("Either x or y extended the dimension limit of 200");
         }

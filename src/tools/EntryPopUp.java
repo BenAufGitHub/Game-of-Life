@@ -1,15 +1,19 @@
 package tools;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class EntryPopUp  extends PopUp<String>{
 
     private EntryVerification verifier = null;
-    private JPanel container;
     private JButton submit;
     private JTextField textField;
     private JLabel messageBox;
@@ -22,7 +26,6 @@ public class EntryPopUp  extends PopUp<String>{
         this.setLocationRelativeTo(parent);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        this.container = new JPanel();
         this.submit = new JButton("submit");
         this.textField = new JTextField();
         this.messageBox = new JLabel();
@@ -33,9 +36,7 @@ public class EntryPopUp  extends PopUp<String>{
 
         submit.setBorder(new EmptyBorder(0, 4, 4, 4));
         submit.setFocusable(false);
-        submit.addActionListener( e -> {
-            sendText();
-        });
+        submit.addActionListener( e -> sendText());
 
         textField.addKeyListener(new KeyAdapter() {
             @Override

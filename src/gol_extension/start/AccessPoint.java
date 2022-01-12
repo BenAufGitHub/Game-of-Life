@@ -5,7 +5,7 @@ import gol_extension.updates.UpdaterClean;
 import gol_extension.updates.UpdaterRed;
 import structure.Selector;
 import structure.Settings;
-import tools.SaveManager;
+import tools.CoordinateSaver;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -15,11 +15,13 @@ public class AccessPoint {
     public static void main(String[] args) throws IOException {
         // enter the name of a save in the resources folder
         final String save_name = null;
+        final int width = 100;
+        final int height = 100;
 
         // Set up Settings, Window and Game.
         Settings settings = new Settings(Color.GRAY, true);
-        WindowGOL window = new WindowGOL(100, 100, settings);
-        ExtendedGOL gol = new ExtendedGOL(window, 100, 100, window);
+        WindowGOL window = new WindowGOL(width, height, settings);
+        ExtendedGOL gol = new ExtendedGOL(window, width, height, window);
 
         // Choose UpdaterClean or UpdaterRed or a custom Updater.
         Updater colouring = new UpdaterRed(window);
@@ -29,7 +31,7 @@ public class AccessPoint {
 
         // loads a save
         if(save_name != null)
-            new Selector(gol).selectAll(SaveManager.get(save_name));
+            new Selector(gol).selectAll(new CoordinateSaver().load(save_name));
 
         window.setVisible(true);
     }
