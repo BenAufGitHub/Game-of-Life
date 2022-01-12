@@ -6,10 +6,10 @@ Run in Intellij:
 	1. Project-Structure -> libraries
 	add lib folder
 	2. Run-Configurations -> Select AccessPoint
-	3. Ausführen
+	3. Run
 
-Manuelles Compiling und ausführen des Source Codes durch die cmd:
-Manuel compiling and running of the source code with cmd:
+Manuelles Compiling und ausführen des Source Codes durch die Windows-cmd:
+Manuel compiling and running of the source code with Windows-cmd:
 
 	cd {ProjectPath}
 	dir /s /B "*.java" > sources.txt
