@@ -3,6 +3,7 @@ package worlds;
 import structure.Blueprint;
 import structure.ErrorHandler;
 import structure.GUI;
+import structure.GridPanel;
 import structure.Settings;
 
 import javax.swing.BorderFactory;
@@ -16,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.util.HashMap;
 
 
@@ -28,20 +30,20 @@ public class PureFWindow extends GUI {
     private int maxSqueezeX = 650;
     private int maxSqueezeY = 265;
     private HashMap<Image, ImageIcon> scaledImages = new HashMap<>();
+    private JPanel gridWrapper;
 
 
     public PureFWindow(int x, int y, Settings settings) {
         super(x, y, settings);
         JPanel control = getControlPanel();
         JPanel grid = getGridPanel();
-        JPanel gridWrapper = new JPanel();
+        this.gridWrapper = new JPanel();
 
         gridWrapper.setPreferredSize(new Dimension(800,0));
         gridWrapper.setBackground(Color.LIGHT_GRAY);
         gridWrapper.setLayout(new GridBagLayout());
 
-        scaleGrid(x, y);
-        scaleComponentsAccordingToGrid(gridWrapper, this);
+        scaleWith((GridPanel) grid);
         gridWrapper.add(grid, new GridBagConstraints());
 
         this.setLayout(new BorderLayout(10,0));
@@ -52,6 +54,11 @@ public class PureFWindow extends GUI {
 
         this.add(control, BorderLayout.EAST);
         this.add(gridWrapper, BorderLayout.WEST);
+    }
+
+
+    public JPanel getGridWrapper(){
+        return gridWrapper;
     }
 
 
@@ -154,6 +161,23 @@ public class PureFWindow extends GUI {
 
 
     //-------------------------------- scaling ------------------------------------------------
+
+    @Override
+    public void setGridPanel(GridPanel gp){
+        LayoutManager layout = this.getGridWrapper().getLayout();
+        layout.removeLayoutComponent(getGridPanel());
+        scaleWith(gp);
+        gridWrapper.add(gp, new GridBagConstraints());
+    }
+
+
+    protected void scaleWith(GridPanel gp){
+        super.setGridPanel(gp);
+        int x = gridWidth();
+        int y = gridHeight();
+        scaleGrid(x,y);
+        scaleComponentsAccordingToGrid(getGridWrapper(), this);
+    }
 
 
     /**

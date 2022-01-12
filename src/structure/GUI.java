@@ -117,6 +117,14 @@ public abstract class GUI extends JFrame implements Output {
         this.settings = settings;
     }
 
+    public void setGridPanel(GridPanel gp){
+        this.grid = gp;
+    }
+
+    public void setControlPanel(ControlPanel cp){
+        this.control = cp;
+    }
+
     public final Settings getSettings(){ return settings; }
 
     protected final ControlPanel getControlPanel(){
