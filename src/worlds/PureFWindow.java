@@ -17,7 +17,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.util.HashMap;
 
 
@@ -164,27 +163,24 @@ public class PureFWindow extends GUI {
 
     @Override
     public void setGridPanel(GridPanel gp){
-        LayoutManager layout = this.getGridWrapper().getLayout();
-        layout.removeLayoutComponent(getGridPanel());
+        getGridWrapper().remove(getGridPanel());
+        super.setGridPanel(gp);
         scaleWith(gp);
         gridWrapper.add(gp, new GridBagConstraints());
     }
 
 
     protected void scaleWith(GridPanel gp){
-        super.setGridPanel(gp);
-        int x = gridWidth();
-        int y = gridHeight();
-        scaleGrid(x,y);
-        scaleComponentsAccordingToGrid(getGridWrapper(), this);
+        scaleGrid(gp);
+        scaleComponentsAccordingToGrid(gp.getPreferredSize(), getGridWrapper(), this);
     }
 
 
     /**
      * If Grid has CellsHorizontal != CellsVertical -> minimizes whitespace by shrinking the window and gridWrapper Panel.
      */
-    private void scaleComponentsAccordingToGrid(JPanel gridWrapper, GUI gui) {
-        Dimension xyDiff = getGridSizeDiff();
+    private void scaleComponentsAccordingToGrid(Dimension gridDimension, JPanel gridWrapper, GUI gui) {
+        Dimension xyDiff = getGridSizeDiff(gridDimension);
         int xDiff = Math.min(xyDiff.width, maxSqueezeX);
         int yDiff = Math.min(xyDiff.height, maxSqueezeY);
 
@@ -200,9 +196,8 @@ public class PureFWindow extends GUI {
     /**
      * @return Gives the difference between Cells in x- and in y-direction. Example x:50, y:10 -> Dimension(0, 40)
      */
-    private Dimension getGridSizeDiff(){
-        Dimension d = getGridPanel().getPreferredSize();
-        int diff = d.width-d.height;
+    private Dimension getGridSizeDiff(Dimension gridDimension){
+        int diff = gridDimension.width-gridDimension.height;
         if(diff > 0)
             return new Dimension(0, diff);
         return new Dimension(-diff, 0);
@@ -210,9 +205,11 @@ public class PureFWindow extends GUI {
 
 
     /** Scales Grid Dimensions so that all inside Cells are squares. */
-    private void scaleGrid(int horizontalCells, int verticalCells) {
+    private void scaleGrid(GridPanel gp) {
+        int verticalCells = gp.getGrid().length;
+        int horizontalCells = (verticalCells>0) ? gp.getGrid()[0].length : 0;
         Dimension d = getProperGridScale(horizontalCells, verticalCells);
-        getGridPanel().setPreferredSize(d);
+        gp.setPreferredSize(d);
     }
 
 
