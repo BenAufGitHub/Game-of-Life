@@ -74,6 +74,10 @@ public class FWindow extends PureFWindow {
         return speedButton;
     }
 
+    public JButton getClearButton(){
+        return clear;
+    }
+
 
     /**
      deactivates all buttons that would cause unsafe threading when a specific button is pressed
