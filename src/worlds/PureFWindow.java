@@ -24,10 +24,11 @@ import java.util.HashMap;
  * PureFWindow: FixedWindow, a static Window, you cannot zoom in nor move inside the GridPanel
  */
 public class PureFWindow extends GUI {
-    private int WIDTH = 1100;
-    private int HEIGHT = 800;
+    private final int STANDARD_WIDTH = 1100;
+    private final int STANDARD_HEIGHT = 800;
     private int maxSqueezeX = 650;
     private int maxSqueezeY = 265;
+    private Dimension wrapperSize = new Dimension(STANDARD_WIDTH-getControlPanel().getPreferredSize().width, 0);
     private HashMap<Image, ImageIcon> scaledImages = new HashMap<>();
     private JPanel gridWrapper;
 
@@ -38,7 +39,6 @@ public class PureFWindow extends GUI {
         JPanel grid = getGridPanel();
         this.gridWrapper = new JPanel();
 
-        gridWrapper.setPreferredSize(new Dimension(800,0));
         gridWrapper.setBackground(Color.LIGHT_GRAY);
         gridWrapper.setLayout(new GridBagLayout());
 
@@ -184,12 +184,9 @@ public class PureFWindow extends GUI {
         int xDiff = Math.min(xyDiff.width, maxSqueezeX);
         int yDiff = Math.min(xyDiff.height, maxSqueezeY);
 
-        Dimension wrapperSize = gridWrapper.getPreferredSize();
-        gridWrapper.setPreferredSize(new Dimension (wrapperSize.width-xDiff, 500));
+        gridWrapper.setPreferredSize(new Dimension (wrapperSize.width-xDiff, 0));
 
-        WIDTH -= xDiff;
-        HEIGHT -= yDiff;
-        gui.setSize(WIDTH, HEIGHT);
+        gui.setSize(STANDARD_WIDTH - xDiff, STANDARD_HEIGHT - yDiff);
     }
 
 
