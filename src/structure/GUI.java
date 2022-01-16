@@ -159,24 +159,28 @@ public abstract class GUI extends JFrame implements Output {
     }
 
 
+    public void triggerRunButton(){
+        new ButtonFactory().performRunAction();
+    }
+
+
+    public void triggerActButton(){
+        new ButtonFactory().performActAction();
+    }
+
+
+    public void triggerStopButton(){
+        new ButtonFactory().performStopAction();
+    }
+
+
     protected class ButtonFactory{
 
         protected final JButton createRunButton(){
             JButton button = new JButton("run");
             button.setFocusable(false);
             button.addActionListener( e -> {
-                Thread t = new Thread( () -> {
-                    if(game==null) {return;}
-                    try {
-                        deactivateButtons(Clicked.RUN);
-                        game.run();
-                        buttonsToDefault();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        ErrorHandler.catchError(GUI.this, ex, 2, true);
-                    }
-                });
-                t.start();
+                performRunAction();
             });
             return button;
         }
@@ -186,13 +190,7 @@ public abstract class GUI extends JFrame implements Output {
             JButton button = new JButton("act");
             button.setFocusable(false);
             button.addActionListener(e -> {
-                Thread t = new Thread( () -> {
-                    if(game==null) {return;}
-                    deactivateButtons(Clicked.ACT);
-                    game.requestAct();
-                    buttonsToDefault();
-                });
-                t.start();
+                performActAction();
             });
             return button;
         }
@@ -203,16 +201,47 @@ public abstract class GUI extends JFrame implements Output {
             button.setEnabled(false);
             button.setFocusable(false);
             button.addActionListener(e -> {
-                Thread t = new Thread( () -> {
-                    if(game==null) {return;}
-                    deactivateButtons(Clicked.STOP);
-                    game.stop();
-                });
-                t.start();
+                performStopAction();
             });
             return button;
         }
 
+
+        private void performRunAction(){
+            Thread t = new Thread( () -> {
+                if(game==null || game.running()) {return;}
+                try {
+                    deactivateButtons(Clicked.RUN);
+                    game.run();
+                    buttonsToDefault();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    ErrorHandler.catchError(GUI.this, ex, 2, true);
+                }
+            });
+            t.start();
+        }
+
+
+        private void performActAction(){
+            Thread t = new Thread( () -> {
+                if(game==null || game.running()) {return;}
+                deactivateButtons(Clicked.ACT);
+                game.requestAct();
+                buttonsToDefault();
+            });
+            t.start();
+        }
+
+
+        private void performStopAction(){
+            Thread t = new Thread( () -> {
+                if(game==null || !game.running()) {return;}
+                deactivateButtons(Clicked.STOP);
+                game.stop();
+            });
+            t.start();
+        }
     }
 
     private static class DimensionsTooBigException extends Exception{
