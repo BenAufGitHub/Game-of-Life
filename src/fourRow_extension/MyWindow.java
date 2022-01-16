@@ -21,20 +21,11 @@ public class MyWindow extends HeaderFWindow {
     }
 
     private void configStartButton() {
+        //reusing reset Button as reset and run Button
         getClearButton().setText("start");
         getClearButton().addActionListener( e -> {
-            Thread t = new Thread( () -> {
-                if(getGame()==null) {return;}
-                try {
-                    deactivateButtons(Clicked.RUN);
-                    getGame().run();
-                    buttonsToDefault();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    ErrorHandler.catchError(this, ex, 2, true);
-                }
-            });
-            t.start();
+            getGame().reset();
+            triggerRunButton();
         });
     }
 
