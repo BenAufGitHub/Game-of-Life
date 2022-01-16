@@ -10,6 +10,7 @@ public class FourRow extends Game {
 
     public static final Blueprint RED_BLUEPRINT = new Blueprint(Color.RED);
     public static final Blueprint BLUE_BLUEPRINT = new Blueprint(Color.BLUE);
+    public static final Blueprint YELLOW_BLUEPRINT = new Blueprint(Color.YELLOW);
     private static final int SECOND = 1000;
 
     private TeamManager teamManager;
@@ -39,29 +40,66 @@ public class FourRow extends Game {
 
     private void initGame() {
         teamManager.setTeamOnTurn(teamManager.randomTeam());
+        timer.reset();
         setInGame(true);
     }
 
+
     @Override
     protected void act() {
-        if(!inGame){
+        if(!isInGame())
             return;
-        }
         synchronized (this){
             Point input = gridManager.popUserInput();
-            Team onTurn = teamManager.getTeamOnTurn();
-            if(input != null){
-                click(input, onTurn);
-                gridManager.placeAt(onTurn, input.x, input.y);
-                if(gridManager.has4Row(onTurn)){
-                    setInGame(false);
-                    getGUI().write(onTurn + " has won!");
-                    return;
-                }
-                teamManager.swapTeam();
-                timer.reset();
-            }
+            if(input != null)
+                scan(input);
+            if(isInGame())
+                tick();
         }
+    }
+
+
+    private void scan(Point input){
+        Team onTurn = teamManager.getTeamOnTurn();
+        dropDiskOffAt(input, onTurn);
+        if(gridManager.has4Row(onTurn))
+            ifWon(onTurn);
+        else
+            changeTeam();
+    }
+
+    private void changeTeam() {
+        teamManager.swapTeam();
+        timer.reset();
+    }
+
+    private void ifWon(Team onTurn) {
+        setInGame(false);
+        getGUI().triggerStopButton();
+        colorWinningSequence();
+        getGUI().write(onTurn + " has won!");
+    }
+
+
+    private void colorWinningSequence() {
+        for(Point p : gridManager.getWinningSequence()){
+            getGUI().showAction(p.x, p.y, YELLOW_BLUEPRINT);
+        }
+    }
+
+
+    /**
+     * Connect-Four uses gravity, so dropping your disk means putting it into the lowest Cell possible.
+     * This method does excactly that.
+     */
+    private void dropDiskOffAt(Point input, Team onTurn) {
+        Point position = gridManager.calcDropOffPosition(input.x, input.y);
+        click(position, onTurn);
+        gridManager.placeAt(onTurn, position.x, position.y);
+    }
+
+
+    private void tick(){
         getGUI().write(timer.remainingTimeToString());
         timer.tick();
     }
