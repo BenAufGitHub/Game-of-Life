@@ -39,7 +39,7 @@ public class FourRow extends Game {
 
     private void initGame() {
         teamManager.setTeamOnTurn(teamManager.randomTeam());
-        inGame = true;
+        setInGame(true);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class FourRow extends Game {
                 click(input, onTurn);
                 gridManager.placeAt(onTurn, input.x, input.y);
                 if(gridManager.has4Row(onTurn)){
-                    inGame = false;
+                    setInGame(false);
                     getGUI().write(onTurn + " has won!");
                     return;
                 }
@@ -85,6 +85,20 @@ public class FourRow extends Game {
     }
 
 
+    public void setInGame(boolean bool){
+        synchronized (this) {
+            inGame = bool;
+        }
+    }
+
+
+    public boolean isInGame(){
+        synchronized (this) {
+            return inGame;
+        }
+    }
+
+
     @Override
     public void onHover(int x, int y){
 
@@ -101,10 +115,6 @@ public class FourRow extends Game {
 
     public MyWindow getGUI(){
         return (MyWindow) this.getOutput();
-    }
-
-    public boolean isPlaying(){
-        return inGame;
     }
 
     private void configureTime(int milliseconds) {

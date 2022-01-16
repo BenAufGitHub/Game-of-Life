@@ -18,6 +18,14 @@ public class MyWindow extends HeaderFWindow {
         setGridPanel(new MyGridPanel(xCells,yCells,settings, getGridPanel().getSelector()));
         setHeaderTextAlignment(SwingConstants.CENTER);
         configStartButton();
+        configContinueButton();
+    }
+
+    private void configContinueButton() {
+        //reuse run as continue button
+        run.setText("continue");
+        run.setEnabled(false);
+        act.setEnabled(false);
     }
 
     private void configStartButton() {
@@ -29,6 +37,16 @@ public class MyWindow extends HeaderFWindow {
         });
     }
 
+
+    @Override
+    protected void buttonsToDefault() {
+        super.buttonsToDefault();
+        FourRow game = (FourRow) getGame();
+        if(! game.isInGame()){
+            run.setEnabled(false);
+            act.setEnabled(false);
+        }
+    }
 
     public int getXCells(){
         return xCells;
