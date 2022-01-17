@@ -12,7 +12,8 @@ public class FourRow extends Game {
     public static final Blueprint RED_BLUEPRINT = new Blueprint(Color.RED);
     public static final Blueprint BLUE_BLUEPRINT = new Blueprint(Color.BLUE);
     public static final Blueprint YELLOW_BLUEPRINT = new Blueprint(Color.YELLOW);
-    public static final Blueprint LIGHT_GREEN_BLUEPRINT = new Blueprint(new Color(130, 219, 65));
+    public static final Blueprint LIGHT_BlUE_BLUEPRINT = new Blueprint(new Color(83, 134, 173));
+    public static final Blueprint LIGHT_RED_BLUEPRINT = new Blueprint(new Color(201, 94, 113));
     private static final int SECOND = 1000;
 
     private TeamManager teamManager;
@@ -76,9 +77,9 @@ public class FourRow extends Game {
 
     private void adjustHover(int x, int y) {
         if(currentHoverPosition != null && currentHoverPosition.x != x)
-            return;
-        // hover starts from top cell, indicates on most bottom cell
-        onHover(x, 0);
+            onHover(currentHoverPosition.x, 0);
+        else // hover starts from top cell, indicates on most bottom cell
+            onHover(x, 0);
     }
 
     private void changeTeam() {
@@ -153,11 +154,29 @@ public class FourRow extends Game {
         if(isOccupied(x,y))
             return;
         Point dropOff = gridManager.calcDropOffPosition(x, y);
-        if(dropOff == null || dropOff.equals(currentHoverPosition))
+        if(dropOff != null && dropOff.equals(currentHoverPosition) && hoverColorsCorrect())
             return;
         deleteHoverIndication();
         currentHoverPosition = dropOff;
-        getGUI().showAction(dropOff.x,dropOff.y, LIGHT_GREEN_BLUEPRINT);
+        if(dropOff != null)
+            hoverWithTeamColours(dropOff.x,dropOff.y);
+    }
+
+    private boolean hoverColorsCorrect() {
+        if(currentHoverPosition == null)
+            return false;
+        Color cellColor = getGUI().getBlueprint(currentHoverPosition.x, currentHoverPosition.y).color;
+        if(teamManager.getTeamOnTurn() == Team.BLUE)
+            return LIGHT_BlUE_BLUEPRINT.color.equals(cellColor);
+        return LIGHT_RED_BLUEPRINT.color.equals(cellColor);
+    }
+
+
+    private void hoverWithTeamColours(int x, int y) {
+        if(teamManager.getTeamOnTurn() == Team.BLUE)
+            getGUI().showAction(x, y, LIGHT_BlUE_BLUEPRINT);
+        else
+            getGUI().showAction(x, y, LIGHT_RED_BLUEPRINT);
     }
 
 
