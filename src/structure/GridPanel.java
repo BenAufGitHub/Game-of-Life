@@ -54,6 +54,14 @@ public class GridPanel extends JPanel implements MouseListener {
     }
 
 
+    /**
+     * Returns Point of the JLabel in the grid, returns null if the grid doesn't contain the label.
+     */
+    protected Point getLabelCoordinates(JLabel label){
+        return coordinates.get(label);
+    }
+
+
     // -----------------------------------------------------------------------
 
     @Override
