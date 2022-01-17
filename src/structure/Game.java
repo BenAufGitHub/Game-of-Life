@@ -28,16 +28,21 @@ public abstract class Game {
     //------------------------------------------ running ---------------------------------------------
 
 
+    protected void beforeRun(){}
+    protected void afterRun(){}
+
     public final void run() throws InterruptedException {
         if(ownProcessRequest() != true)
             return;
 
         stopping = false;
         forceInterrupt = false;
+        beforeRun();
         while(!stopRequest() && !forceInterrupt){
             act();
             TimeUnit.MILLISECONDS.sleep(getTimeoutLength());
         }
+        afterRun();
         forceInterrupt = false;
         setRunning(false);
     }
