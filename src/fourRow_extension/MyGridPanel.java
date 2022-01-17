@@ -7,6 +7,7 @@ import structure.Settings;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -43,6 +44,12 @@ public class MyGridPanel extends GridPanel implements MouseListener {
         setInCellStatus(false);
     }
 
+    @Override
+    public void mouseEntered(MouseEvent e){
+        JLabel label = (JLabel) e.getSource();
+        Point crds = getLabelCoordinates(label);
+        getSelector().selectAsHovered(crds.x, crds.y);
+    }
 
     // --------------------------------- private methods ----------------------------------------------
 

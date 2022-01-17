@@ -2,6 +2,7 @@ package fourRow_extension;
 
 import structure.Blueprint;
 import structure.Game;
+import structure.Output;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -11,6 +12,7 @@ public class FourRow extends Game {
     public static final Blueprint RED_BLUEPRINT = new Blueprint(Color.RED);
     public static final Blueprint BLUE_BLUEPRINT = new Blueprint(Color.BLUE);
     public static final Blueprint YELLOW_BLUEPRINT = new Blueprint(Color.YELLOW);
+    public static final Blueprint LIGHT_GREEN_BLUEPRINT = new Blueprint(new Color(130, 219, 65));
     private static final int SECOND = 1000;
 
     private TeamManager teamManager;
@@ -19,6 +21,7 @@ public class FourRow extends Game {
     private Timer timer;
     private int xCells;
     private int yCells;
+    private Point currentHoverPosition;
 
     public FourRow(MyWindow op) {
         super(op);
@@ -41,6 +44,7 @@ public class FourRow extends Game {
     private void initGame() {
         teamManager.setTeamOnTurn(teamManager.randomTeam());
         timer.reset();
+        currentHoverPosition = null;
         setInGame(true);
     }
 
@@ -64,8 +68,17 @@ public class FourRow extends Game {
         dropDiskOffAt(input, onTurn);
         if(gridManager.has4Row(onTurn))
             ifWon(onTurn);
-        else
+        else{
             changeTeam();
+            adjustHover(input.x, input.y);
+        }
+    }
+
+    private void adjustHover(int x, int y) {
+        if(currentHoverPosition != null && currentHoverPosition.x != x)
+            return;
+        // hover starts from top cell, indicates on most bottom cell
+        onHover(x, 0);
     }
 
     private void changeTeam() {
@@ -109,8 +122,6 @@ public class FourRow extends Game {
         int x = lastClicked.x;
         int y = lastClicked.y;
 
-        if(isOccupied(x, y))
-            return;
         if(onTurn == Team.RED)
             getGUI().showAction(x,y, RED_BLUEPRINT);
         else {
@@ -139,7 +150,14 @@ public class FourRow extends Game {
 
     @Override
     public void onHover(int x, int y){
-
+        if(isOccupied(x,y))
+            return;
+        Point dropOff = gridManager.calcDropOffPosition(x, y);
+        if(dropOff == null || dropOff.equals(currentHoverPosition))
+            return;
+        deleteHoverIndication();
+        currentHoverPosition = dropOff;
+        getGUI().showAction(dropOff.x,dropOff.y, LIGHT_GREEN_BLUEPRINT);
     }
 
 
@@ -157,5 +175,13 @@ public class FourRow extends Game {
 
     private void configureTime(int milliseconds) {
         getGUI().configureSpeedButton(milliseconds, milliseconds, milliseconds, milliseconds);
+    }
+
+
+    public void deleteHoverIndication(){
+        //guard checks NullPointer, checks whether the current hover position has been overwritten
+        if(currentHoverPosition == null || gridManager.isOccupied(currentHoverPosition.x, currentHoverPosition.y))
+            return;
+        getGUI().showAction(currentHoverPosition.x, currentHoverPosition.y, Output.Action.STANDARD);
     }
 }

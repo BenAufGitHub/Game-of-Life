@@ -2,7 +2,6 @@ package fourRow_extension;
 
 import fourRow_extension.grid.Direction;
 import fourRow_extension.grid.Grid;
-import fourRow_extension.grid.GridNode;
 
 import java.awt.Point;
 import java.util.HashSet;
@@ -199,6 +198,8 @@ public class GridManager {
 
     public Point calcDropOffPosition(int x, int y) {
         grid.moveTo(x,y);
+        if(grid.get().getContent() != null) // already occupied
+            return null;
         while(grid.peek(Direction.DOWN) != null && grid.peek(Direction.DOWN).getContent() == null)
             grid.move(Direction.DOWN);
         return new Point(grid.get().getX(), grid.get().getY());
