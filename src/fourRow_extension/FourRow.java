@@ -192,8 +192,12 @@ public class FourRow extends Game {
         return (MyWindow) this.getOutput();
     }
 
+
+    /**
+     * @param milliseconds at least 600 required.
+     */
     private void configureTime(int milliseconds) {
-        getGUI().configureSpeedButton(milliseconds, milliseconds, milliseconds, milliseconds);
+        getGUI().configureSpeedButton(milliseconds+500, milliseconds, milliseconds-300, milliseconds-600);
     }
 
 
