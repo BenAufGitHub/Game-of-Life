@@ -4,7 +4,7 @@ public class Timer {
     private int maxTicks;
     private int ticks;
     private String toString;
-    private String output = "x ";
+    private String output = "X ";
 
     public Timer(int ticks){
         this.maxTicks = ticks;

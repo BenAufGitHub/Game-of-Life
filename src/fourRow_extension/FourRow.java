@@ -114,7 +114,7 @@ public class FourRow extends Game {
 
 
     private void tick(){
-        getGUI().write(timer.remainingTimeToString());
+        getGUI().write( teamManager.getTeamOnTurn() + ": "+ timer.remainingTimeToString());
         timer.tick();
     }
 
