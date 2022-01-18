@@ -18,6 +18,7 @@ public class FourRow extends Game {
 
     private TeamManager teamManager;
     private GridManager gridManager;
+    private HoverManager hoverManager;
     private boolean inGame = false;
     private Team winner = null;
     private boolean teamsToBeSwapped = false;
@@ -33,6 +34,7 @@ public class FourRow extends Game {
         this.yCells = op.getYCells();
         teamManager = new TeamManager();
         gridManager = new GridManager(xCells, yCells);
+        hoverManager = new HoverManager(getGUI(), gridManager, teamManager);
         configureTime(SECOND);
         op.write("Four Connect - Start me!");
     }
@@ -85,16 +87,10 @@ public class FourRow extends Game {
             winner = onTurn;
         else{
             changeTeam();
-            adjustHover(input.x, input.y);
+            hoverManager.adjustHover(input.x, input.y);
         }
     }
 
-    private void adjustHover(int x, int y) {
-        if(currentHoverPosition != null && currentHoverPosition.x != x)
-            onHover(currentHoverPosition.x, 0);
-        else // hover starts from top cell, indicates on most bottom cell
-            onHover(x, 0);
-    }
 
     private void changeTeam() {
         teamManager.swapTeam();
@@ -180,32 +176,7 @@ public class FourRow extends Game {
 
     @Override
     public void onHover(int x, int y){
-        if(isOccupied(x,y))
-            return;
-        Point dropOff = gridManager.calcDropOffPosition(x, y);
-        if(dropOff != null && dropOff.equals(currentHoverPosition) && hoverColorsCorrect())
-            return;
-        deleteHoverIndication();
-        currentHoverPosition = dropOff;
-        if(dropOff != null)
-            hoverWithTeamColours(dropOff.x,dropOff.y);
-    }
-
-    private boolean hoverColorsCorrect() {
-        if(currentHoverPosition == null)
-            return false;
-        Color cellColor = getGUI().getBlueprint(currentHoverPosition.x, currentHoverPosition.y).color;
-        if(teamManager.getTeamOnTurn() == Team.BLUE)
-            return LIGHT_BlUE_BLUEPRINT.color.equals(cellColor);
-        return LIGHT_RED_BLUEPRINT.color.equals(cellColor);
-    }
-
-
-    private void hoverWithTeamColours(int x, int y) {
-        if(teamManager.getTeamOnTurn() == Team.BLUE)
-            getGUI().showAction(x, y, LIGHT_BlUE_BLUEPRINT);
-        else
-            getGUI().showAction(x, y, LIGHT_RED_BLUEPRINT);
+        hoverManager.updateHover(x,y);
     }
 
 
@@ -227,13 +198,5 @@ public class FourRow extends Game {
      */
     private void configureTime(int milliseconds) {
         getGUI().configureSpeedButton(milliseconds+1000, milliseconds, milliseconds-300, milliseconds-600);
-    }
-
-
-    public void deleteHoverIndication(){
-        //guard checks NullPointer, checks whether the current hover position has been overwritten
-        if(currentHoverPosition == null || gridManager.isOccupied(currentHoverPosition.x, currentHoverPosition.y))
-            return;
-        getGUI().showAction(currentHoverPosition.x, currentHoverPosition.y, Output.Action.STANDARD);
     }
 }
