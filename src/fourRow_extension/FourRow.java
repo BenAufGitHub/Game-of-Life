@@ -34,6 +34,7 @@ public class FourRow extends Game {
         teamManager = new TeamManager();
         gridManager = new GridManager(xCells, yCells);
         configureTime(SECOND);
+        op.write("Four Connect - Start me!");
     }
 
 
@@ -65,10 +66,11 @@ public class FourRow extends Game {
 
             if(winner != null)
                 endGameByWinner(teamManager.getTeamOnTurn());
+            else if(gridManager.isGridFull())
+                endGameByTie();
             else if(teamsToBeSwapped)
                 changeTeam();
-
-            if(isInGame() && timer.timeUp())
+            else if(timer.timeUp())
                 endGameByTime();
             if(isInGame())
                 tick();
@@ -112,6 +114,13 @@ public class FourRow extends Game {
         getGUI().triggerStopButton();
         Team t = teamManager.getTeamOnTurn();
         getGUI().write(t +" lost, time's up!");
+    }
+
+
+    private void endGameByTie(){
+        setInGame(false);
+        getGUI().triggerStopButton();
+        getGUI().write("OOPS, A TIE");
     }
 
 

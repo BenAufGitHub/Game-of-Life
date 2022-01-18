@@ -204,4 +204,19 @@ public class GridManager {
             grid.move(Direction.DOWN);
         return new Point(grid.get().getX(), grid.get().getY());
     }
+
+
+    /**
+     * @return True if all GridNotes are filled with content (so not null), also true if grid dimensions are smaller than (1,1).
+     */
+    public boolean isGridFull(){
+        if(rows == 0 || columns == 0)
+            return true;
+        for(int x=0; x<columns; x++){
+            grid.moveTo(x, 0);
+            if(grid.get().getContent() == null)
+                return false;
+        }
+        return true;
+    }
 }
