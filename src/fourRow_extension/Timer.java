@@ -28,6 +28,11 @@ public class Timer {
     }
 
 
+    public boolean timeUp(){
+        return ticks == 0;
+    }
+
+
     public void reset(){
         ticks = maxTicks;
     }

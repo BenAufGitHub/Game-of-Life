@@ -19,6 +19,8 @@ public class FourRow extends Game {
     private TeamManager teamManager;
     private GridManager gridManager;
     private boolean inGame = false;
+    private Team winner = null;
+    private boolean teamsToBeSwapped = false;
     private Timer timer;
     private int xCells;
     private int yCells;
@@ -46,6 +48,8 @@ public class FourRow extends Game {
         teamManager.setTeamOnTurn(teamManager.randomTeam());
         timer.reset();
         currentHoverPosition = null;
+        winner = null;
+        teamsToBeSwapped = false;
         setInGame(true);
     }
 
@@ -57,18 +61,26 @@ public class FourRow extends Game {
         synchronized (this){
             Point input = gridManager.popUserInput();
             if(input != null)
-                scan(input);
+                onInput(input);
+
+            if(winner != null)
+                endGameByWinner(teamManager.getTeamOnTurn());
+            else if(teamsToBeSwapped)
+                changeTeam();
+
+            if(isInGame() && timer.timeUp())
+                endGameByTime();
             if(isInGame())
                 tick();
         }
     }
 
 
-    private void scan(Point input){
+    private void onInput(Point input){
         Team onTurn = teamManager.getTeamOnTurn();
         dropDiskOffAt(input, onTurn);
         if(gridManager.has4Row(onTurn))
-            ifWon(onTurn);
+            winner = onTurn;
         else{
             changeTeam();
             adjustHover(input.x, input.y);
@@ -87,11 +99,19 @@ public class FourRow extends Game {
         timer.reset();
     }
 
-    private void ifWon(Team onTurn) {
+    private void endGameByWinner(Team winner) {
         setInGame(false);
         getGUI().triggerStopButton();
         colorWinningSequence();
-        getGUI().write(onTurn + " has won!");
+        getGUI().write(winner + " has won!");
+    }
+
+
+    private void endGameByTime() {
+        setInGame(false);
+        getGUI().triggerStopButton();
+        Team t = teamManager.getTeamOnTurn();
+        getGUI().write(t +" lost, time's up!");
     }
 
 
@@ -197,7 +217,7 @@ public class FourRow extends Game {
      * @param milliseconds at least 600 required.
      */
     private void configureTime(int milliseconds) {
-        getGUI().configureSpeedButton(milliseconds+500, milliseconds, milliseconds-300, milliseconds-600);
+        getGUI().configureSpeedButton(milliseconds+1000, milliseconds, milliseconds-300, milliseconds-600);
     }
 
 
