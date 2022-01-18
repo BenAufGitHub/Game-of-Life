@@ -70,8 +70,10 @@ public class FourRow extends Game {
                 endGameByWinner(teamManager.getTeamOnTurn());
             else if(gridManager.isGridFull())
                 endGameByTie();
-            else if(teamsToBeSwapped)
+            else if(teamsToBeSwapped){
                 changeTeam();
+                hoverManager.adjustHover(input.x, input.y);
+            }
             else if(timer.timeUp())
                 endGameByTime();
             if(isInGame())
@@ -85,16 +87,15 @@ public class FourRow extends Game {
         dropDiskOffAt(input, onTurn);
         if(gridManager.has4Row(onTurn))
             winner = onTurn;
-        else{
-            changeTeam();
-            hoverManager.adjustHover(input.x, input.y);
-        }
+        else
+            teamsToBeSwapped = true;
     }
 
 
     private void changeTeam() {
         teamManager.swapTeam();
         timer.reset();
+        teamsToBeSwapped = false;
     }
 
     private void endGameByWinner(Team winner) {
