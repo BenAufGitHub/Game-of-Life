@@ -22,6 +22,21 @@ public class GridManager {
         HORIZONTAL, VERTICAL, DIAGONAL1, DIAGONAL2
     }
 
+
+    public GridManager(int columns, int rows){
+        this.columns = columns;
+        this.rows = rows;
+        initObjectAttributes();
+    }
+
+
+    private void initObjectAttributes() {
+        this.grid = new Grid<>(columns, rows);
+        this.winningSequence = new HashSet<>();
+        this.userInput = null;
+    }
+
+
     public void setUserInput(Point selected){
         synchronized (this){
             if(userInput!=null)
@@ -42,20 +57,6 @@ public class GridManager {
     }
 
 
-    public GridManager(int columns, int rows){
-        this.columns = columns;
-        this.rows = rows;
-        initObjectAttributes();
-    }
-
-
-    private void initObjectAttributes() {
-        this.grid = new Grid<>(columns, rows);
-        this.winningSequence = new HashSet<>();
-        this.userInput = null;
-    }
-
-
     public void placeAt(Team team, int x, int y){
         grid.moveTo(x, y);
         grid.get().setContent(team);
@@ -66,6 +67,64 @@ public class GridManager {
                 redWon = true;
         }
     }
+
+
+    public void reset(){
+        initObjectAttributes();
+        blueWon = false;
+        redWon = false;
+    }
+
+
+    public Set<Point> getWinningSequence(){
+        return winningSequence;
+    }
+
+    public Team getTeam(int x, int y){
+        grid.moveTo(x,y);
+        return grid.get().getContent();
+    }
+
+
+    public boolean isOccupied(int x, int y){
+        grid.moveTo(x,y);
+        return grid.get().getContent() != null;
+    }
+
+
+    public boolean has4Row(Team team){
+        if(team == Team.BLUE)
+            return blueWon;
+        return redWon;
+    }
+
+
+    public Point calcDropOffPosition(int x, int y) {
+        grid.moveTo(x,y);
+        if(grid.get().getContent() != null) // already occupied
+            return null;
+        while(grid.peek(Direction.DOWN) != null && grid.peek(Direction.DOWN).getContent() == null)
+            grid.move(Direction.DOWN);
+        return new Point(grid.get().getX(), grid.get().getY());
+    }
+
+
+    /**
+     * @return True if all GridNotes are filled with content (so not null), also true if grid dimensions are smaller than (1,1).
+     */
+    public boolean isGridFull(){
+        if(rows == 0 || columns == 0)
+            return true;
+        for(int x=0; x<columns; x++){
+            grid.moveTo(x, 0);
+            if(grid.get().getContent() == null)
+                return false;
+        }
+        return true;
+    }
+
+
+    // ----------------------------------------- background operations ----------------------------------------------------------
 
 
     private boolean has4RowAtPointerLocation() {
@@ -89,6 +148,28 @@ public class GridManager {
         if(Math.max(horizontal, vertical) >= 4 || Math.max(dig1,  dig2) >= 4)
             return true;
         return false;
+    }
+
+
+    private int checkLineFromPointer(Team team, Direction dir){
+        if(grid.get() == null)
+            return 0;
+        int x = grid.get().getX();
+        int y = grid.get().getY();
+        grid.move(dir);
+        int result = checkLine(team, dir);
+        grid.moveTo(x,y);
+        return result;
+    }
+
+
+    private int checkLine(Team team, Direction dir){
+        if(grid.get() == null || !team.equals(grid.get().getContent()))
+            return 0;
+        if(grid.peek(dir) == null)
+            return 1;
+        grid.move(dir);
+        return 1 + checkLine(team, dir);
     }
 
 
@@ -125,98 +206,5 @@ public class GridManager {
             return;
         grid.move(dir);
         recursiveWinningSequenceFinding(dir, team);
-    }
-
-
-    private int checkLineFromPointer(Team team, Direction dir){
-        if(grid.get() == null)
-            return 0;
-        int x = grid.get().getX();
-        int y = grid.get().getY();
-        grid.move(dir);
-        int result = checkLine(team, dir);
-        grid.moveTo(x,y);
-        return result;
-    }
-
-
-    //TODO for debugging
-    private void printPointerInfo(){
-        System.out.println("\nPositioned at: "+grid.get().getX()+", "+grid.get().getY());
-        System.out.println("Team: "+grid.get().getContent()+"\n");
-    }
-
-
-    private int checkLine(Team team, Direction dir){
-        if(grid.get() == null || !team.equals(grid.get().getContent()))
-            return 0;
-        if(grid.peek(dir) == null)
-            return 1;
-        grid.move(dir);
-        return 1 + checkLine(team, dir);
-    }
-
-
-    public void reset(){
-        initObjectAttributes();
-        blueWon = false;
-        redWon = false;
-    }
-
-
-    public Set<Point> getWinningSequence(){
-        return winningSequence;
-    }
-
-    public Team getTeam(int x, int y){
-        grid.moveTo(x,y);
-        return grid.get().getContent();
-    }
-
-
-    public boolean isOccupied(int x, int y){
-        grid.moveTo(x,y);
-        return grid.get().getContent() != null;
-    }
-
-
-    public boolean has4Row(Team team){
-        if(team == Team.BLUE)
-            return blueWon;
-        return redWon;
-    }
-
-
-    public void printGrid(){
-        System.out.println();
-        Object[][] teamGrid = grid.toMatrix();
-        for(int y=0; y<teamGrid.length; y++){
-            for(int x=0; x<teamGrid[y].length; x++)
-            System.out.println();
-        }
-    }
-
-    public Point calcDropOffPosition(int x, int y) {
-        grid.moveTo(x,y);
-        if(grid.get().getContent() != null) // already occupied
-            return null;
-        while(grid.peek(Direction.DOWN) != null && grid.peek(Direction.DOWN).getContent() == null)
-            grid.move(Direction.DOWN);
-        return new Point(grid.get().getX(), grid.get().getY());
-    }
-
-
-    /**
-     * @return True if all GridNotes are filled with content (so not null), also true if grid dimensions are smaller than (1,1).
-     */
-    public boolean isGridFull(){
-        if(rows == 0 || columns == 0)
-            return true;
-        for(int x=0; x<columns; x++){
-            grid.moveTo(x, 0);
-            if(grid.get().getContent() == null)
-                return false;
-        }
-        return true;
     }
 }
