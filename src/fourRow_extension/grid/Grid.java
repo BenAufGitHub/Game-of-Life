@@ -1,8 +1,5 @@
 package fourRow_extension.grid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Grid<T> {
     private GridNode[][] nodes;
     private GridNode pointer;

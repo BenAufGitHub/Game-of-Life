@@ -1,11 +1,9 @@
 package fourRow_extension;
 
-import structure.ErrorHandler;
-import structure.GUI;
 import structure.Settings;
 import worlds.HeaderFWindow;
 
-import javax.swing.*;
+import javax.swing.SwingConstants;
 
 public class MyWindow extends HeaderFWindow {
     private int xCells;
