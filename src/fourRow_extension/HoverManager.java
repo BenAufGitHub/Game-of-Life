@@ -24,7 +24,7 @@ public class HoverManager {
      * This method can correct the hovering if the hovered cells has been clicked/filled.
      * By calling updateHover(), this method puts the hover a cell up, or if mouse has been moved, to the new location.
      */
-    public void adjustHover(int x, int y) {
+    public synchronized void adjustHover(int x, int y) {
         if(currentHoverPosition != null && currentHoverPosition.x != x)
             updateHover(currentHoverPosition.x, 0);
         else // hover starts from top cell, indicates on most bottom cell
@@ -32,7 +32,7 @@ public class HoverManager {
     }
 
 
-    public void updateHover(int x, int y){
+    public synchronized void updateHover(int x, int y){
         if(isOccupied(x,y))
             return;
         Point dropOff = gridManager.calcDropOffPosition(x, y);

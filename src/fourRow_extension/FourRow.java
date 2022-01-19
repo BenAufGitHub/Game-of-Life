@@ -140,9 +140,12 @@ public class FourRow extends Game {
      * This method does exactly that.
      */
     private void dropDiskOffAt(Point input, Team onTurn) {
-        Point position = gridManager.calcDropOffPosition(input.x, input.y);
-        click(position, onTurn);
-        gridManager.placeAt(onTurn, position.x, position.y);
+        // Synchronization prevents hovering effect from reading (simultaneously set) occupied cell as free to show as hovered.
+        synchronized(hoverManager){
+            Point position = gridManager.calcDropOffPosition(input.x, input.y);
+            click(position, onTurn);
+            gridManager.placeAt(onTurn, position.x, position.y);
+        }
     }
 
 
@@ -179,7 +182,9 @@ public class FourRow extends Game {
 
     @Override
     public void onHover(int x, int y){
-        hoverManager.updateHover(x,y);
+        synchronized (hoverManager){
+            hoverManager.updateHover(x,y);
+        }
     }
 
 
