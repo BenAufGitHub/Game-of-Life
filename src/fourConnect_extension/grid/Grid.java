@@ -1,8 +1,8 @@
 package fourConnect_extension.grid;
 
 public class Grid<T> {
-    private GridNode[][] nodes;
-    private GridNode pointer;
+    private GridNode<T>[][] nodes;
+    private GridNode<T> pointer;
     int columns;
     int rows;
 
@@ -19,17 +19,18 @@ public class Grid<T> {
     }
 
 
+    @SuppressWarnings("unchecked")
     private void initGridNodes(int columns, int rows) {
         nodes = new GridNode[rows][columns];
         for(int y=0; y<rows; y++){
             for(int x=0; x<columns; x++){
-                nodes[y][x] = new GridNode(x, y, this, null);
+                nodes[y][x] = new GridNode<>(x, y, this, null);
             }
         }
     }
 
 
-    GridNode getNode(int x, int y){
+    GridNode<T> getNode(int x, int y){
         return nodes[y][x];
     }
 
@@ -56,8 +57,7 @@ public class Grid<T> {
 
 
     public void move(Direction dir){
-        GridNode<T> next = peek(dir);
-        pointer = next;
+        pointer = peek(dir);
     }
 
 

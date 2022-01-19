@@ -24,7 +24,6 @@ public class FourConnect extends Game {
     private Timer timer;
     private int xCells;
     private int yCells;
-    private Point currentHoverPosition;
 
     public FourConnect(MyWindow op) {
         super(op);
@@ -49,7 +48,6 @@ public class FourConnect extends Game {
     private void initGame() {
         teamManager.setTeamOnTurn(teamManager.randomTeam());
         timer.reset();
-        currentHoverPosition = null;
         winner = null;
         teamsToBeSwapped = false;
         setInGame(true);

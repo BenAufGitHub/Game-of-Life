@@ -3,10 +3,10 @@ package fourConnect_extension.grid;
 public class GridNode<T> {
     private final int x;
     private final int y;
-    private final Grid grid;
+    private final Grid<T> grid;
     private T content;
 
-    public GridNode(int x, int y, Grid grid, T content){
+    public GridNode(int x, int y, Grid<T> grid, T content){
         this.x = x;
         this.y = y;
         this.grid = grid;
@@ -46,7 +46,7 @@ public class GridNode<T> {
         this.content = content;
     }
 
-    public Grid getGrid(){
+    public Grid<T> getGrid(){
         return  grid;
     }
 
