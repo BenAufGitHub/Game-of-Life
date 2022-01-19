@@ -1,4 +1,4 @@
-package fourRow_extension;
+package fourConnect_extension;
 
 import java.util.Random;
 

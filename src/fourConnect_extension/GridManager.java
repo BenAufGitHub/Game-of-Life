@@ -1,7 +1,7 @@
-package fourRow_extension;
+package fourConnect_extension;
 
-import fourRow_extension.grid.Direction;
-import fourRow_extension.grid.Grid;
+import fourConnect_extension.grid.Direction;
+import fourConnect_extension.grid.Grid;
 
 import java.awt.Point;
 import java.util.HashSet;

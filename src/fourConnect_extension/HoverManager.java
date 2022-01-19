@@ -1,4 +1,4 @@
-package fourRow_extension;
+package fourConnect_extension;
 
 import structure.Output;
 
@@ -50,16 +50,16 @@ public class HoverManager {
             return false;
         Color cellColor = getGUI().getBlueprint(currentHoverPosition.x, currentHoverPosition.y).color;
         if(teamManager.getTeamOnTurn() == Team.BLUE)
-            return FourRow.LIGHT_BlUE_BLUEPRINT.color.equals(cellColor);
-        return FourRow.LIGHT_RED_BLUEPRINT.color.equals(cellColor);
+            return FourConnect.LIGHT_BlUE_BLUEPRINT.color.equals(cellColor);
+        return FourConnect.LIGHT_RED_BLUEPRINT.color.equals(cellColor);
     }
 
 
     private void hoverWithTeamColours(int x, int y) {
         if(teamManager.getTeamOnTurn() == Team.BLUE)
-            getGUI().showAction(x, y, FourRow.LIGHT_BlUE_BLUEPRINT);
+            getGUI().showAction(x, y, FourConnect.LIGHT_BlUE_BLUEPRINT);
         else
-            getGUI().showAction(x, y, FourRow.LIGHT_RED_BLUEPRINT);
+            getGUI().showAction(x, y, FourConnect.LIGHT_RED_BLUEPRINT);
     }
 
 

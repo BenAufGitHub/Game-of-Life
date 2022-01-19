@@ -1,4 +1,4 @@
-package fourRow_extension;
+package fourConnect_extension;
 
 public class Timer {
     private int maxTicks;

@@ -1,4 +1,4 @@
-package fourRow_extension.grid;
+package fourConnect_extension.grid;
 
 public class Grid<T> {
     private GridNode[][] nodes;

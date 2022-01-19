@@ -1,4 +1,4 @@
-package fourRow_extension;
+package fourConnect_extension;
 
 import structure.Settings;
 import worlds.HeaderFWindow;
@@ -39,7 +39,7 @@ public class MyWindow extends HeaderFWindow {
     @Override
     protected void buttonsToDefault() {
         super.buttonsToDefault();
-        FourRow game = (FourRow) getGame();
+        FourConnect game = (FourConnect) getGame();
         if(! game.isInGame()){
             run.setEnabled(false);
             act.setEnabled(false);

@@ -1,4 +1,4 @@
-package fourRow_extension;
+package fourConnect_extension;
 
 import structure.Blueprint;
 import structure.Game;
@@ -6,7 +6,7 @@ import structure.Game;
 import java.awt.Color;
 import java.awt.Point;
 
-public class FourRow extends Game {
+public class FourConnect extends Game {
 
     public static final Blueprint RED_BLUEPRINT = new Blueprint(Color.RED);
     public static final Blueprint BLUE_BLUEPRINT = new Blueprint(Color.BLUE);
@@ -26,7 +26,7 @@ public class FourRow extends Game {
     private int yCells;
     private Point currentHoverPosition;
 
-    public FourRow(MyWindow op) {
+    public FourConnect(MyWindow op) {
         super(op);
         timer = new Timer(10);
         this.xCells = op.getXCells();

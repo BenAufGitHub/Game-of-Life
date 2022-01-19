@@ -1,4 +1,4 @@
-package fourRow_extension;
+package fourConnect_extension;
 
 import structure.GridPanel;
 import structure.Selector;
