@@ -2,7 +2,6 @@ package fourRow_extension;
 
 import structure.Blueprint;
 import structure.Game;
-import structure.Output;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -121,6 +120,14 @@ public class FourRow extends Game {
     }
 
 
+    /**
+     * @param milliseconds at least 600 required.
+     */
+    private void configureTime(int milliseconds) {
+        getGUI().configureSpeedButton(milliseconds+1000, milliseconds, milliseconds-300, milliseconds-600);
+    }
+
+
     private void colorWinningSequence() {
         for(Point p : gridManager.getWinningSequence()){
             getGUI().showAction(p.x, p.y, YELLOW_BLUEPRINT);
@@ -130,7 +137,7 @@ public class FourRow extends Game {
 
     /**
      * Connect-Four uses gravity, so dropping your disk means putting it into the lowest Cell possible.
-     * This method does excactly that.
+     * This method does exactly that.
      */
     private void dropDiskOffAt(Point input, Team onTurn) {
         Point position = gridManager.calcDropOffPosition(input.x, input.y);
@@ -139,16 +146,9 @@ public class FourRow extends Game {
     }
 
 
-    private void tick(){
-        getGUI().write( teamManager.getTeamOnTurn() + ": "+ timer.remainingTimeToString());
-        timer.tick();
-    }
-
-
     private void click(Point lastClicked, Team onTurn) {
         int x = lastClicked.x;
         int y = lastClicked.y;
-
         if(onTurn == Team.RED)
             getGUI().showAction(x,y, RED_BLUEPRINT);
         else {
@@ -156,8 +156,10 @@ public class FourRow extends Game {
         }
     }
 
-    private boolean isOccupied(int x, int y) {
-        return getGUI().getBlueprint(x,y).color != getGUI().getSettings().getStandardGridColor();
+
+    private void tick(){
+        getGUI().write( teamManager.getTeamOnTurn() + ": "+ timer.remainingTimeToString());
+        timer.tick();
     }
 
 
@@ -191,13 +193,5 @@ public class FourRow extends Game {
 
     public MyWindow getGUI(){
         return (MyWindow) this.getOutput();
-    }
-
-
-    /**
-     * @param milliseconds at least 600 required.
-     */
-    private void configureTime(int milliseconds) {
-        getGUI().configureSpeedButton(milliseconds+1000, milliseconds, milliseconds-300, milliseconds-600);
     }
 }
