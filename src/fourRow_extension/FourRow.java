@@ -144,7 +144,7 @@ public class FourRow extends Game {
         synchronized(hoverManager){
             Point position = gridManager.calcDropOffPosition(input.x, input.y);
             click(position, onTurn);
-            gridManager.placeAt(onTurn, position.x, position.y);
+            gridManager.occupy(onTurn, position.x, position.y);
         }
     }
 

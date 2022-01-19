@@ -57,7 +57,7 @@ public class GridManager {
     }
 
 
-    public void placeAt(Team team, int x, int y){
+    public void occupy(Team team, int x, int y){
         grid.moveTo(x, y);
         grid.get().setContent(team);
         if(has4RowAtPointerLocation() == true){
