@@ -14,6 +14,6 @@ Manuel compiling and running of the source code with Windows-cmd:
 	cd {ProjectPath}
 	dir /s /B "*.java" > sources.txt
     javac -d bin -cp lib\* @sources.txt
-	java -cp bin;lib\* {package.MainClass}
+	java -cp bin;lib\* gol_extension.start.MainClass
 
 Alternatively, download the jars if given on my GitHub: https://github.com/BenAufGitHub/Game-of-Life
